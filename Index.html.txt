@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<tital>Shailedra Changes --1 New</tital>
-	</head>
+    </head>
 	<body>
 		<h1>hello world from Shailedra</h1>
 	</body>
