@@ -1,0 +1,1212 @@
+﻿<script type="text/javascript">
+    $(function () {
+        iOSHandler();
+        $(window).on("orientationchange", function (event) {
+            iOSHandler();
+        });
+    });
+    function iOSHandler() {
+        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        var width = screen.width;
+        if (iOS) {
+
+            var orientation;
+            if (window.orientation == undefined) {
+                orientation = window.screen.orientation.angle;
+            }
+            else {
+                orientation = window.orientation;
+            }
+
+            if (orientation != 0) {
+                if (screen.width < screen.height) {
+                    width = screen.height;
+                }
+            }
+            //iPhone4-Landscape
+            if (width > 475 && width < 485) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+
+                //iPhone5-Landscape
+            else if (width > 562 && width < 572) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+                //iPhone4,5-Portrait
+            else if (width > 315 && width < 325) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+
+                //iPhone6-Landscape
+            else if (width > 660 && width < 670) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+                //iPhone6-Portrait
+            else if (width > 370 && width < 380) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+
+                //iPhone6+-Landscape
+            else if (width > 730 && width < 740) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+                //iPhone6+-Portrait
+            else if (width > 410 && width < 420) {
+                $(".comparablesDivDB").css("height", "auto");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+            }
+
+                //ipad
+            else if (width > 1020 && width < 1025) {
+                $(".comparablesDivDB").css("height", "958px");
+                $(".googleComparableBodyHeight").css("height", "729px");
+                $(".googleSerachResultDiv").css("height", "632px");
+                $(".noteDiv").css("height", "215px");
+                $(".addedComp").css("height", "215px");
+                $(".addedComp").css("width", "100%");
+                $(".addedComp").css("overflow", "scroll");
+                $(".addedComp").css("-webkit-overflow-scrolling", "touch");
+
+
+            }
+
+                //else if (width > 760 && width < 769) {
+
+                //    $(".googleComparableBodyHeight").css("height", "680px");
+
+                //}
+            else if (width > 1360 && width < 1367) {
+                $(".googleComparableBodyHeight").css("height", "540px");
+                $(".comparablesDivDB").css("height", "853px");
+
+            }
+        }
+    }
+
+</script>
+
+<style>
+    #btnAddCustomItem:hover {
+        color: ghostwhite;
+    }
+
+    .NoDecoration {
+        text-decoration: none !important;
+        color: black;
+    }
+
+    .angucomplete-dropdown {
+        bottom: 100% !important;
+    }
+
+    @media (min-device-width:768px) {
+        .width14 {
+            width: 16% !important;
+        }
+
+        .width16 {
+            width: 17.6%;
+            height: 4px;
+        }
+
+        .StatusNumber {
+            margin-left: 2% !important;
+        }
+
+        .StatusHorizontalLine {
+            margin-left: 9% !important;
+        }
+    }
+
+    @media (max-device-width:768px) {
+        .width14 {
+            width: 14% !important;
+        }
+
+        .width16 {
+            width: 15%;
+            height: 4px;
+        }
+
+        .StatusNumber {
+            margin-left: 13% !important;
+        }
+
+        .StatusHorizontalLine {
+            margin-left: 18% !important;
+        }
+    }
+</style>
+<!--<div class="row">
+    <span class="text-muted bold caption col-md-12 col-sm-12 col-xs-12 col-lg-12 margin-bottom-5 Custombreadcrumb">
+        <a href="#" ng-click="goToDashboard()">{{"ControlText.Dashboard"|translate}} </a> > &nbsp; <a href="#" ng-click="goBack($event)">{{CommonObj.ClaimNumber}} </a>&nbsp;>&nbsp;{{ItemDetails.itemNumber}}
+    </span>
+</div>-->
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="goToDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="goBack()">{{CommonObj.ClaimNumber}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{ItemDetails.itemNumber}}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px">
+    <div class="portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-gray-sharp">
+                <span class="caption-subject">{{"Item#"|translate}}{{ItemDetails.itemNumber}}&nbsp;<span>(</span>{{ItemDetails.itemName}}<span>)</span> </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12" style="padding-top: 0px !important;">
+                    <!--<div class="col-md-12 arrowbuttonClaimDetails col-sm-12 col-xs-12 col-lg-12 padding1px" style="margin-top:5px!important;margin-bottom:4px;">
+                        <center>
+                            <div class="col-lg-12  col-sm-12  col-md-12 col-xs-12 margin-top-10" style="margin-left:auto !important;margin-right:auto !important;">
+                                <div class="clearfix"></div>
+                                <div class="styleflex StatusHorizontalLine" style="margin-bottom: -13px !important;">
+                                    <div class="width16 " ng-class="{true:'backgreen', false:'backGray'}[1 < ItemDetails.status.id]"></div>
+                                    <div class="width16" ng-class="{true:'backgreen', false:'backGray'}[2 < ItemDetails.status.id]"></div>
+                                    <div class="width16" ng-class="{true:'backgreen', false:'backGray'}[3 < ItemDetails.status.id]"></div>
+                                    <div class="width16" ng-class="{true:'backgreen', false:'backGray'}[4 < ItemDetails.status.id]"></div>
+                                    <div class="width16" ng-class="{true:'backgreen', false:'backGray'}[5 < ItemDetails.status.id]"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="styleflex StatusNumber" id="statusList">
+                                    <div class="width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[0 < ItemDetails.status.id]">1</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[0 < ItemDetails.status.id]">Created</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[0 < ItemDetails.status.id]">Created</span>
+                                    </div>
+                                    <div class="margintopleft10  width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[1 < ItemDetails.status.id]">2</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[1 < ItemDetails.status.id]">Assigned</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[1 < ItemDetails.status.id]">Assigned</span>
+                                    </div>
+                                    <div class="margintopleft10  width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[2 < ItemDetails.status.id]">3</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[2 < ItemDetails.status.id]">Under Review</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[2 < ItemDetails.status.id]">Under Review</span>
+                                    </div>
+                                    <div class="margintopleft10  width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[3 < ItemDetails.status.id]">4</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[3 < ItemDetails.status.id]">Valued</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[3 < ItemDetails.status.id]">Valued</span>
+
+                                    </div>
+                                    <div class="margintopleft10  width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[4 < ItemDetails.status.id]">5</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[4 < ItemDetails.status.id]">Approved</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[4 < ItemDetails.status.id]">Approved</span>
+                                    </div>
+                                    <div class="margintopleft10  width14">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[5 < ItemDetails.status.id]">6</div>
+                                        <span class="ClaimStatusActiveText clearfix hidden-xs" ng-class="{true:'font-green'}[5 < ItemDetails.status.id]">Settled</span>
+                                        <span class="ClaimStatusActiveText clearfix visible-xs" ng-class="{true:'font-green'}[5 < ItemDetails.status.id]">Settled</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>-->
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <!-- New Design -->
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="portlet-body">
+                <div class="tabbable-custom">
+                    <ul class="nav nav-tabs">
+                        <li ng-class="{'active': tab=='Contents'}">
+                            <a href="#" data-toggle="tab" ng-click="tab='Contents'">&nbsp; {{"Item Details"|translate}} &nbsp;</a>
+                        </li>
+                        <li ng-class="{'active': tab=='Notes'}">
+                            <a href="#" data-toggle="tab" ng-click="tab='Notes'">&nbsp; {{"Notes"|translate}} &nbsp;</a>
+                        </li>                      
+                        <li ng-class="{'active': tab=='Salvage'}">
+                            <a href="#" data-toggle="tab" ng-click="tab='Salvage'">&nbsp; {{"Savlage"|translate}} &nbsp;</a>
+                        </li>                      
+                    </ul>
+                    <div class="tab-content minTabHeight">
+                        <div class="row">
+                            <!--Start Content Div-->
+                            <div class="col-md-12" ng-show="tab=='Contents'" id="Contents">
+                                <!--Start Origional Item-->
+                                <div class="portlet-body">
+                                    <div class="col-md-7 col-lg-7 col-sm-12  text-right padding1px pull-right margin-bottom-10">
+                                        <button class="btn sbold  btnMargin pull-right" ng-click="">
+                                            {{"Delete"|translate}}
+                                        </button>
+                                        <button id="btnUpdate" class="btn sbold  btnMargin pull-right" ng-click="SaveNewlyAddedComparables()">
+                                            {{"ControlText.Update_title"|translate}}
+                                        </button>
+                                        <!--<button id="btnValue" class="btn sbold  btnMargin pull-right" ng-click="openValueModel($event)">
+
+                                            {{"ControlText.Value_title"|translate}}
+                                        </button>-->
+                                        <button id="btnValue" class="btn sbold  btnMargin pull-right" ng-click="GoToViewQuote($event)">
+                                            {{"Quote"|translate}}
+                                        </button>
+                                        <!--<button class="btn sbold  btnMargin pull-right" ng-click="SuperVisorReview($event)">
+                                            {{" Supervisor Review"|translate}}
+                                        </button>-->
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                                <span class="text_options_Label sbold caption">{{"Replacement Summary"|translate}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-top-10">
+                                                    <!--Left Side-->
+                                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 margin-top-10 padding1px">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Item#"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <span class="control-label">{{ItemDetails.itemNumber}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label "> {{"FormControlText.PolicyHolderDescription"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-6">
+                                                                <textarea class="form-control" ng-model="ItemDetails.description" ng-attr-placeholder='{{"FormControlText.PolicyHolderDescription"|translate}}'></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"FormControlText.Invidiual Limit"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <input type="text" ng-model="ItemDetails.individualLimitAmount" numbers-only class="form-control" placeholder='{{"FormControlText.Invidiual Limit"|translate}}' />
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"FormControlText.CategoryLimit"|translate}}</label>
+
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <input type="text" class="form-control" numbers-only ng-model="ItemDetails.category.aggregateLimit" placeholder='{{"FormControlText.CategoryLimit"|translate}}' />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label "> {{"Replacement Descr."|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-9 col-sm-6">
+                                                                <textarea class="form-control" ng-attr-placeholder='{{"Replacement Description"|translate}}'></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Replacement Cost"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <label class="control-label "></label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Actual Cost Value"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <label class="control-label "></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Indemnity Saving"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <label class="control-label "></label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Market Evaluation"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-3 col-sm-6">
+                                                                <label class="control-label"><a href="#" ng-click="GoToMER()">Link to MER</a></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--End Left Side-->
+                                                    <!---Right Side-->
+                                                    <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 padding1px  margin-top-10">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <div class="col-lg-4 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Total Charges"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-sm-6">
+                                                                <span class="control-label"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <div class="col-lg-4 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Amount Paid"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-sm-6">
+                                                                <span class="control-label">{{InvoiceDetails.paymentDetails.amountPaid}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <div class="col-lg-4 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Payment Date"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-sm-6">
+                                                                <span class="control-label">{{InvoiceDetails.paymentDetails.paymentDate |DateFormatMMddyyyy}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                                            <div class="col-lg-4 col-sm-6 Label_Text_Right">
+                                                                <label class="control-label ">{{"Vendor Invoice"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-sm-6">
+                                                                <a class="control-label" ng-repeat="item in InvoiceDetails.invoiceAttachments" download ng-href="{{item.url}}">{{item.name}}</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <!---End Right Side-->
+                                                </div>
+
+                                                <div class="portlet light">
+                                                    <div class="portlet-title margin-top-20">
+                                                        <div class="caption">
+                                                            <span class="caption-subject bold"> {{"HeaderText.SalvageDetails"|translate}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="portlet-body">
+                                                        <div class="row">
+                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 margin-top-10 padding1px">
+                                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                            <label class="control-label"> {{"Salvage Item?"|translate}}</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 col-sm-6">
+                                                                            <select class="select2me form-control" ng-model="ItemDetails.salvageItem" ng-options="item.id as item.status for item in statuslist"></select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group" ng-if="ItemDetails.salvageItem">
+                                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                                            <label class="control-label">{{"Salvage Amount"|translate}}</label>
+                                                                        </div>
+                                                                        <div class="col-md-9 col-sm-6">
+                                                                            <input type="text" ng-model="ItemDetails.salvageAmount" class="form-control" placeholder='{{"Salvage Amount"|translate}}' />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Origional Item-->
+                                <!---Start Replacement Item-->
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 portlet margin-top-10">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                                <span class="text_options_Label sbold caption">{{"Original Item"|translate}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;height:668px;">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 padding1px margin-top-20">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"Item#"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <span class="control-label">{{ItemDetails.itemNumber}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"FormControlText.PolicyHolderDescription"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-6">
+                                                            <textarea class="form-control" ng-model="ItemDetails.description" ng-attr-placeholder='{{"FormControlText.PolicyHolderDescription"|translate}}'></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"FormControlText.AdjusterDescription"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-6">
+                                                            <textarea class="form-control" ng-model="ItemDetails.adjusterDescription" ng-attr-placeholder='{{"FormControlText.AdjusterDescription"|translate}}'></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"FormControlText.Make"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.brand" class="form-control" placeholder='{{"FormControlText.Make"|translate}}' />
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"FormControlText.Model"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.model" class="form-control" placeholder='{{"FormControlText.Model"|translate}}' />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.PriceQuoted"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.quotedPrice" numbers-only ng-change="CalculateTotalStatedValue()" class="form-control" placeholder='{{"FormControlText.PriceQuoted"|translate}}' />
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Quantity"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.quantity" numbers-only ng-change="CalculateTotalStatedValue()" class="form-control" placeholder='{{"FormControlText.Quantity"|translate}}' />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_box Right">
+                                                            <label class="control-label ">{{"FormControlText.TotalValue"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <span class="control-label">{{ItemDetails.totalStatedAmount}}</span>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right visible-md visible-lg ">
+                                                            <label class="control-label ">{{"FormControlText.Age"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 visible-md visible-lg">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 padding1px">
+                                                                <input type="text" class="form-control" numbers-only ng-model="ItemDetails.ageYears" ng-change="CalculateRCV()" placeholder='{{"FormControlText.Year"|translate}}' />
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 padding1px">
+                                                                <input type="text" class="form-control" numbers-only ng-model="ItemDetails.ageMonths" ng-change="CalculateRCV()" placeholder='{{"FormControlText.Month"|translate}}' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 visible-sm visible-xs form-group">
+                                                        <div class="col-sm-6 col-xs-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Age"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-sm-6 col-xs-6">
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding1px">
+                                                                <input type="text" class="form-control" numbers-only ng-model="ItemDetails.ageYears" ng-change="CalculateRCV()" placeholder='{{"FormControlText.Year"|translate}}' />
+                                                            </div>
+                                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 padding1px">
+                                                                <input type="text" class="form-control" numbers-only ng-model="ItemDetails.ageMonths" ng-change="CalculateRCV()" placeholder='{{"FormControlText.Month"|translate}}' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Category"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <select class="form-control select2me" ng-model="ItemDetails.category.id" data-placeholder="select" ng-change="GetSubCategory()"
+                                                                    ng-options="option.categoryId as option.categoryName for option in CategoryList"></select>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.SubCategory"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <select class="form-control select2me" ng-model="ItemDetails.subCategory.id" data-placeholder="select" ng-change="ChangeDepriciationRate()"
+                                                                    ng-options="option.id as option.name for option in SubCategoryList"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Usefulyear"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.itemUsefulYears" numbers-only ng-change="CalculateRCV()" class="form-control" placeholder='{{"FormControlText.Usefulyear"|translate}}' />
+
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Depreciation"|translate}}</label>
+
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.depriciationRate" numbers-only ng-change="CalculateRCV()" class="form-control" placeholder='{{"FormControlText.Depreciation"|translate}}' />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Invidiual Limit"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.individualLimitAmount" numbers-only class="form-control" placeholder='{{"FormControlText.Invidiual Limit"|translate}}' />
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.CategoryLimit"|translate}}</label>
+
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" class="form-control" numbers-only ng-model="ItemDetails.category.aggregateLimit" placeholder='{{"FormControlText.CategoryLimit"|translate}}' />
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"FormControlText.TaxRate"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" ng-model="ItemDetails.taxRate" numbers-only class="form-control" ng-change="CalculateRCV()" placeholder='{{"FormControlText.TaxRate"|translate}}' />
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label "> {{"Is Scheduled"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <label class="mt-radio mt-radio-outline mt-radio-single ">
+                                                                <input type="radio" name="ContactInsured" ng-checked="selected.isScheduledItem==true" value="{{true}}" ng-model="selected.isScheduledItem" />
+                                                                <span></span>
+                                                            </label>Yes
+
+                                                            <label class="mt-radio mt-radio-outline mt-radio-single " style="margin-left: 12%;">
+                                                                <input type="radio" value="{{false}}" ng-checked="selected.isScheduledItem==false" name="ContactInsured" ng-model="selected.isScheduledItem" />
+                                                                <span></span>
+                                                            </label>No
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"Scheduled Amt."|translate}}</label>
+
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" numbers-only ng-model="ItemDetails.scheduleAmount" class="form-control" placeholder='{{"Scheduled Amt."|translate}}' />
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"FormControlText.Deductible"|translate}} </label>
+                                                        </div>
+                                                        <div class="col-md-3 col-sm-6">
+                                                            <input type="text" numbers-only ng-model="ItemDetails.deductibleAmount" class="form-control" placeholder='{{"FormControlText.Deductible"|translate}}' />
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-10 margin-top-10 table-responsive">
+                                                        <table class="table table-bordered table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th>Amount</th>
+                                                                    <th>Tax</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>RCV</td>
+                                                                    <td class="text-right">{{ItemDetails.rcv|currency}}</td>
+                                                                    <td class="text-right">{{ItemDetails.rcvTax|currency}}</td>
+                                                                    <td class="text-right">{{ItemDetails.rcvTotal|currency}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>ACV</td>
+                                                                    <td class="text-right">{{ItemDetails.acv|currency}}</td>
+                                                                    <td class="text-right">{{ItemDetails.acvTax|currency}}</td>
+                                                                    <td class="text-right">{{ItemDetails.acvTotal|currency}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                            <label class="control-label ">{{"Attachments"|translate}}</label>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-6">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---End Replacement Item-->
+                                <!---Start Comparables Item-->
+                                <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 padding1px margin-top-10">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                                <span class="text_options_Label sbold caption">{{"Comparable Details"|translate}}</span>
+                                                <a id="btnAddCustomItem" href="#" class="text_options_Label pull-right" ng-click="GoToCustomItem()">
+
+                                                    {{"Add/View Custom Items"|translate}}
+                                                </a>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;height:667px;">
+                                                <!--Empty comparables-->
+                                                <div class="col-md-12 col-sm-12 padding1px" ng-if="displayEmptyPart" style="height:100%;">
+
+                                                    <div class="col-md-12 text-center btnMargin">
+                                                        <span class="text-primary bold ">{{"HeaderText.Comparables"|translate}}</span>
+                                                    </div>
+                                                    <div class="portlet light">
+                                                        <div class="portlet-title text-center">
+                                                            <div class="caption font-green text-center">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12 text-center text-primary margin-bottom-20">
+                                                                    <span class=""><b>{{"NoReplacement"|translate}}</b></span>
+                                                                </div>
+
+                                                                <div class="col-md-12 margin-top-10 clearfix">
+                                                                    <div>
+                                                                        <div class="col-md-offset-1 col-md-10 margin-bottom-5">
+                                                                            <div class="input-icon left">
+                                                                                <i class="icon-magnifier"></i>
+                                                                                <input type="text" ng-model="CommonObj.SearchComparables" ng-keydown="$event.which === 13 && SearchReplacement()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"ComparablesSearch"|translate}}>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-10 col-md-offset-1  text-center text-primary margin-bottom-20">
+                                                                            <span class="">{{"Searchreplacements"|translate}}</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--End Empty comparables-->
+                                                <!--Comparables-->
+                                                <div class="col-md-12 col-sm-12 padding1px" ng-if="displaycomparables" style="height:100%;">
+                                                    <div class="col-md-12 text-center btnMargin ">
+                                                        <span class="text-primary bold ">{{"HeaderText.Comparables"|translate}}</span>
+                                                    </div>
+                                                    <div class="portlet light ">
+                                                        <div class="portlet-title text-center">
+                                                            <div class="caption font-green text-center">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body">
+                                                            <div class="row">
+                                                                <div class="col-md-offset-1 col-md-10 margin-top-10">
+                                                                    <div class="input-icon left">
+                                                                        <i class="icon-magnifier"></i>
+                                                                        <input type="text" ng-model="CommonObj.SearchComparables" ng-keydown="$event.which === 13 && SearchReplacement()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"ComparablesSearch"|translate}}>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 clearfix margin-top-10" style="height:582px;overflow:auto;">
+
+                                                                    <div class="col-md-12 portlet light bordered clearfix" ng-repeat="comp in Comparables.comparableItems" ng-if="!comp.delete">
+
+                                                                        <div class="col-md-3 col-sm-3 imagePostion text-center">
+                                                                            <div class="col-md-12 light bordered imageHeightComparable" style="border:1px solid #ddd;">
+                                                                                <img ng-if="!comp.isDataImage && comp.imageURL!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageURL}}" alt="image" />
+                                                                                <img ng-if="!comp.isDataImage && comp.imageURL===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                                                                <img ng-if="comp.isDataImage && comp.imageData!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageData}}" alt="image" />
+                                                                                <img ng-if="comp.isDataImage && comp.imageData===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-4 col-sm-4 col-xs-12 tip">
+                                                                            <label class="control-label">
+                                                                                <span class="sbold text-primary">{{"FormControlText.Brand"|translate}}</span>&nbsp;:&nbsp;
+                                                                                <span class="Overlay" ng-if="comp.brand.length>18">{{comp.brand}}{{comp.brand.length >  18 ? '...' : ''}}</span><span>{{comp.brand | limitTo: 18}}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                                                            <label class="control-label">
+                                                                                <span class="text-primary sbold">{{"FormControlText.Model"|translate}}</span>&nbsp;:&nbsp;
+                                                                                <span class="Overlay" ng-if="comp.model.length>18">{{comp.model}}</span><span>{{comp.model | limitTo: 18}}{{comp.model.length >  18 ? '...' : ''}}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-4 col-sm-4 tip">
+                                                                            <label class="control-label"><span class="text-primary sbold">{{"FormControlText.UnitPrice"|translate}}</span>&nbsp;:&nbsp;{{comp.unitPrice | currency}}</label>
+                                                                        </div>
+                                                                        <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                                                            <label class="control-label">
+                                                                                <span class="text-primary sbold">{{"FormControlText.Supplier"|translate}}</span>&nbsp;:&nbsp;
+                                                                                <span class="Overlay" ng-if="comp.supplier.length>18">{{comp.supplier}}</span><span>{{comp.supplier | limitTo: 18}}{{comp.supplier.length >  18 ? '...' : ''}}</span>
+                                                                            </label>
+                                                                        </div>
+
+                                                                        <div class="col-md-8 col-sm-8 col-xs-12 margin-bottom-5 ">
+                                                                            <label class="control-label clearfix text-primary sbold">{{"FormControlText.VendorDescription"|translate}} &nbsp;:&nbsp;</label>
+                                                                            <input type="text" ng-model="comp.description" class="form-control" placeholder='{{"FormControlText.VendorDescription"|translate}}' />
+                                                                        </div><div class="clearfix"></div>
+
+                                                                        <div class="col-md-6 col-sm-6 clearfix ">
+                                                                            <label class="mt-checkbox mt-checkbox-outline text-success " style="font-size:13px;">
+                                                                                <input type="checkbox" class="checkboxes" ng-click="DeleteComparable(comp)" />
+                                                                                <span></span>
+                                                                                {{"FormControlText.DeleteFromComparables"|translate}}
+                                                                            </label>
+                                                                            <label class="mt-checkbox mt-checkbox-outline text-success " style="font-size:13px;">
+                                                                                <input type="checkbox" class="checkboxes" ng-click="MarkAsReplacement(comp)" />
+                                                                                <span></span>
+                                                                                {{"Mark as replacement item"|translate}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="col-md-6 col-sm-6 text-right">
+                                                                            <a href="#" style="color:red;" ng-click="ShopNow(comp)">{{"FormControlText.BuyViewHere"|translate}}</a>
+                                                                        </div>
+                                                                        <div class="margin-bottom-10"></div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--End Comparables-->
+                                                <!--Search Comparables-->
+                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" ng-show="displayReplacement" style="height:100%;">
+                                                    <div class="portlet light">
+                                                        <div class="portlet-title">
+                                                            <div class="caption font-green col-xs-12" style="padding-bottom:0px;">
+                                                                <span class="caption-subject bold uppercase"> {{"HeaderText.SearchComparables"|translate}}</span>
+
+                                                                <button class="btn sbold btnMargin blue pull-right" ng-click="SaveNewlyAddedComparables()">
+                                                                    <i class="fa fa-save"></i>
+                                                                    {{"ControlText.Save_title"|translate}}
+                                                                </button>
+                                                                <button class="btn sbold btnMargin blue pull-right" ng-click="CancelAddedComparables()">
+                                                                    <i class="fa fa-arrow-left"></i>
+                                                                    {{"ControlText.Back_title"|translate}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-bottom-10 padding1px">
+                                                                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                                                        <div class="input-icon left">
+                                                                            <i class="icon-magnifier"></i>
+                                                                            <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-keydown="$event.which === 13 && SearchReplacement()" ng-model="CommonObj.SearchComparables" placeholder="search">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                                                                        <select class="form-control col-md-12" data-placeholder="Option" data-ng-model="sortcolumn" ng-change="SortGoogleResult()">
+                                                                            <option ng-repeat="option in SortOptions" value="{{option.Id}}">{{option.Value}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10  googlecompaarable">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <select class="form-control select2me" name="Searchoptions" multiple ng-model="Searchoptions" data-placeholder="Select search options"
+                                                                                ng-options="option.id as option.supplierName for option in ReplacementSuplier" ng-change="SearchReplacement()"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                                                                    <div class="col-md-12 col-lg-12 portlet light bordered clearfix" style="width:100%;padding-bottom:4px;" ng-repeat="comparable in GoogleComparableList|filter:search|orderBy:OrderByPrice">
+                                                                        <div class="col-md-4 col-lg-2 col-sm-3 text-center imageHeightComparable">
+                                                                            <img ng-src="{{comparable.imageURL}}" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" />
+                                                                        </div>
+                                                                        <div class="col-md-8 col-lg-7 col-sm-9 padding1px">
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-sm-3 col-lg-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Description"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 col-xs-12 tip ">
+                                                                                    <span class="Overlay" ng-if="comparable.description.length>55">{{comparable.description}}</span><span>{{comparable.description | limitTo: 55}}{{comparable.description.length >  55 ? '...' : ''}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Brand"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <span class="Overlay" ng-if="comparable.brand.length>25">{{comparable.brand}}</span>
+                                                                                    <span>
+                                                                                        {{comparable.brand | limitTo: 25}}{{comparable.brand.length >  25 ? '...' : ''}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3  padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Model"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <span class="Overlay" ng-if="comparable.model.length>25">{{comparable.model}}</span>
+                                                                                    <span>
+                                                                                        {{comparable.model | limitTo: 25}}{{comparable.model.length >  25 ? '...' : ''}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Price"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <label>{{comparable.price |currency}}</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12 col-lg-3 col-sm-12 text-center" style="text-wrap:normal;">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-10 font-green visible-lg">
+                                                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                                                    <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                                                    <span class="clearfix"></span>
+
+                                                                                </label><br />{{"ControlText.AddComparables"|translate}}
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px  font-green visible-md visible-sm visible-xs">
+                                                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                                                    <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                                                    <span class="clearfix"></span>
+                                                                                    {{"ControlText.AddComparables"|translate}}
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px">
+                                                                                <a herf="#" style="color:red;" ng-click="ShopNow(comparable)">{{"ControlText.BuyHere"|translate}}</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div ng-show="GoogleComparableList.length===0" class="col-md-12 col-lg-12 text-center text-danger">{{"ControlText.LoderGoogle"|translate}}</div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--End Search Comparables-->
+                                                <!--Search Comparables-->
+                                                <!--<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" ng-show="displayReplacement" style="height:100%;">
+                                                    <div class="portlet light">
+                                                        <div class="portlet-title">
+                                                            <div class="caption font-green col-xs-12" style="padding-bottom:0px;">
+                                                                <span class="caption-subject"> {{"HeaderText.SearchComparables"|translate}}</span>
+
+                                                                <button class="btn sbold btnMargin blue pull-right" ng-click="SaveNewlyAddedComparables()">
+                                                                    <i class="fa fa-save"></i>
+                                                                    {{"ControlText.Save_title"|translate}}
+                                                                </button>
+                                                                <button class="btn sbold btnMargin blue pull-right" ng-click="CancelAddedComparables()">
+                                                                    <i class="fa fa-arrow-left"></i>
+                                                                    {{"ControlText.Back_title"|translate}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-bottom-10 padding1px">
+                                                                    <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                                                        <div class="input-icon left">
+                                                                            <i class="icon-magnifier"></i>
+                                                                            <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-keydown="$event.which === 13 && SearchReplacement()" ng-model="CommonObj.SearchComparables" placeholder="search">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                                                                        <select class="form-control col-md-12" data-placeholder="Option" data-ng-model="sortcolumn" ng-change="SortGoogleResult()">
+                                                                            <option ng-repeat="option in SortOptions" value="{{option.Id}}">{{option.Value}}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10  googlecompaarable">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                        <select class="form-control select2me" name="Searchoptions" multiple ng-model="Searchoptions" data-placeholder="Select search options"
+                                                                                ng-options="option.id as option.supplierName for option in ReplacementSuplier" ng-change="SearchReplacement()"></select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                                                                    <div class="col-md-12 col-lg-12 portlet light bordered clearfix" style="width:100%;padding-bottom:4px;" ng-repeat="comparable in GoogleComparableList|filter:search|orderBy:OrderByPrice">
+                                                                        <div class="col-md-4 col-lg-2 col-sm-3 text-center imageHeightComparable">
+                                                                            <img ng-src="{{comparable.imageURL}}" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" />
+                                                                        </div>
+                                                                        <div class="col-md-8 col-lg-7 col-sm-9 padding1px">
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-sm-3 col-lg-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Description"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 col-xs-12 tip ">
+                                                                                    <span class="Overlay" ng-if="comparable.description.length>55">{{comparable.description}}</span><span>{{comparable.description | limitTo: 55}}{{comparable.description.length >  55 ? '...' : ''}}</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Brand"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <span class="Overlay" ng-if="comparable.brand.length>25">{{comparable.brand}}</span>
+                                                                                    <span>
+                                                                                        {{comparable.brand | limitTo: 25}}{{comparable.brand.length >  25 ? '...' : ''}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3  padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Model"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <span class="Overlay" ng-if="comparable.model.length>25">{{comparable.model}}</span>
+                                                                                    <span>
+                                                                                        {{comparable.model | limitTo: 25}}{{comparable.model.length >  25 ? '...' : ''}}
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 col-lg-12 col-sm-12 styleflex padding1px">
+                                                                                <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                                                    <label class="text-success">{{"ControlText.Price"|translate}}: </label>
+                                                                                </div>
+                                                                                <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                                                    <label>{{comparable.price}}</label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12 col-lg-3 col-sm-12 text-center" style="text-wrap:normal;">
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-10 font-green visible-lg">
+                                                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                                                    <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                                                    <span class="clearfix"></span>
+
+                                                                                </label><br />{{"ControlText.AddComparables"|translate}}
+                                                                            </div>
+
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px  font-green visible-md visible-sm visible-xs">
+                                                                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                                                    <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                                                    <span class="clearfix"></span>
+                                                                                    {{"ControlText.AddComparables"|translate}}
+                                                                                </label>
+                                                                            </div>
+                                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px">
+                                                                                <a herf="#" style="color:red;" ng-click="ShopNow(comparable)">{{"ControlText.BuyHere"|translate}}</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div ng-show="GoogleComparableList.length===0" class="col-md-12 col-lg-12 text-center text-danger">{{"ControlText.LoderGoogle"|translate}}</div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+                                                <!--End Search Comparables-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---End Comparables Item-->
+
+                                <div class="clearfix"></div>
+                                <!--Added Comparables-->
+                                <div class="portlet light  margin-top-15 " ng-if="dispalyAddedComparables">
+                                    <div class="portlet-title text-center">
+                                        <div class="caption font-green text-center" style="padding-bottom:0px;">
+                                            <span class="caption-subject bold uppercase"> {{"HeaderText.AddedComparables"|translate}}</span>
+                                        </div>
+                                        <div class="tools">
+                                            <a href="#" class="fullscreen"></a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body responsive">
+                                        <div class="row">
+                                            <div class="row addedComparableOuter padding1px">
+                                                <div class="table-responsive  padding1px" style="height:271px;padding-top:0px;display:flex;">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 table-responsive addedComp form-group padding1px">
+                                                        <div ng-repeat="item in AddedComparables" class="col-md-3  col-sm-6 " style="padding-bottom:15px;">
+                                                            <div class="col-md-12 col-lg-12 col-sm-12 portlet light bordered" style="min-height: 235px;">
+                                                                <div class="col-md-5 col-sm-6 col-lg-5 text-center imageHeightComparable">
+                                                                    <img ng-src="{{item.imageURL}}" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" />
+                                                                </div>
+                                                                <div class="col-md-6 col-lg-6 col-sm-6 tip">
+                                                                    {{item.description| limitTo : 50}}{{item.description.length>50 ? '...' :''}}
+                                                                    <span class="Overlay" ng-if="item.description">{{item.description }}</span>
+
+
+                                                                </div>
+                                                                <div class="margin-top-5 col-ms-12 col-md-12 col-lg-12  text-right">
+                                                                    <label>{{item.price |currency}}</label>
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12  text-center margin-top-10 " ng-click="RemoveFromComparableList(item)">
+
+                                                                    <button class="btn-default solid form-control" style="background:#d3d3d3 !important;">
+                                                                        {{"Remove Comparable"|translate}}
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 text-center col-xs-12 margin-top-5 margin-bottom-5" ng-click="ShopNow(item)">
+                                                                    <a herf="#" style="color:red;">{{"ControlText.BuyHere"|translate}}</a>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Added Comparables-->
+                                <div class="col-sm-12 col-md-12 padding1px ">
+                                    <div class="col-md-7 col-lg-7 col-sm-12  text-right padding1px pull-right margin-bottom-10">
+                                        <button class="btn sbold  btnMargin pull-right" ng-click="">
+                                            {{"Delete"|translate}}
+                                        </button>
+                                        <button id="btnUpdate" class="btn sbold  btnMargin pull-right" ng-click="SaveNewlyAddedComparables()">
+
+
+                                            {{"ControlText.Update_title"|translate}}
+                                        </button>
+                                        <!--<button id="btnValue" class="btn sbold  btnMargin pull-right" ng-click="openValueModel($event)">
+
+                                            {{"ControlText.Value_title"|translate}}
+                                        </button>-->
+                                        <button id="btnValue" class="btn sbold  btnMargin pull-right" ng-click="GoToViewQuote($event)">
+                                            {{"Quote"|translate}}
+                                        </button>
+
+                                        <!--<button class="btn sbold  btnMargin pull-right" ng-click="SuperVisorReview($event)">
+                                            {{" Supervisor Review"|translate}}
+                                        </button>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End Reports Tab-->
+                            <div class="col-md-12" ng-show="tab=='Notes'" id="Notes">
+                                <!---Start Notes-->
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet margin-top-10">
+                                    <div class="row">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                                <span class="text_options_Label sbold caption">{{"Notes"|translate}}</span>
+                                                <button class="btn btnMargin sbold pull-right" ng-click="AddNotePopup()">{{"New Note"|translate}}</button>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                                                <div class="portlet-body">
+                                                    <div class="row">
+                                                        <div class="col-md-5 col-sm-5 col-xs-12">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                                                <div class="portlet light bordered">
+                                                                    <div class="portlet-title" style="height: 32px;">
+                                                                        <div class="caption sbold font-green">
+                                                                        </div>
+                                                                        <div class="tools col-sm-11 col-md-8">
+                                                                            <div class="input-icon left">
+                                                                                <i class="icon-magnifier"></i>
+                                                                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchNote" placeholder={{"Search"|translate}}>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="portlet-body">
+                                                                        <div class="row" style="max-height: 500px;overflow-y: auto;">
+                                                                            <div class="col-md-12 col-sm-12 col-xs-12  margin-bottom-5" ng-class="{'well':$index===NoteIndex}" style="border-bottom:groove" ng-repeat="note in Notes|filter:searchNote" ng-click="GetNoteDetails(note,$index)">
+                                                                                <a class="col-md-12 col-sm-12 col-xs-12 sbold margin-bottom-5 NoDecoration  ">{{note.groupTitle !==null?note.groupTitle:'Note Subject'}}</a>
+                                                                                <a class="col-md-12 col-sm-12 col-xs-12 margin-bottom-5 NoDecoration  ">
+                                                                                    <span ng-repeat="item in note.participants|limitTo:2">
+                                                                                        <span>{{item.name}}<span ng-if="!$last">, &nbsp;</span></span>
+                                                                                    </span><span ng-if="Note.participants.length>2">...</span>
+                                                                                </a>
+                                                                                <a class="col-md-12 col-sm-12 col-xs-12 margin-bottom-5 NoDecoration  text-right">{{note.updateDate |DateFormatMMddyyyyHHmm}}</a>
+                                                                            </div>
+
+                                                                            <div class="col-md-12 text-center text-danger" ng-show="!Notes.length||Notes===null">{{"NoRecordText"|translate}}</div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-7 col-sm-7 col-xs-12">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
+                                                                <div class="portlet light bordered">
+                                                                    <div class="portlet-title" style="height: 32px;">
+                                                                        <div class="caption sbold font-green">
+                                                                            {{NoteDetails.groupTitle}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="portlet-body">
+                                                                        <div class="row" style="max-height: 500px;overflow-y: auto;">
+                                                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10 well" ng-repeat="item in NoteDetails.messages">
+                                                                                <label class="col-md-2 col-sm-3 col-xs-12 margin-bottom-5 NoDecoration ">Author:</label>
+                                                                                <span class="col-md-10 col-sm-9 col-xs-12 margin-bottom-5 NoDecoration ">
+                                                                                    {{item.addedBy.name}}
+                                                                                </span>
+                                                                                <div class="clearfix margin-bottom-5"></div>
+                                                                                <label class="col-md-2 col-sm-3 col-xs-12  NoDecoration ">Message:</label>
+                                                                                <span class="col-md-10 col-sm-9 col-xs-12  NoDecoration ">{{item.message}}</span>
+                                                                                <div class="clearfix margin-bottom-5"></div>
+                                                                                <label class="col-md-2 col-sm-3 col-xs-12 NoDecoration margin-bottom-5">Attachments:</label>
+
+                                                                                <div class="col-md-10 col-sm-9 col-xs-12 ">
+                                                                                    <a class="col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-5" ng-repeat="attachment in item.attachments" download href="{{attachment.url}}">{{attachment.name}}</a>
+                                                                                </div>
+
+                                                                                <div class="clearfix"></div>
+                                                                                <div class="col-md-12 col-sm-12 col-xs-12  NoDecoration  text-right">
+
+                                                                                    {{ item.lastVisitDate ? (item.lastVisitDate|DateFormatMMddyyyyHHmm) : (item.createDate|DateFormatMMddyyyyHHmm) }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 text-center text-danger" ng-show="!Notes.length||Notes===null">{{"NoRecordText"|translate}}</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!---End Notes-->
+                            </div>                                                    
+
+                        
+
+                           
+                            <div class="col-md-12" ng-show="tab=='Salvage'" id="Salvage">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet margin-top-10">
+                                    <div class="row">
+                                        <div id="Salvage" ng-include="'views/Salvage/SalvageDetails.html'" ng-controller="SalvageDetailsController"></div>
+                                     </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Design -->
+
+
+        </div>
+    </div>
+</div>

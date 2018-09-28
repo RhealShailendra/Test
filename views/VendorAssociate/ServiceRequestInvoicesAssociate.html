@@ -1,0 +1,171 @@
+﻿<style>
+    .backgroundRed {
+        background-color: #ff6a00;
+        color: white;
+        font-size: 30px;
+    }
+
+    .hideClass {
+        display: none;
+    }
+</style>
+<div class="col-md-12 padding1px">
+    <div class="col-md-12 padding1px">
+        <ul class="page-breadcrumb breadcrumb sbold">
+            <li>
+                <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>{{"Service Request Invoices"|translate}}</span>
+            </li>
+        </ul>
+    </div> 
+    <div class="col-md-12 portlet light bordered">
+        <div class="portlet-body">
+            <div class="row">
+                <div class="tabbable-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='InvoicesToBePaid'}" ng-click="CurrentClaimTab ='InvoicesToBePaid'">&nbsp;{{"TabHeaderTitle.InvoicesToBePaid"|translate}}&nbsp;</a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='AllInvoices'}" ng-click="HidepaymentDiv()"> &nbsp;{{"TabHeaderTitle.AllInvoices"|translate}}&nbsp;</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="row">
+                            <!--Invoices to be paid-->
+                            <div class="col-md-12" ng-show="CurrentClaimTab=='InvoicesToBePaid'">
+                                <div class="col-md-12 col-lg-12 col-sm-12">
+                                    <div class="col-md-12 clearfix options_Background_WithBorder">
+                                        <div class="col-md-4 pull-right margin-top-5 margin-bottom-5">
+                                            <div class="input-icon left">
+                                                <i class="icon-magnifier"></i>
+                                                <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="searchtext" placeholder={{"SearchText"|translate}}>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!--Table content-->
+                                    <div class="col-md-12 table-responsive">
+                                        <table class="table table-striped table-bordered" id="NavigateTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                    </th>
+                                                    <th>{{"Table.InvoiceId"|translate}}</th>
+                                                    <th>{{"Table.InvoiceDate"|translate}}</th>
+                                                    <th>{{"Table.Amount"|translate}}</th>
+                                                    <th>{{"Table.TaxRate"|translate}}</th>
+                                                    <th>{{"Table.TotalAmount"|translate}}</th>
+                                                    <th>{{"Table.status"|translate}}</th>
+                                                    <th>{{"Table.Description"|translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                <tr ng-repeat-start="item in InvoiceListToBePaid|filter:searchtext" ng-if="item.serviceRequest.serviceRequestInvoices!==null&& item.serviceRequest.serviceRequestInvoices.length>0">
+                                                    <td class="text-center">
+
+                                                        <label class="mt-radio mt-radio-outline mt-radio-single">
+                                                            <input type="radio" name="optradio" ng-checked="item.serviceRequest.serviceRequestId===selectedServiceRequestId" class="radio" ng-click="SelectAllInvoices(item)" />
+                                                            <span></span>
+                                                        </label>
+
+                                                    </td>
+                                                    <td style="background-color:gray;color:white;font-weight:bold;" colspan="4">Claim#:&nbsp;{{item.claimDetails.claimNumber}}</td>
+                                                    <td style="background-color:gray;color:white;font-weight:bold;" colspan="3">Service Request Id:&nbsp;{{item.serviceRequest.serviceRequestId}}</td>
+                                                </tr>
+                                                <tr ng-repeat-end ng-repeat="invoice in item.serviceRequest.serviceRequestInvoices ">
+                                                    <td class="text-center">
+                                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                            <input type="checkbox" class="group-checkable" ng-model="invoice.IsSelected" ng-click="SelectSingleInvoice(invoice,item.serviceRequest.serviceRequestId,item.serviceRequest.vendorDetails.vendorId)" />
+                                                            <span></span>
+                                                        </label>
+                                                    </td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.id}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.createDate|DateFormatMMddyyyy}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.invoiceAmount}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.taxRate}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.totalAmount}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)"><span ng-class="{'btn btn-circle btn-xs ServicePendingApproval':invoice.status.status==='PENDING APPROVAL','btn btn-circle btn-xs ServiceProcessing':invoice.status.status==='PROCESSING'}">{{invoice.status.status}}</span></td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.invoiceDescription}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--End Invoices to be paid-->
+                                <!--All Invoices-->
+                                <div class="col-md-12" ng-show="CurrentClaimTab=='AllInvoices'">
+                                    <div class="col-md-12 col-lg-12 col-sm-12">
+                                        <div class="col-md-12 clearfix options_Background_WithBorder">
+                                            <div class="col-md-4 pull-right margin-top-5 margin-bottom-5">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="searchAllInvoices" placeholder={{"SearchText"|translate}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Table content-->
+                                    <div class="col-md-12 table-responsive ">
+                                        <table class="table table-striped table-bordered" id="NavigateTable">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+
+                                                    </th>
+                                                    <th>{{"Table.InvoiceId"|translate}}</th>
+                                                    <th>{{"Table.InvoiceDate"|translate}}</th>
+                                                    <th>{{"Table.Amount"|translate}}</th>
+                                                    <th>{{"Table.TaxRate"|translate}}</th>
+                                                    <th>{{"Table.TotalAmount"|translate}}</th>
+                                                    <th>{{"Table.status"|translate}}</th>
+                                                    <th>{{"Table.Description"|translate}}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr>
+                                                <tr ng-repeat-start="item in AllInvoiceList|filter:searchAllInvoices" ng-if="item.serviceRequest.serviceRequestInvoices!==null && item.serviceRequest.serviceRequestInvoices.length>0">
+                                                    <td class="text-center">
+                                                        <label class="mt-radio mt-radio-outline mt-radio-single">
+                                                            <input type="radio" name="optradio" ng-checked="item.serviceRequest.serviceRequestId===selectedServiceRequestId" class="radio" ng-click="SelectAllInvoices(item)" />
+                                                            <span></span>
+                                                        </label>
+                                                    </td>
+                                                    <td style="background-color:gray;color:white;font-weight:bold;" colspan="4">Claim#:&nbsp;{{item.claimDetails.claimNumber}}</td>
+                                                    <td style="background-color:gray;color:white;font-weight:bold;" colspan="3">Service Request Id:&nbsp;{{item.serviceRequest.serviceRequestId}}</td>
+                                                </tr>
+                                                <tr ng-repeat-end ng-repeat="invoice in item.serviceRequest.serviceRequestInvoices ">
+                                                    <td class="text-center">
+                                                        <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                            <input type="checkbox" class="group-checkable" ng-model="invoice.IsSelected" ng-click="SelectSingleInvoice(invoice,item.serviceRequest.serviceRequestId,item.serviceRequest.vendorDetails.vendorId)" />
+                                                            <span></span>
+                                                        </label>
+                                                    </td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.id}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.createDate|DateFormatMMddyyyy}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.invoiceAmount}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.taxRate}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.totalAmount}}</td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)"><span ng-class="{'btn btn-circle btn-xs ServicePendingApproval':invoice.status.status==='PENDING APPROVAL','btn btn-circle btn-xs ServiceProcessing':invoice.status.status==='PROCESSING'}">{{invoice.status.status}}</span></td>
+                                                    <td ng-click="GotoInvoiceDetails(item,invoice)">{{invoice.invoiceDescription}}</td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--End All Invoices-->
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

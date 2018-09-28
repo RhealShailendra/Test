@@ -1,0 +1,242 @@
+﻿
+<div class="row login  nomargin clearfix  clear" ng-if="!IsLoginedUser" ng-controller="VendorLoginController">
+    <div class="logo">
+        <a href="" style="text-decoration:none;">
+            <h3 class="form-title font-green">{{"Logo"|translate}}</h3>
+        </a>
+    </div>
+    <div class="">
+        <div class="col-md-12 ">
+            <form class="" id="NewVendorForm" name="NewVendorForm">
+                <div class="col-md-12 portlet light ">
+                    <div class="portlet-title margin-top-20">
+                        <div class="caption font-blue-sharp sbold">
+                            <i class="font-green-sharp"></i>
+                            {{"LoginText.Vendorportal"|translate}}
+
+                        </div>
+                        <div class="tools">
+
+                        </div>
+                    </div>
+                    <div class="portlet-body margin-top-20">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Registration -->
+                                <!--<div class="col-md-6 col-sm-12">
+                                    <div class="col-md-12 portlet light bordered margin-bottom-40 loginHeightVendor" style="box-shadow: 2px 0px 16px 0px lightgrey;">
+                                        <div class="portlet-title ">
+                                            <div class="caption font-blue-sharp sbold">
+                                                <i class="font-green-sharp"></i>
+                                                {{"LoginText.Registration"|translate}}
+
+                                            </div>
+                                            <div class="tools">
+
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="col-md-12">
+                                                <label class="control-label">
+                                                    {{"LoginText.RegistrionText"|translate}}
+                                                </label>
+                                            </div>
+                                            <div class="col-md-12 margin-top-30">
+                                                <label class="control-label col-md-3 col-sm-3">{{"ControlText.CompanyName"|translate}}</label>
+                                                <div class="col-md-8 col-sm-8">
+                                                    <input class="form-control form-control-solid placeholder-no-fix " required ng-model="CompanyName" type="text" placeholder={{"ControlText.CompanyName"|translate}} name="username" />
+                                                    <div ng-message="required" ng-show="(UserLogin.username.$error.required && UserLogin.username.$touched)">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 margin-top-30">
+                                                <label class="control-label col-md-3 col-sm-3">{{"ControlText.FirstName"|translate}}</label>
+                                                <div class="col-md-8 col-sm-8">
+                                                    <input class="form-control form-control-solid placeholder-no-fix " required ng-model="FirstName" type="text" placeholder={{"ControlText.FirstName"|translate}} name="FirstName" />
+                                                    <div ng-message="required" ng-show="(UserLogin.FirstName.$error.required && UserLogin.FirstName.$touched)">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 margin-top-30">
+                                                <label class="control-label col-md-3 col-sm-3">{{"ControlText.LastName"|translate}}</label>
+                                                <div class="col-md-8 col-sm-8">
+                                                    <input class="form-control form-control-solid placeholder-no-fix " required ng-model="LastName" type="text" placeholder={{"ControlText.LastName"|translate}} name="LastName" />
+                                                    <div ng-message="required" ng-show="(UserLogin.LastName.$error.required && UserLogin.LastName.$touched)">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 margin-top-30">
+                                                <label class="control-label col-md-3 col-sm-3">{{"ControlText.EmailAddress"|translate}}</label>
+                                                <div class="col-md-8 col-sm-8">
+                                                    <input class="form-control form-control-solid placeholder-no-fix " required ng-model="EmailAddress" type="text" placeholder={{"ControlText.EmailAddress"|translate}} name="EmailAddress" />
+                                                    <div ng-message="required" ng-show="(UserLogin.EmailAddress.$error.required && UserLogin.EmailAddress.$touched)">
+                                                        <span></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-md-offset-3  margin-bottom-15 margin-top-30">
+                                                <button type="button" class="btn green" ng-disabled="UserLogin.$invalid || UserLogin.$pristine">{{"LoginText.Submit"|translate}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <!-- Login start -->
+                                <!--<div class="col-md-3 col-sm-12 margin-bottom-15">
+                                    </div>-->
+                                <div class="col-lg-6 col-lg-6 col-sm-6 margin-bottom-15 portlet light bordered loginHeightVendor" style="box-shadow: 2px 0px 16px 0px lightgrey;" ng-if="true" ng-form="RegisterUser">
+                                    <div class="portlet-title ">
+                                        <div class="caption font-blue-sharp sbold">
+                                            <i class="font-green-sharp"></i>
+                                            {{"LoginText.Registration"|translate}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group margin-top-10">
+                                        <label>{{"Enter Information about your Company and a insurance Company admin will reach out to you."|translate}}</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group margin-top-30">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-right">
+                                            <label class="control-label"><span class="text-danger">*</span>{{"ControlText.CompanyName"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" required name="firstName" ng-model="registerUser.firstName" class="form-control" placeholder="{{'ControlText.CompanyName'|translate}}">
+                                            <div ng-message="required" ng-show="RegisterUser.firstName.$error.required && RegisterUser.firstName.$touched">
+                                                <span class="text-danger">{{"ErrorMessage.FirstNameRequired_message"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-right">
+                                            <label class="control-label"><span class="text-danger">*</span>{{"ControlText.FirstName"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" required name="firstName" ng-model="registerUser.firstName" class="form-control" placeholder="{{'ControlText.FirstName'|translate}}">
+                                            <div ng-message="required" ng-show="RegisterUser.firstName.$error.required && RegisterUser.firstName.$touched">
+                                                <span class="text-danger">{{"ErrorMessage.FirstNameRequired_message"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-right">
+                                            <label class="control-label"><span class="text-danger">*</span>{{"ControlText.LastName"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" required name="LastName" class="form-control" ng-model="registerUser.lastName" placeholder="{{'ControlText.LastName'|translate}}">
+                                            <div ng-message="required" ng-show="RegisterUser.LastName.$error.required && RegisterUser.LastName.$touched">
+                                                <span class="text-danger">{{"ErrorMessage.LastNameRequired_message"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group">
+                                        <div class="col-md-4 col-sm-4 col-xs-12 text-right">
+                                            <label class="control-label"><span class="text-danger">*</span>{{"ControlText.EmailAddress"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" name="email" required ng-model="registerUser.email" ng-pattern="/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/" class="form-control" placeholder="{{'ControlText.EmailAddress'|translate}}" ng-blur="GetPolicyHolderInfo()">
+                                            <div ng-message="pattern" ng-show="(RegisterUser.email.$error.pattern && RegisterUser.email.$touched)">
+                                                <span class="text-danger">{{"Enter valid Email"|translate}}</span>
+                                            </div>
+                                            <div ng-message="required" ng-show="(RegisterUser.email.$error.required && RegisterUser.email.$touched)">
+                                                <span class="text-danger">{{"Email ID required"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 form-group margin-top-10">
+                                        <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button class="btn green" ng-click="Register($event)" tabindex="3" type="button" ng-disabled="RegisterUser.$invalid || RegisterUser.$pristine">Send Request</button>
+                                        </div>
+                                    </div>
+                                </div>  
+                                    <div class="col-md-6 col-sm-12 margin-bottom-15">
+                                        <div class="col-md-12 portlet light bordered loginHeightVendor" style="box-shadow: 2px 0px 16px 0px lightgrey; ">
+                                            <div class="portlet-title ">
+                                                <div class="caption font-blue-sharp sbold">
+                                                    <i class="font-green-sharp"></i>
+                                                    {{"LoginText.Login"|translate}}
+                                                </div>
+                                                <div class="tools">
+
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body" ng-form="UserLogin">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group ">
+                                                            <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                                                            <label class="control-label clearfix sbold">Welcome back!</label>
+                                                            <div class="clearfix col-md-12" style="margin-top: 47px;"></div>
+                                                            <label class="control-label col-md-3 col-sm-3 text-right">{{"LoginText.UserName_title"|translate}}</label>
+                                                            <div class="col-md-6 col-sm-6">
+                                                                <input class="form-control form-control-solid placeholder-no-fix " pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" tabindex="1" required ng-model="username" type="text" autocomplete="off" placeholder={{"LoginText.UserName_title"|translate}} name="username" />
+                                                                <div class="errormessage" role="alert" multiple>
+                                                                    <div ng-message="required" ng-show="(UserLogin.username.$error.required && UserLogin.username.$touched)">
+                                                                        <span>{{"ErrorMessage.UserNameRequired_message"|translate}}</span>
+                                                                    </div>
+                                                                    <div ng-message="pattern" ng-show="(UserLogin.username.$touched && UserLogin.username.$error.pattern)">
+                                                                        <span>{{"ErrorMessage.ValidEmail_message"|translate}}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                        <div class="form-group margin-top-15">
+                                                            <label class="control-label col-md-3 col-sm-3 text-right">{{"LoginText.Password_title"|translate}}</label>
+                                                            <div class="col-md-6 col-sm-6">
+                                                                <input class="form-control form-control-solid placeholder-no-fix" ng-keydown="$event.which === 13 && LogIn($event)" type="password" tabindex="2" required ng-model="password" autocomplete="off" placeholder={{"LoginText.Password_title"|translate}} name="password" />
+
+                                                                <div ng-show="UserLogin.password.$invalid && UserLogin.password.$touched" role="alert" multiple>
+                                                                    <div ng-message="required">
+                                                                        <span class="errormessage">{{"ErrorMessage.PasswordRequired_message"|translate}}</span>
+                                                                    </div>
+                                                                    <!--<div ng-message="pattern">
+                                            <span translate="LOGIN.ERRORS.EMAIL_MUST_VALID">Email must be a valid e-mail address</span>
+                                        </div>-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="clearfix"></div>
+                                                        <!--<div class="col-md-9 margin-top-10 col-md-offset-3 col-sm-offset-3">
+                                                            <div class="rem-password">
+                                                                <label class="rememberme mt-checkbox mt-checkbox-outline" style="font-weight:normal!important;font-size:14px !important">
+                                                                    <input type="checkbox" name="remember" value="1" ng-model="RememberMe" /> {{"ControlText.Remember_title"|translate}}
+                                                                    <span></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>-->
+                                                        <div class="errormessage col-md-12 col-sm-12 text-center text-danger margin-top-10">{{errormsg}}</div>
+                                                        <div class="form-actions col-md-12 col-sm-12 margin-top-10">
+
+                                                            <div class="col-md-9 col-md-offset-3 col-sm-offset-3 ">
+                                                                <button type="button" ng-click="LogIn($event)" class="btn green " ng-disabled="UserLogin.$invalid || UserLogin.$pristine">{{"ControlText.Login_title"|translate}}</button>
+                                                            </div>
+                                                            <!--<div class="col-md-3 col-md-offset-1">
+                                    <label class="rememberme check mt-checkbox mt-checkbox-outline">
+                                        <input type="checkbox" name="remember" value="1" ng-model="RememberMe" />{{"ControlText.Remember_title"|translate}}
+                                        <span></span>
+                                    </label>
+                                </div>-->
+                                                            <div class="col-md-9 col-md-offset-3 margin-top-10 text-danger margin-bottom-30">
+                                                                <a href="" ng-click="ForgotPasswordForm($event)" id="forget-password" class="forget-password">{{"ControlText.ForgotPassword_title"|translate}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!--<div class="col-md-3 col-sm-12 margin-bottom-15">
+                                </div>-->
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

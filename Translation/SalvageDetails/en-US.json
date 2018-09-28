@@ -1,0 +1,37 @@
+﻿{
+  "AdjusterViewedDescription": "Adjuster's Viewed Description",
+  "Billing": "Billing",
+  "Box In Box from Policyholder": "Box In Box from Policyholder",
+  "Cancel": "Cancel",
+  "Date": "Date",
+  "DateAtCutters": "Date at Cutters",
+  "DateAtGIA": "Date at GIA",
+  "Department": "Department",
+  "GemlabSalvageDescription": "Gemlab Salvage Description",
+  "Labor charges": "Labor charges",
+  "PickUp from Vendor/Email Label": "PickUp from Vendor/Email Label",
+  "PurchaseOrderMapping": "Purchase Order Mapping",
+  "SalvageTracker": "Salvage Tracker",
+  "Save": "Save",
+  "Shipment": "Shipment",
+  "Table": {
+    "Status": "Status",
+    "DatePaid": "Date paid",
+    "CheckAmount": "Check Amount",
+    "CheckNumber": "Check Number"
+  },
+  "Summry": {
+  "SalvageComponent": "Salvage Component",
+    "Price": "Price",
+    "MainStone": "Main Stone",
+    "Metal": "Metal",
+    "OtherSalvageValue": "Other Salvage Value",
+    "Total": "Totel",
+    "Repair": "Repair",
+    "Expences": "Expences",
+    "NetProceeds": "Net Proceeds",
+    "ManualAdditions": "Manual Additions",
+    "NetPrice": "Net Price",
+    "AdditionalStone": "Additional Stone #1"
+  }
+}

@@ -1,0 +1,592 @@
+﻿<div class="col-md-12 ">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GotoDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Search results"|translate}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-md-12">
+    <div class="portlet">
+        <div class="portlet">
+            <div class="portlet-body " style="margin-top:-10px;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 text-center">
+                        <div class="col-md-4 col-sm-6 col-xs-12 col-md-offset-4 col-sm-offset-3">
+                            <div class="input-icon left">
+                                <i class="icon-magnifier globlaSearchIconHeaderLarge"></i>
+                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" style="height:35px;" ng-model="GenericSearch" placeholder={{"Search"|translate}}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row margin-top-20" >
+                    <div class="tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='Claims'}" ng-click="ShowHideTab('Claims')">&nbsp;{{"Claims"|translate}} ({{((SearchResult.Claim.length)?SearchResult.Claim.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='Policy'}" ng-click="ShowHideTab('Policy')"> &nbsp;{{"Policy"|translate}} ({{((SearchResult.Policy.length>0)?SearchResult.Policy.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='People'}" ng-click="ShowHideTab('People')">&nbsp;{{"People"|translate}}  ({{((SearchResult.User.length)?SearchResult.User.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='Documents'}" ng-click="ShowHideTab('Documents')"> &nbsp;{{"Documents"|translate}} ({{((SearchResult.Document.length>0)?SearchResult.Document.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='Vendors'}" ng-click="ShowHideTab('Vendors')"> &nbsp;{{"Vendors"|translate}} ({{((SearchResult.Vendors.length>0)?SearchResult.Vendors.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='PurchaseOrders'}" ng-click="ShowHideTab('PurchaseOrders')"> &nbsp;{{"PurchaseOrders"|translate}} ({{((SearchResult.PurchaseOrders.length>0)?SearchResult.PurchaseOrders.length:0)}}) &nbsp;</a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentDiv=='Appraisals'}" ng-click="ShowHideTab('Appraisals')"> &nbsp;{{"Appraisals"|translate}} ({{((SearchResult.Appraisals.length>0)?SearchResult.Appraisals.length:0)}}) &nbsp;</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="row">
+                                <!--Start Claims-->
+                                <div class="col-md-12 col-sm-12 tableHeight" ng-show="CurrentDiv=='Claims'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info  margin-bottom-20 "><b>{{((SearchResult.Claim.length)?SearchResult.Claim.length:0)}}&nbsp;{{"Claim"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive  ">
+                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column " id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-click="sortClaim('type')">
+                                                                    {{"Type"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='type'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('claimNumber')">
+                                                                    {{"Claim#"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('createDate')">
+                                                                    {{"Created Date"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='createDate'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('policyNumber')">
+                                                                    {{"Policy#"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='policyNumber'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('policyHolder')">
+                                                                    {{"Policy Holder"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='policyHolder'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('adjuster')">
+                                                                    {{"Adjuster"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='adjuster'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortClaim('status.status')">
+                                                                    {{"Status"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyClaim=='status.status'" ng-class="{'glyphicon-chevron-up pull-right':Claimreverse,'glyphicon-chevron-down pull-right':!Claimreverse}"></span>
+                                                                </th>
+                                                                <th>{{"LastNote"|translate}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr dir-paginate="claim in SearchResult.Claim |orderBy:sortKeyClaim:Claimreverse|filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Claims" >
+                                                                <td><span ng-class="{'HOME':'fa fa-home fa-lg', 'AUTO':'fa fa-bus fa-lg'}[claim.type]"></span></td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.claimNumber}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.createDate |DateFormatMMddyyyyHHmm}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.policyNumber}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.policyHolder}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.adjuster}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)">{{claim.status.status}}</td>
+                                                                <td ng-click="GotToClaimDetailsScreen(claim)" class="tip">
+                                                                    <span class="Overlay">{{item.lastNote.message}}</span>
+                                                                    {{item.lastNote.message | limitTo: 20}}  <span>{{item.lastNote.message.length >  20 ? '...' : ''}}</span>
+                                                                </td>
+                                                                <!--<td><input readonly type="text" ng-model="item.lastNote.message" class="form-control" /></td>-->
+                                                            </tr>
+                                                            <tr ng-show="SearchResult.Claim==null ||SearchResult.Claim.length==0">
+                                                                <td colspan="8" class="text-danger text-center">{{"No records to show"|translate}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                        <tfoot>
+                                                        </tfoot>
+                                                    </table>
+
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.Claim!=null" pagination-id="Claims"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Claims-->
+                                <div class="col-md-12  col-sm-12 tableHeight" ng-show="CurrentDiv=='Policy'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info margin-bottom-20 "><b>{{((SearchResult.Policy.length>0)?SearchResult.Policy.length:0)}}&nbsp;&nbsp;{{"Policy"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+                                                </span>
+                                            </div>
+                                            <!--<div class="tools col-md-4 col-sm-6 col-xs-12  ">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchPolicy" placeholder={{"Search"|translate}}>
+                                                </div>
+                                            </div>-->
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive">
+                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-click="sortPolicy('type')">
+                                                                    {{"Type"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='type'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('policyNumber')">
+                                                                    {{"Policy#"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='policyNumber'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('policyHolder')">
+                                                                    {{"Policy Holder"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='policyHolder'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('agent')">
+                                                                    {{"Agent"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='agent'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('startDate')">
+                                                                    {{"Start Date"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='startDate'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('endDate')">
+                                                                    {{"End Date"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='endDate'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPolicy('isExpired')">
+                                                                    {{"Status"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyPolicy=='isExpired'" ng-class="{'glyphicon-chevron-up pull-right':Policyreverse,'glyphicon-chevron-down pull-right':!Policyreverse}"></span>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr dir-paginate="item in SearchResult.Policy |orderBy:sortKeyPolicy:Policyreverse|filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Policy" ng-click="GoToPolicyDetails(item)">
+                                                                <td><span ng-class="{'HOME':'fa fa-home fa-lg', 'AUTO':'fa fa-bus fa-lg'}[item.type]"></span></td>
+                                                                <td>{{item.policyNumber}}</td>
+                                                                <td>{{item.policyHolder}}</td>
+                                                                <td>{{item.agent}}</td>
+                                                                <td>{{item.startDate |DateFormatMMddyyyyHHmm}}</td>
+                                                                <td>{{item.endDate |DateFormatMMddyyyyHHmm}}</td>
+                                                                <td>{{item.isExpired}}</td>
+                                                            </tr>
+                                                            <tr ng-show="SearchResult.Policy==null ||SearchResult.Policy.length==0">
+                                                                <td colspan="7" class="text-danger text-center">
+                                                                    {{"No records to show"|translate}}
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                        <tfoot>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.Policy!=null" pagination-id="Policy"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12" ng-show="CurrentDiv=='People'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info">
+                                                        <b>
+                                                            {{((SearchResult.User.length)?SearchResult.User.length:0)}}&nbsp;{{"people"|translate}}&nbsp; {{"Found"|translate}}&nbsp;
+                                                            {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span>
+                                                        </b>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <!--<div class="tools col-md-4 col-sm-6 col-xs-12 ">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchPeople" placeholder={{"Search"|translate}}>
+                                                </div>
+                                            </div>-->
+
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive tableHeight">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 well" dir-paginate="item in SearchResult.User |filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Users">
+                                                        <div class="col-md-2 col-xs-12 col-sm-4 imagePostion text-center pull-left">
+                                                            <div class="col-md-12  imageHeight">
+                                                                <img onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ProfileImage"
+                                                                     ng-src="{{(PeoleDetails.displayPicture.url!=null?PeoleDetails.displayPicture.url:'assets/global/img/no-image.png')}}" alt="Profile Picture" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9 col-sm-8 col-xs-12">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <label class="col-md-3 col-sm-4 col-xs-12">{{"Name"|translate}}</label>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12">{{item.firstName}} &nbsp; {{item.lastName}}</span>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <label class="col-md-3 col-sm-4 col-xs-12">{{"Role"|translate}}</label>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12" ng-show="item.isPolicyHolder==false">
+                                                                    <span ng-repeat="role in item.roles" class="padding1px">{{role.roleName}}<span ng-show="!$last">,&nbsp;</span></span>
+                                                                </span>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12" ng-hide="item.isPolicyHolder==false">
+                                                                    <span class="padding1px">{{"Policy Holder"}}</span>
+                                                                </span>
+
+
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <label class="col-md-3 col-sm-4 col-xs-12">{{"Company"|translate}}</label>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12">{{item.company.name}} </span>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <label class="col-md-3 col-sm-4 col-xs-12">{{"Status"|translate}}</label>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12">{{(item.isActive?'Active':'In-Active')}}</span>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <label class="col-md-3 col-sm-4 col-xs-12">{{"Last Login"|translate}}</label>
+                                                                <span class="col-md-9 col-sm-8 col-xs-12">{{item.lastLogin |DateFormatMMddyyyyHHmm}}</span>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                <a class="col-md-3 pull-right" ng-click="GotoPeopleDetails(item)">{{"View profile"|translate}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 well text-center" ng-show="SearchResult.User.length==0 || SearchResult.User==null">
+                                                        <span class="text-danger">{{"No records to show"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.User!=null" pagination-id="Users"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-md-12 col-sm-12" ng-show="CurrentDiv=='Documents'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info margin-bottom-20 "><b>{{((SearchResult.Document.length>0)?SearchResult.Document.length:0)}}&nbsp;{{"Documents"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+
+                                                </span>
+                                            </div>
+                                            <!--<div class="tools col-md-4 col-sm-6 col-xs-12 ">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchDocx" placeholder={{"Search"|translate}}>
+                                                </div>
+                                            </div>-->
+
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive tableHeight">
+                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="display:none"></th>
+                                                                <th ng-click="sortDocument('fileName')" class="thwidth30">
+                                                                    {{"Documemnt Name"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='fileName'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('claimNumber')" class="width20">
+                                                                    {{"Claim#"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('uploadDate')" class="width20">
+                                                                    {{"Last Updated"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='uploadDate'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th class="width20">{{"Action"|translate}}</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr dir-paginate="item in SearchResult.Document |orderBy:sortKeyDocx:Docxreverse|filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Documents">
+                                                                <td style="display:none"></td>
+                                                                <td>{{item.fileName}}</td>
+                                                                <td>{{item.claimNumber}}</td>
+                                                                <td>{{item.uploadDate |DateFormatMMddyyyyHHmm}}</td>
+                                                                <td class="text-center"><a ng-click="GetDocxDetails(item)">View</a> | <span><a ng-href="{{item.url}}" download="">Download</a></span></td>
+                                                            </tr>
+                                                            <tr ng-show="SearchResult.Document==null ||SearchResult.Document.length==0">
+                                                                <td colspan="4" class="text-danger text-center">
+                                                                    {{"No records to show"|translate}}
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.Document!=null" pagination-id="Documents"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12" ng-show="CurrentDiv=='Vendors'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info margin-bottom-20 "><b>{{((SearchResult.Vendors.length>0)?SearchResult.Vendors.length:0)}}&nbsp;{{"Vendors"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+
+                                                </span>
+                                            </div>
+                                            <!--<div class="tools col-md-4 col-sm-6 col-xs-12 ">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchDocx" placeholder={{"Search"|translate}}>
+                                                </div>
+                                            </div>-->
+
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive tableHeight">
+                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-click="sortDocument('fileName')" class="thwidth20">
+                                                                    {{"Supplier #"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='fileName'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('claimNumber')" class="width20">
+                                                                    {{"Vendor Name"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('uploadDate')" class="width20">
+                                                                    {{"Address"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='uploadDate'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('uploadDate')" class="width20">
+                                                                    {{"Contact Preson"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='uploadDate'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('uploadDate')" class="width20">
+                                                                    {{"Phone #"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='uploadDate'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortDocument('uploadDate')" class="width20">
+                                                                    {{"Status"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyDocx=='uploadDate'" ng-class="{'glyphicon-chevron-up pull-right':Docxreverse,'glyphicon-chevron-down pull-right':!Docxreverse}"></span>
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--<tr><th colspan="5" ng-click="GotoVendorInfo()"></th></tr>-->
+                                                            <tr dir-paginate="item in SearchResult.Vendors |orderBy:sortKeyDocx:Docxreverse|filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Documents">
+                                                                <td ng-click="GotoVendorInfo(item)">{{item.vendorNumber}}</td>
+                                                                <td ng-click="GotoVendorInfo(item)">{{item.vendorName}}</td>
+                                                                <td ng-click="GotoVendorInfo(item)">{{item.billingAddress.completeAddress}}</td>
+                                                                <td ng-click="GotoVendorInfo(item)"><font ng-repeat="contact in item.vendorContacts"><span>{{contact.firstName +" "+contact.lastName }}</span><span ng-if="!$last">,</span></font></td>
+                                                                <td ng-click="GotoVendorInfo(item)">{{item.cellPhone|tel}}</td>
+                                                                <td ng-click="GotoVendorInfo(item)">{{item.isActive}}</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.Document!=null" pagination-id="Documents"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--for Purchse Order tab Start-->
+                                <div class="col-md-12 col-sm-12" ng-show="CurrentDiv=='PurchaseOrders'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info margin-bottom-20 "><b>{{((SearchResult.PurchaseOrders.length>0)?SearchResult.PurchaseOrders.length:0)}}&nbsp;{{"PurchaseOrders"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive tableHeight">
+                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-click="sortPurchaseOrders('orderId')">
+                                                                    {{"OrderId"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='orderId'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPurchaseOrders('type')">
+                                                                    {{"Type"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='type'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPurchaseOrders('itemDescription')">
+                                                                    {{"ItemDescription"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='itemDescription'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPurchaseOrders('status')">
+                                                                    {{"Status"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='status'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPurchaseOrders('invoice')">
+                                                                    {{"Invoice$"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='invoice'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+                                                                <th ng-click="sortPurchaseOrders('tracking')">
+                                                                    {{"Tracking#"|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':Orderreverse,'glyphicon-chevron-down pull-right':!Orderreverse}"></span>
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-show="SearchResult.PurchaseOrders.length==0">
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)" colspan="6">
+                                                                    <span style="text-align:center"> no record</span>
+                                                                </td>
+                                                            </tr>
+                                                            <!--<tr><th colspan="5" ng-click="GotoVendorInfo()"></th></tr>-->
+                                                            <tr dir-paginate="item in SearchResult.PurchaseOrders |orderBy:sortKeyOrder:Orderreverse|filter:GenericSearch|itemsPerPage:itemPageSize" pagination-id="Orders">
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.id}}</td>
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.orderType.name}}</td>
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.item.description}}</td>
+                                                                 <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.status.status}}</td>
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.invoiceNumber}}</td>
+                                                                <td ng-click="GotoPurchaseOrdersInfo(item)">{{item.tracking}}</td>
+                                                            </tr>
+                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" ng-if="SearchResult.PurchaseOrders!=null" pagination-id="Orders"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--for Purchse Order tab End-->
+
+                                <!--appraisals Start-->
+                                <div class="col-md-12 col-sm-12" ng-show="CurrentDiv=='Appraisals'">
+                                    <div class="portlet">
+                                        <div class="portlet-title">
+                                            <div class="caption font-blue-sharp ">
+                                                <span class="caption-subject bold">
+                                                    <span class="text-info margin-bottom-20 "><b>{{((SearchResult.Appraisals.length>0)?SearchResult.Appraisals.length:0)}}&nbsp;{{"Appraisals"|translate}}&nbsp; {{"Found"|translate}}&nbsp; {{"For"|translate}}&nbsp;<span class="text-success">{{DisplayRecordForText}}</span></b></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 table-responsive">
+                                                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th ng-click="sortApprisal('appraisalNumber')">
+                                                                    {{'Appraisal#'|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':reverseAppraisals,'glyphicon-chevron-down pull-right':!reverseAppraisals}"></span>
+                                                                </th>
+                                                                <th ng-click="sortApprisal('appraisalDate')">
+                                                                    {{'Date of Appraisal'|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':reverseAppraisals,'glyphicon-chevron-down pull-right':!reverseAppraisals}"></span>
+                                                                </th>
+                                                                <th ng-click="sortApprisal('itemDescription')">
+                                                                    {{'Item Description'|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':reverseAppraisals,'glyphicon-chevron-down pull-right':!reverseAppraisals}"></span>
+                                                                </th>
+                                                                <th ng-click="sortApprisal('appraisalType.type')">
+                                                                    {{'Type Of Appraisal'|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':reverseAppraisals,'glyphicon-chevron-down pull-right':!reverseAppraisals}"></span>
+                                                                </th>
+                                                                <th ng-click="sortApprisal('appraisalValue')">
+                                                                    {{'Appraisal Value'|translate}}
+                                                                    <span class="glyphicon sort-icon" ng-show="sortKeyOrder=='tracking'" ng-class="{'glyphicon-chevron-up pull-right':reverseAppraisals,'glyphicon-chevron-down pull-right':!reverseAppraisals}"></span>
+                                                                </th>
+                                                                <th ng-click="sortApprisal('')">
+                                                                    {{'Action'|translate}}
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr dir-paginate="appraisal in SearchResult.Appraisals|orderBy:sortKeyOrder:reverseAppraisals|filter:searchPO|itemsPerPage:itemPageSize" pagination-id="apprisal">
+                                                                <td ng-click="GotoDetails(appraisal)">{{appraisal.appraisalNumber}}</td>
+                                                                <td ng-click="GotoDetails(appraisal)">{{appraisal.appraisalDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                <td ng-click="GotoDetails(appraisal)">{{appraisal.itemDescription}}</td>
+                                                                <td ng-click="GotoDetails(appraisal)">{{appraisal.appraisalType.type}}</td>
+                                                                <td ng-click="GotoDetails(appraisal)">{{appraisal.appraisalValue}}</td>
+                                                                <td ng-click="GotoDetails(appraisal)">
+                                                                    <a >{{"Download"|translate}}</a>
+                                                                    <!--<a ng-click="DeleteAppraisal(appraisal)">{{"Detete"|translate}}</a>-->
+                                                                </td>
+                                                            </tr>
+                                                            <!--<tr ng-if="!Orders.length">
+                                                                <td colspan="6" class="text-danger text-center">{{"0 purchase orders available"|translate}}</td>
+                                                            </tr>-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="text-center">
+                                                    <dir-pagination-controls max-size="3" pagination-id="apprisal"
+                                                                             direction-links="true"
+                                                                             boundary-links="true">
+                                                    </dir-pagination-controls>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--appraisals End-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

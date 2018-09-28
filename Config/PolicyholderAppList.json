@@ -1,0 +1,13 @@
+﻿
+  [
+    {
+      "KEY": "GLBLINS",
+      "INSURANCEURL": "http://global.3circlecrm.com/",
+      "POLICYHOLDERURL": "http://policyholder.3circlecrm.com/"
+    },
+    {
+      "KEY": "ABCINS",
+      "INSURANCEURL": "http://69.164.195.59:8080/abcinsurancecompany/",
+      "POLICYHOLDERURL": "http://69.164.195.59:8080/policyholderabc/"
+    }
+  ]

@@ -1,0 +1,77 @@
+{"DiamondClarities" : {
+
+    "Flawless" : "IF",
+    
+    "Very Very Slightly Included 1" : "VVS1",
+    
+    "Very Very Slightly Included 2" : "VVS2",
+    
+    "Very Slightly Included 1" : "VVS1",
+    
+    "Very Slightly Included 2" : "VVS2",
+    
+    "Slightly Included 1" : "SI1",
+    
+    "Slightly Included 2" : "SI2",
+    
+    "Slightly Included 3" : "SI3",
+    
+    "Included 1" : "I1",
+    
+    "Included 2" : "I1",
+    
+    "Included 3" : "I3",
+    "I1":"I1"
+    
+    },
+    
+     
+    
+    "CutGrades":{
+    
+    "Fair" :"F",   
+    
+    "GOOD" : "G",
+    
+    "V. GOOD":"VG",
+    
+    "EXCELLENT" : "EX",
+    
+    "POOR" : "P",
+    
+    "NONE" : "N"
+    
+    },
+    
+     
+    
+    "MetalTypes" : {
+    
+    "10K":"14K",
+    
+    "14K":"14K",
+    
+    "18K":"18K",
+    
+    "20K or More":"20K",
+    
+    "Platinum":"PL",
+    
+    "Sterling Silver":"SS",
+    
+    "Other":"NA"
+    
+    },
+    
+                   
+    
+     
+    
+    "MetalWeights" :{
+    
+    "grams":"GR",
+    
+    "DWT":"DWT"
+    
+    }  
+} 

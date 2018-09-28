@@ -1,0 +1,56 @@
+﻿{
+  "LabelText":{
+    "NewAppraisalReviewRequests": "New Appraisal Review Requests",
+    "Agency":"Agency Name",
+    "Appraisal":"Appraisal #",
+    "ItemType":"Item Type",
+    "SubmittedDate":"Submitted Date",
+    "Policy":"Policy #",
+    "Policyholder":"Policy Holder",
+    "SpeedCheckAppraisalDate":"SpeedCheck Appraisal Date",
+    "InsuranceReplacementValue":"Insurance Replacement Value",
+    "Status":"Status",
+    "Date":"Date",
+    "Action":"Action",
+    "NoAlertText": "No new messages available",
+    "NoAppraisalText": "No new appraisal available",
+    "ViewAll":"View All",
+    "OpenAppraisals":"Open Appraisals",
+    "AvgApprovalTime": "Avg. Approval Time",
+    "ItemRenewal":"Item Renewal %",
+    "Alerts":"Alerts",
+    "KPIs":"KPI's" ,
+    "InsuranceCompanyName":"Insurance Company",
+    "TeamPerformance" : "Team Performance",
+    "ToDoList" : "To Do List",
+    "Associate" : "Associate",
+    "OverdueAppraisals" : "Overdue Appraisals",
+    "AppraisalsToReview" : "Appraisals to Review"
+  },
+  
+  "SearchPolicy": "Policy #, Policyholder's Name",
+
+
+  "ControlText": {
+    
+  },
+  
+  "FormControlText": {
+    
+  },
+  "Radio": {
+    
+  },
+
+  "AlertMessage": {
+    
+  },
+  "ErrorMessage": {
+   
+  },
+
+  "SearchforComparablesText": "Search For More Comparable"
+   
+}
+
+

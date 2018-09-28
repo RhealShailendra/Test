@@ -1,0 +1,65 @@
+﻿<div class="col-md-12 col-sm-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GotoDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"PurchaseOrderMapping"|translate}}</span>
+        </li>
+
+    </ul>
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+    <div class="portlet light padding1px">
+        <div class="portlet-title padding1px">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject">{{"PurchaseOrderMapping"|translate}}</span>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12  margin-top-10 text-right">
+            <button id="sample_editable_1_new" class="btn sbold btnMargin btnOptions" ng-click="GotoDashboard()">
+                {{"Cancel"|translate}}
+            </button>
+            <button id="sample_editable_1_new" class="btn sbold btnMargin" ng-click="SaveMapping()">
+                {{"Save"|translate}}
+            </button>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="col-md-12 BackgroundGray padding1px">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 Label_Text_Right">
+                            <label class="control-label form-group">{{"PurchaseOrderType"|translate}}</label>
+                        </div>
+                        <div class="col-md-5 col-sm-6 col-lg-5 col-xs-6 text-center">
+                            <label class="control-label form-group">{{"Department"|translate}}</label>
+                        </div>                        
+                        <div class="clearfix"></div>
+                    </div>                    
+                    <div class="col-md-12 col-sm-12 margin-top-10" ng-repeat="PurchaseOrder in PurchaseOrderType">
+                        <div class="col-md-6 col-sm-6 col-lg-6 col-xs-6 Label_Text_Right">
+                            <label class="control-label form-group">{{PurchaseOrder.name}}</label>
+                        </div>
+                        <div class="col-md-5 col-sm-6 col-lg-5 col-xs-6 text-center padding1px">
+                            <select class="form-control select2me" ng-model="PurchaseOrder.deptid" name="Department"
+                                    placeholder='{{"ControlText.SelectType"|translate}}' ng-options="item.id as item.departmentName for item in DepartmentList"></select>
+                   
+                         </div>
+                    </div>                    
+                    <div class="col-md-12 col-sm-12 padding1px margin-top-10 text-right topBorder">
+                        <div class="col-md-12 col-sm-12 padding1px margin-top-10">
+                            <button id="sample_editable_1_new" class="btn sbold btnMargin btnOptions" ng-click="GotoDashboard()">
+                                {{"Cancel"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new" class="btn sbold btnMargin" ng-click="SaveMapping()">
+                                {{"Save"|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

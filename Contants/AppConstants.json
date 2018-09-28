@@ -1,0 +1,258 @@
+﻿{
+  "RoleList": [
+    {
+      "Roles": [ "VENDOR MANAGER" ],
+      "Home": "/ThirdPartyVendorDashboard",
+      "Screens": [
+        {
+          "ScreenCode": "ThirdPartyVendorDashboard",
+          "URL": "ThirdPartyVendorDashboard"
+        },
+        {
+          "ScreenCode": "ThirdPartyAllClaims",
+          "URL": "ThirdPartyAllClaims"
+        },
+        {
+          "ScreenCode": "ThirdPartyVendorCatalog",
+          "URL": "ThirdPartyVendorCatalog"
+        },
+        {
+          "ScreenCode": "ClaimAssociates",
+          "URL": "ClaimAssociates"
+        },
+        {
+          "ScreenCode": "BillsAndPayment",
+          "URL": "BillsAndPayment"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        }
+      ]
+    },
+     {
+      "Roles": [ "VENDOR SUPERVISOR" ],
+      "Home": "/supervisorDashboard",
+      "Screens": [
+        {
+          "ScreenCode": "supervisorDashboard",
+          "URL": "supervisorDashboard"
+        },
+        {
+          "ScreenCode": "ThirdPartyAllClaims",
+          "URL": "ThirdPartyAllClaims"
+        },
+        {
+          "ScreenCode": "BillsAndPayment",
+          "URL": "BillsAndPayment"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "VENDOR COMPANY ADMINISTRATOR" ],
+      "Home": "/CompanyDetails",
+      "Screens": [
+        {
+          "ScreenCode": "ThirdPartyVendorCatalog",
+          "URL": "ThirdPartyVendorCatalog"
+        },
+        {
+          "ScreenCode": "ClaimAssociates",
+          "URL": "ClaimAssociates"
+        },
+        {
+          "ScreenCode": "ThirdPartyVendorAdministration",
+          "URL": "ThirdPartyVendorAdministration"
+        },
+        {
+          "ScreenCode": "ServiceRequestOffered",
+          "URL": "ServiceRequestOffered"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        },
+        {
+          "ScreenCode": "VendorSupplier",
+          "URL": "VendorSupplier"
+        }
+      ]
+    },
+    {
+      "Roles": [ "VENDOR CONTACT" ],
+      "Home": "/ThirdPartyVendorDashboard",
+      "Screens": [
+        {
+          "ScreenCode": "ThirdPartyVendorDashboard",
+          "URL": "ThirdPartyVendorDashboard"
+        },
+        {
+          "ScreenCode": "ThirdPartyAllClaims",
+          "URL": "ThirdPartyAllClaims"
+        },
+        {
+          "ScreenCode": "ThirdPartyVendorCatalog",
+          "URL": "ThirdPartyVendorCatalog"
+        },
+        {
+          "ScreenCode": "BillsAndPayment",
+          "URL": "BillsAndPayment"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "VENDOR ASSOCIATE" ],
+      "Home": "/VendorAssociateDashboard",
+      "Screens": [
+        {
+          "ScreenCode": "VendorAssociateDashboard",
+          "URL": "VendorAssociateDashboard"
+        },
+        {
+          "ScreenCode": "ThirdPartyAllClaims",
+          "URL": "ThirdPartyAllClaims"
+        },
+        {
+          "ScreenCode": "AssociateVendorCatalog",
+          "URL": "AssociateVendorCatalog"
+        },
+        {
+          "ScreenCode": "BillsAndPayment",
+          "URL": "BillsAndPayment"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "SHIPPING ADMINISTRATOR" ],
+      "Home": "/SalesOrders",
+      "Screens": [
+       { "ScreenCode": "SalesOrders", "URL": "SalesOrders" }
+      ]
+    },
+    {
+      "Roles": [ "SALES CO-ORDINATOR" ],
+      "Home": "/SalesOrders",
+      "Screens": [
+        {
+          "ScreenCode": "SalesOrders",
+          "URL": "SalesOrders"
+        }
+      ]
+    },
+     {
+      "Roles": [ "ACCOUNTING ADMINISTRATOR" ],
+      "Home": "/ClaimBills",
+      "Screens": [
+        {
+          "ScreenCode": "AccountsReceivable",
+          "URL": "ClaimBills"
+        },
+        {
+          "ScreenCode": "AccountsPayable",
+          "URL": "ClaimBills"
+        },
+        {
+          "ScreenCode": "AllInvoices",
+          "URL": "AllInvoices"
+        }
+      ]
+     },
+    {
+      "Roles": [ "GEMLAB ADMINISTRATOR" ],
+      "Home": "/GemlabDashboard",
+      "Screens": [
+        {
+          "ScreenCode": "GemlabDashboard",
+          "URL": "GemlabDashboard"
+        },
+        {
+          "ScreenCode": "salvageDashboard",
+          "URL": "salvageDashboard"
+        },
+        {
+          "ScreenCode": "ItemDetails",
+          "URL": "ItemDetails"
+        },
+        {
+          "ScreenCode": "Reports",
+          "URL": "Reports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "SPEEDCHECK CONTACT" ],
+      "Home": "/OpenAssignments",
+      "Screens": [
+        {
+          "ScreenCode": "OpenAssignments",
+          "URL": "OpenAssignments"
+        },
+        {
+          "ScreenCode": "SpeedCheckAllAppraisals",
+          "URL": "SpeedCheckAllAppraisals"
+        },
+        {
+          "ScreenCode": "SpeedCheckReports",
+          "URL": "SpeedCheckReports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "SPEEDCHECK ASSOCIATE" ],
+      "Home": "/SpeedCheckAssociate",
+      "Screens": [
+        {
+          "ScreenCode": "OpenAssignments",
+          "URL": "OpenAssignments"
+        },
+        {
+          "ScreenCode": "SpeedCheckAssociate",
+          "URL": "SpeedCheckAssociate"
+        },
+        {
+          "ScreenCode": "SpeedCheckAllAppraisals",
+          "URL": "SpeedCheckAllAppraisals"
+        },
+        {
+          "ScreenCode": "SpeedCheckReports",
+          "URL": "SpeedCheckReports"
+        }
+      ]
+    },
+    {
+      "Roles": [ "SPEEDCHECK SUPERVISOR" ],
+      "Home": "/SpeedCheckSupervisor",
+      "Screens": [
+        {
+          "ScreenCode": "OpenAssignments",
+          "URL": "OpenAssignments"
+        },
+        {
+          "ScreenCode": "SpeedCheckSupervisor",
+          "URL": "SpeedCheckSupervisor"
+        },
+        {
+          "ScreenCode": "SpeedCheckAllAppraisals",
+          "URL": "SpeedCheckAllAppraisals"
+        },
+        {
+          "ScreenCode": "SpeedCheckReports",
+          "URL": "SpeedCheckReports"
+        }
+      ]
+    }
+  ]
+  
+}

@@ -1,0 +1,340 @@
+﻿<style>
+    .backgroundRed {
+        background-color: #ff6a00;
+        color: white;
+        font-size: 30px;
+    }
+
+    .hideClass {
+        display: none;
+    }
+</style>
+<div class="col-md-12">
+    <div class="col-md-12 portlet light bordered">
+        <div class="portlet-body">
+            <div class="row">
+                <uib-tabset active="" type="pills" Justified="true">
+                    <!--Company details-->
+                    <uib-tab heading={{"TabHeaderTitle.CompanyDetails"|translate}}>
+                        <div class="row" ng-form="CompanyDetails">
+                            <div class="col-md-12 ">
+                                <div class="caption font-green-sharp col-md-6 col-xs-10 col-sm-6">
+                                    <span class="caption-subject bold">
+                                        <i class="fa fa-gear"></i>
+                                        {{"HeaderText.VendorSettings"|translate}}
+                                    </span>
+                                </div>
+                                <div class="caption font-green-sharp col-md-6 col-xs-10 col-sm-6 pull-right text-right">
+                                    <button id="sample_editable_1_new" ng-disabled="CompanyDetails.$invalid||CompanyDetails.$pristine" class="btn sbold  btnMargin">
+                                        <i class="fa fa-save"></i>
+                                        {{"Label.Save"|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="portlet">
+                                <div class="portlet-title"></div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.VendorName"|translate}}{{VendorDetails.vendorName}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control" required name="Name" ng-model="VendorDetails.vendorName" type="text" placeholder="{{'Label.VendorName'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="CompanyDetails.Name.$error.required && CompanyDetails.Name.$touched">{{"VendorNameRequired"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.CompanyWeb"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control"required name="Website" ng-model="VendorDetails.website" type="text" placeholder="{{'Label.CompanyWeb'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="CompanyDetails.Website.$error.required && CompanyDetails.Website.$touched">{{"CompanyWebsiteRequired"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.OfficeAddress"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control margin-bottom-10" ng-model="VendorDetails.address.streetAddressOne" type="text" placeholder="{{'Label.AddressLine1'|translate}}" />
+                                            <input class="form-control margin-bottom-10" ng-model="VendorDetails.address.streetAddressTwo" type="text" placeholder="{{'Label.AddressLine2'|translate}}" />
+                                            <input class="form-control margin-bottom-10" ng-model="VendorDetails.address.city" type="text" placeholder="{{'Label.City'|translate}}" />
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                                                <select class="form-control select2me" ng-model="VendorDetails.address.state.id" placeholder='{{"FormControl.State"|translate}}'>                                                  
+                                                    <option ng-repeat="State in ddlStateList" value="{{State.id}}">{{State.state}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorDetails.address.zipcode" placeholder='{{"Label.ZipCode"|translate}}' />
+                                            </div>
+                                        </div>
+
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.BillingAddress"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control margin-bottom-10" type="text" ng-model="VendorDetails.billingAddress.streetAddressOne" placeholder="{{'Label.AddressLine1'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" ng-model="VendorDetails.billingAddress.streetAddressTwo" placeholder="{{'Label.AddressLine2'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" ng-model="VendorDetails.billingAddress.city" placeholder="{{'Label.City'|translate}}" />
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                                                <select class="form-control select2me" ng-model="VendorDetails.billingAddress.state.id" placeholder='{{"Label.State"|translate}}'>
+                                                    <option ng-repeat="State in ddlStateList" value="{{State.id}}">{{State.state}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorDetails.billingAddress.zipcode" placeholder='{{"Label.ZipCode"|translate}}' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.Phone"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control " ng-model="VendorDetails.dayTimePhone" type="text" placeholder="{{'Label.Phoneeg'|translate}}" />
+
+                                        </div>
+
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.Fax"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control " ng-model="VendorDetails.faxNumber" type="text" placeholder="{{'Label.Fax'|translate}}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 margin-bottom-10">
+                                    <div class="caption font-green-sharp col-md-12 col-xs-12 col-sm-12">
+                                        <span class="caption-subject bold">
+                                            <i class="fa fa-gear"></i>
+                                            {{"HeaderText.VendorContactSettings"|translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="portlet">
+                                    <div class="portlet-title"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.FirstName"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control" ng-model="VendorDetails.contactPersons[0].FirstName" required name="FirstName" type="text" placeholder="{{'Label.FirstName'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="CompanyDetails.FirstName.$error.required && CompanyDetails.FirstName.$touched">{{"FirstNameRequired"|translate}}</span>
+
+                                            </div>
+                                        </div>
+
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.LastName"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control" ng-model="VendorDetails.contactPersons[0].LastName" required name="LastName" type="text" placeholder="{{'Label.LastName'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="CompanyDetails.LastName.$error.required && CompanyDetails.LastName.$touched">{{"LastNameRequired"|translate}}</span>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.Email"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4"> 
+                                            <input class="form-control" ng-model="VendorDetails.contactPersons[0].Email" type="email" pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required name="Email" placeholder="{{'Label.Email'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="CompanyDetails.Email.$error.required && CompanyDetails.Email.$touched">{{"EmailRequiredRequired"|translate}}</span>
+                                                <span class="text-danger" ng-show="CompanyDetails.Email.$error.pattern">{{"ValidEmail"|translate}}</span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.Fax"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control " ng-model="VendorDetails.contactPersons[0].faxNumber" type="text" placeholder="{{'Label.Fax'|translate}}" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.PhoneWork"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control "  ng-model="VendorDetails.contactPersons[0].workPhoneNumber" type="text" placeholder="{{'Label.Phoneeg'|translate}}" />
+
+                                        </div>
+
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.PhoneMobile"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control " ng-model="VendorDetails.contactPersons[0].mobilePhoneNumber" type="text" placeholder="{{'Label.Phoneeg'|translate}}" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </uib-tab>
+                    <!--end Company details-->
+                    <!--Remittance details-->
+                    <uib-tab heading={{"TabHeaderTitle.RemittanceDetails"|translate}}>
+                        <div class="row" ng-form="RemittanceDetailsForm">
+                            <div class="col-md-12">
+                                <div class="caption font-green-sharp col-md-6 col-xs-10 col-sm-6">
+                                    <span class="caption-subject bold">
+                                        <i class="fa fa-gear"></i>
+                                        {{"HeaderText.GeneralInformation"|translate}}
+                                    </span>
+                                </div>
+                                <div class="caption font-green-sharp col-md-6 col-xs-10 col-sm-6 pull-right text-right">
+                                    <button id="sample_editable_1_new" ng-disabled="RemittanceDetailsForm.$invalid||RemittanceDetailsForm.$pristine" class="btn sbold btnMargin">
+                                        <i class="fa fa-save"></i>
+                                        {{"Label.Save"|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="portlet">
+                                <div class="portlet-title"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-4 col-sm-6  control-label">{{"Label.FEIN"|translate}}</label>
+                                        <div class="col-md-3 col-sm-6">
+                                            <input class="form-control" required name="FEIN" ng-model="RemittanceDetails.FEIN" type="text" placeholder="{{'FEIN'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="RemittanceDetailsForm.FEIN.$error.required && RemittanceDetailsForm.FEIN.$touched">{{"FEINRequired"|translate}}</span>
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-4 col-sm-6  control-label">{{"Label.NAICS"|translate}}</label>
+                                        <div class="col-md-3 col-sm-6">
+                                            <input class="form-control" ng-model="RemittanceDetails.NAICS"  required name="NAICS" type="text" placeholder="{{'NAICS'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="RemittanceDetailsForm.NAICS.$error.required && RemittanceDetailsForm.NAICS.$touched">{{"NAICSRequired"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 margin-bottom-10">
+                                    <div class="caption font-green-sharp col-md-12 col-xs-12 col-sm-12">
+                                        <span class="caption-subject bold">
+                                            <i class="fa fa-gear"></i>
+                                            {{"HeaderText.RemitToInformation"|translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="portlet">
+                                    <div class="portlet-title"></div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.RemitTocaontactName"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control" required name="Name" ng-model="RemitInfo.Name" type="text" placeholder="{{'Label.RemitTocaontactName'|translate}}" />
+                                            <div class="errormessage">
+                                                <span class="text-danger" ng-show="RemittanceDetailsForm.Name.$error.required && RemittanceDetailsForm.Name.$touched">{{"RemittanceContactNameRequired"|translate}}</span>
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-2 col-sm-2  control-label">{{"Label.RimitToAddress"|translate}}</label>
+                                        <div class="col-md-3 col-sm-4">
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.AddressLine1'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.AddressLine2'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.City'|translate}}" />
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                                                <select class="form-control select2me" placeholder='{{"FormControl.State"|translate}}'>
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="State in ddlStateList" value="{{State.id}}">{{State.state}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="NewVendor.ShippingZipCode" placeholder='{{"Label.ZipCode"|translate}}' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 margin-bottom-10">
+                                    <div class="caption font-green-sharp col-md-12 col-xs-12 col-sm-12">
+                                        <span class="caption-subject bold">
+                                            <i class="fa fa-gear"></i>
+                                            {{"HeaderText.BankInformation"|translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="portlet">
+                                    <div class="portlet-title"></div>
+                                </div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <div class="col-md-12 margin-bottom-10">
+                                        <label class="col-md-4 col-sm-12  control-label">{{"Label.AccountNumber"|translate}}</label>
+                                            <div class="col-md-7 col-sm-12">
+                                                <input class="form-control " type="text" placeholder="{{'Label.AccountNumber'|translate}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 margin-bottom-10">
+                                            <label class="col-md-4 col-sm-12  control-label">{{"Label.RoutingNumber"|translate}}</label>
+                                            <div class="col-md-7 col-sm-12">
+                                                <input class="form-control " type="text" placeholder="{{'Label.RoutingNumber'|translate}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 margin-bottom-10">
+                                            <label class="col-md-4 col-sm-12  control-label">{{"Label.BankName"|translate}}</label>
+                                            <div class="col-md-7 col-sm-12">
+                                                <input class="form-control " type="text" placeholder="{{'Label.BankName'|translate}}" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 margin-bottom-10">
+                                            <label class="col-md-4 col-sm-12  control-label">{{"Label.Phone#"|translate}}</label>
+                                            <div class="col-md-7 col-sm-12">
+                                                <input class="form-control " type="text" placeholder="{{'Label.Phoneeg'|translate}}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="col-md-12 col-sm-12 form-group">
+                                        <label class="col-md-4 col-sm-12  control-label">{{"Label.BankAddress"|translate}}</label>
+                                        <div class="col-md-6 col-sm-12">
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.AddressLine1'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.AddressLine2'|translate}}" />
+                                            <input class="form-control margin-bottom-10" type="text" placeholder="{{'Label.City'|translate}}" />
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                                                <select class="form-control select2me" placeholder='{{"FormControl.State"|translate}}'>
+                                                    <option value="">Select</option>
+                                                    <option ng-repeat="State in ddlStateList" value="{{State.id}}">{{State.state}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="NewVendor.ShippingZipCode" placeholder='{{"Label.ZipCode"|translate}}' />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </uib-tab>
+                    <!-- end Remittance details-->
+                </uib-tabset>
+
+
+            </div>
+        </div>
+    </div>
+</div>

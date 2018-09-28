@@ -1,0 +1,18 @@
+﻿{
+  "ControlText": {
+    "Cat_CategoryId": "Category Id",
+    "Cat_Name": "Name",
+    "AnnualDepreciation": "Annual Depreciation",
+    "SubcategoryDetails": "Subcategory Details",
+    "UsefulYears": "Useful Years"
+  },
+  "btn": {
+    "Save": "Save",
+    "Cancel": "Cancel"
+  },
+   "ErrorMessage": {
+    "Cat_Name": "Category is required field",
+    "AnnualDepreciation": "Annual Depreciation is required",
+    "UsefulYears": "Useful Years is required"
+  }
+}

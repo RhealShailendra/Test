@@ -1,0 +1,50 @@
+﻿{
+  "HeaderText": {
+    "ClaimsTobeAssigned": "Claims To be Assigned",
+    "Claimsinwork": "Claims in work",
+    "WaitingForInsuranceCompany": "Claims waiting for approval from insurance company",
+    "WaitingForPolicyHolder": "Claims waiting for information from policyholder"
+  },
+  "ControlText": {
+    "LoadFromFile": "Load from file",
+    "Export": "Export",
+    "Assign_title": "Assign",
+    "Reject_title": "Reject",
+    "ViewDropDown_Title": "View",
+    "NoRecordddl_Title": "Show",
+    "Search_Placeholder": "Search...",
+    "Show": "Show",
+    "Search": "Search",
+    "Date": "Date",
+    "ReportDate": "Report Date",
+    "To": "To",
+    "AllClaims": "All Claims ",
+    "ThisMonth": "This Month ",
+    "Last3Months": "Last 3 Months"
+  },
+  "Table": {
+
+    "Claim": "Claim #",
+    "InsurenceCompany": "Insurence Company",
+    "Adjuster": "Adjuster",
+    "#Item": "# Of Items",
+    "ServiceRequested": "Service Requested",
+    "Status": "Status",
+    "ReportDate": "Report Date",
+    "LastUpdate": "Last Update",
+    "LastNote": "LastNote",
+    "Type": "Type",
+
+    "Assignment": "Assignment #",
+    "ofItem": "# of Item",
+    "InsuredName": "Insured's Name",
+    "AssignDate": "Assign Date",
+    "TimeTaken": "TimeTaken"
+
+  },
+  "SearchText": "Search Reference #, Insured's Name, Phone #",
+  "GlobalSearchText": "Serach ...Any Claim #, Policyholder",
+  "NoRecordText": "No Records Available",
+  "AllClaims": "All Claims",
+  "Home": "Home"
+}

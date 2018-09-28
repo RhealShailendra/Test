@@ -1,0 +1,164 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption font-grey-sharp">
+                    <span class="caption-subject">{{"ControlText.AllInvoices" | translate}}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <!-- Search start -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-12 col-sm-12 well" style="padding:4px!important;">
+                            <div class="col-md-12 col-sm-12">
+                                <h4 class="sbold">{{"Filters"|translate}}</h4>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 margin-top-10 margin-bottom-5">
+                                <div class="col-lg-2 col-md-2 col-sm-3  bold text-right"> {{"ControlText.Show" | translate}}</div>
+                                <div class="col-md-9 col-sm-9 col-sm-12 padding1px">
+                                    <ul class="nav nav-pills padding5">
+                                        <li class="active">
+                                            <a data-toggle="tab" ng-click="searchByDate('All')" aria-expanded="false">{{"ControlText.AllInvoices" | translate}}</a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" ng-click="searchByDate('ThisMonth')" aria-expanded="true"> {{"ControlText.ThisMonth" | translate}}</a>
+                                        </li>
+                                        <li class="">
+                                            <a data-toggle="tab" ng-click="searchByDate('Last3Month')" aria-expanded="true">{{"ControlText.Last3Months" | translate}} </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 margin-top-5" id="cal">
+                                <div class="col-lg-2 col-md-2 col-sm-3  bold text-right"> {{"Invoice Date" | translate}}</div>
+                                <div class="col-lg-2 col-md-2 col-sm-3">
+                                    <div class="input-icon left">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" ng-model="Filter.startDate" data-date-container='#cal' required close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"ControlText.Date"|translate}}' name="fromDate" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 bold text-right">{{"ControlText.To" | translate}}</div>
+                                <div class="col-lg-2 col-sm-3 col-md-2">
+                                    <div class="input-icon left  ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" ng-model="Filter.endDate" data-date-container='#cal' required close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"ControlText.Date"|translate}}' name="toDate" />
+                                    </div>
+                                </div>
+                                <div>
+                                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="filterInvoices()">
+                                        {{"Search"|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 margin-top-10 margin-bottom-5">
+                                <div class="col-lg-2 col-md-2 col-sm-3  bold text-right"> {{"ControlText.insuranceCompany" | translate}}</div>
+                                <div class="col-md-9 col-sm-9 col-sm-12 padding1px">
+                                    <div class="col-md-3 col-sm-4 pull-left">
+                                        <select class="input-sm select2me" data-placeholder="select" ng-model="ClaimFilter" ng-change="filterInvoices()"></select>                              
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 margin-top-5 margin-bottom-10">
+                                <div class="col-lg-2 col-md-2 col-sm-3  bold text-right"> {{"ControlText.associate" | translate}}</div>
+                                <div class="col-md-9 col-sm-9 col-sm-12 padding1px">
+                                    <div class="col-md-3 col-sm-4 pull-left">
+                                        <select class="input-sm select2me" data-placeholder="select" ng-model="ClaimFilter" ng-change="filterInvoices()"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Search End -->
+                <!-- Claims grid start -->
+                <div class="row">
+                    <!--all claims-->
+                    <div class="col-md-12 col-sm-12  table-responsive">
+                        <div class="col-md-12  options_Background padding1px">
+                            <div class="col-md-12 col-sm-12 margin-bottom-5 margin-top-5">
+                                <div class="col-md-4 col-sm-6 pull-right">
+                                    <div class="input-icon left">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" ng-model="search" class="form-control form-control-solid input-circle input-block-level btnMargin" placeholder="{{'ControlText.Search_Placeholder' | translate}}">
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                            <thead>
+                                <tr>
+                                    <th ng-click="sort('claimNumber')">
+                                        {{"Invoice #" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='invoiceNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('total')">
+                                        {{"Total $" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='total'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('assignment')">
+                                        {{"Assignment#" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='assignment'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('clamiNo')">
+                                        {{"Claim #" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='clamiNo'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('company')">
+                                        {{"Insurance Company" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='company'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('adjuster')">
+                                        {{"Adjuster Name" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='adjuster'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('createdDate')">
+                                        {{"Created Date" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='createdDate'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('dueDate')">
+                                        {{"Due Date" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='dueDate'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                    <th ng-click="sort('status')">
+                                        {{"status" | translate}}
+                                        <span class="glyphicon sort-icon" ng-show="sortKey=='dueDate'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in AllInvoices|orderBy:sortKey:reverse|filter:searchNewClaim">
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.invoiceNumber}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.amount}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.assignmentNumber}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.claimDetails.claimNumber}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.associate.name}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.createDate|DateFormatMMddyyyy}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.dueDate|DateFormatMMddyyyy}}</td>
+                                    <td ng-click="GotoInvoiceDetails(item)">{{item.status.status}}</td>
+                                </tr>
+                                <tr ng-if="(claimsList===null )||(claimsList.length ===0)">
+                                    <td colspan="7" class="text-danger sbold text-center">No records avaliable</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            </tfoot>
+                        </table>
+                        <dir-pagination-controls max-size="3" ng-if="claimsList!=null" pagination-id="AllClaims"
+                                                 direction-links="true"
+                                                 boundary-links="true" class="pull-right">
+                        </dir-pagination-controls>
+
+                    </div>
+
+                </div>
+                <!-- Claims grid end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+

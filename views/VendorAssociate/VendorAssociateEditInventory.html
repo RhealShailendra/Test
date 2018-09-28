@@ -1,0 +1,159 @@
+﻿<div class="row">
+
+    <div class="col-md-12">
+        <div class="col-md-12 clearfix">
+            <span class="bold caption"><a href="#" ng-click="goToDashboard()">{{"ControlText.MyClaims"|translate}}</a> &nbsp; > &nbsp; <a href="#" ng-click="GotoInventoryItem()">{{"ControlText.Inventory"|translate}}</a> &nbsp; > &nbsp;{{"MainHeader.ItemDetails" | translate}}</span>
+        </div>
+        <div class="col-md-12 padding1px">
+
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green-sharp">
+                        <i class="icon-settings font-green-sharp"></i>
+                        <span class="caption-subject ">{{"MainHeader.ItemDetails" | translate}}</span>
+                    </div>
+                    <div class="tools">
+                        <a href="" class="collapse"> </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <!--all claims-->
+                        <div class="col-md-12 col-sm-12" ng-form="Inventory">
+                            <div class="portlet light bordered">
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <!--top buttons-->
+                                        <div class="col-md-12 text-right">
+                                            <button id="sample_editable_1_new pull-left" class="btn sbold btnMargin" ng-click="GotoInventoryItem()">
+                                                <i class="fa fa-arrow-left"></i>
+                                                {{"btn.back"|translate}}
+                                            </button>
+                                            <button id="sample_editable_1_new" class="btn sbold btnMargin" ng-disabled="Inventory.$invalid || Inventory.$pristine" ng-click="SaveCatalogToInventory($event)">
+                                                <i class="fa fa-save"></i>
+                                                {{"btn.update"|translate}}
+                                            </button>
+                                        </div>
+                                        <div class="portlet">
+                                            <div class="portlet-title">
+                                                <!--Keep this empty just took for horizontal line-->
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2  control-label">{{"Label.ItemId"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " readonly ng-model="ItemDetails.id" type="text" placeholder="{{'Label.ItemId'|translate}}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2  control-label">{{"Label.ItemName"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " name="ItemName" required ng-model="ItemDetails.itemName" type="text" placeholder="{{'Label.ItemName'|translate}}" />
+                                                    <div ng-message="required" ng-show="(Inventory.ItemName.$error.required && Inventory.ItemName.$touched)">
+                                                        <span class="text-danger">{{"ErrorMessage.ItemName"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-2 col-sm-2 col-md-offset-2 control-label">{{"Label.Model"|translate}} </label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control" name="Model" required ng-model="ItemDetails.model" type="text" placeholder="{{'Label.Model'|translate}}" />
+                                                    <div ng-message="required" ng-show="(Inventory.Model.$error.required && Inventory.Model.$touched)">
+                                                        <span class="text-danger">{{"ErrorMessage.Model"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2  control-label">{{"Label.ItemType"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <select class="input-sm select2me" name="ItemType" required ng-model="ItemDetails.itemType.id" data-placeholder="Select Item Type"
+                                                            ng-options="option.id as option.name for option in ItemTypeList"></select>
+                                                    <div ng-message="required" ng-show="(Inventory.ItemType.$error.required && Inventory.ItemType.$touched)">
+                                                        <span class="text-danger">{{"ErrorMessage.ItemType"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-2 col-sm-2 col-md-offset-2 control-label">{{"Label.PricePerUnit"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control" required name="price" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="ItemDetails.unitPrice" type="text" placeholder="{{'Label.PricePerUnit'|translate}}" />
+                                                    <div ng-message="pattern" ng-show="(Inventory.price.$error.pattern)">
+                                                        <span class="text-danger">{{"ErrorMessage.ValidNumbers"|translate}}</span>
+                                                    </div>
+                                                    <div ng-message="required" ng-show="(Inventory.price.$error.required && Inventory.price.$touched)">
+                                                        <span class="text-danger">{{"ErrorMessage.price"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2 control-label">{{"Label.Discount"|translate}} </label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " name="Discount" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="ItemDetails.discountPercent" type="text" placeholder="{{'Label.Discount'|translate}}" />
+                                                    <div ng-message="pattern" ng-show="(Inventory.Discount.$error.pattern)">
+                                                        <span class="text-danger">{{"ErrorMessage.ValidNumbers"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-2 col-sm-2 col-md-offset-2 control-label">{{"Label.TaxRate"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " name="Tax" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="ItemDetails.taxRate" type="text" placeholder="{{'Label.TaxRate'|translate}}" />
+                                                    <div ng-message="pattern" ng-show="(Inventory.Tax.$error.pattern)">
+                                                        <span class="text-danger">{{"ErrorMessage.ValidNumbers"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2 control-label">{{"Label.stockUnit"|translate}} </label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " name="Stock" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" ng-model="ItemDetails.stockUnit" type="text" placeholder="{{'Label.stockUnit'|translate}}" />
+                                                    <div ng-message="pattern" ng-show="(Inventory.Stock.$error.pattern)">
+                                                        <span class="text-danger">{{"ErrorMessage.ValidNumbers"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-2 col-sm-2 col-md-offset-2 control-label">{{"Label.isAvailable"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <select class="form-control  select2me btnMargin" required name="Isavaliable" ng-model="ItemDetails.isAvailable">
+                                                        <option value="true" ng-selected="ItemDetails.isAvailable===true">Yes</option>
+                                                        <option value="false" ng-selected="ItemDetails.isAvailable===false">No</option>
+                                                    </select>
+                                                    <div ng-message="required" ng-show="(Inventory.Isavaliable.$error.required && Inventory.Isavaliable.$touched)">
+                                                        <span class="text-danger">{{"ErrorMessage.Isavaliable"|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2  col-sm-2 control-label">{{"Label.Description"|translate}}</label>
+                                                <div class="col-md-10 col-sm-10">
+                                                    <textarea class="form-control " ng-model="ItemDetails.description" type="text" rows="5" placeholder="{{'Label.Description'|translate}}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-12 col-sm-12 form-group">
+                                                <label class="col-md-2 col-sm-2 control-label">{{"Label.Supplier"|translate}}</label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <input class="form-control " ng-model="ItemDetails.supplierName" type="text" placeholder="{{'Label.Supplier'|translate}}" />
+                                                </div>
+                                                <label class="col-md-2 col-sm-2 col-md-offset-2  control-label">{{"Label.AddedOn"|translate}} </label>
+                                                <div class="col-md-3 col-sm-4">
+                                                    <label class="form-control " ng-if="ItemDetails.id===null ||ItemDetails.id===unDefined">{{date |date:'dd/MM/yyyy'}}</label>
+                                                    <label class="form-control " ng-if="ItemDetails.id!==null && ItemDetails.id!==unDefined">{{ItemDetails.addedOn |date:'dd/MM/yyyy'}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

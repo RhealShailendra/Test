@@ -1,0 +1,44 @@
+﻿
+<div id="myModal">
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancelPopup()" aria-hidden="true"></a>
+            <h5 class="modal-title sbold">{{"Select the item to create a PO against"|translate}}</h5>
+        </div>
+       
+        <div class="modal-body">
+            <div class="col-md-12 padding1px " ng-form="CreateNoteForm" >
+                
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                        <thead>
+
+                            <tr>
+                                <th >
+                                    {{"Item #"|translate}}
+                                </th>
+                                <th>
+                                    {{"Description"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="itemlist  in PostLossItemList" >
+                                <td ng-click="GetPurchaseOrder(itemlist.claimItem.id,itemlist.claimItem.description,itemlist.claimItem.itemNumber)"> {{itemlist.claimItem.itemNumber}}</td>
+                                <td ng-click="GetPurchaseOrder(itemlist.claimItem.id,itemlist.claimItem.description,itemlist.claimItem.itemNumber)">{{itemlist.claimItem.description}}</td>
+                              
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline dark" ng-click="cancelPopup()">{{"Cancel"|translate}}</button>
+          
+        </div>
+    </div>
+</div>
+

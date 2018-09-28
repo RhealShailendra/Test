@@ -1,0 +1,1232 @@
+﻿
+<style>
+    .thirdPartClaimDetailsSectionTabHeight {
+        height: 353px !important;
+        overflow-y: hidden;
+    }
+
+    .AdjParticipantSection {
+        height: 282px !important;
+        overflow-y: auto;
+    }
+
+    .UpdateTax:hover {
+        cursor: pointer;
+    }
+</style>
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="back()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{CommonObj.ClaimNumber}}</span>
+        </li>
+    </ul>
+</div>
+<script type="text/ng-template" id="myPopoverTemplate.html">
+    <a class="form-group" ng-click="CreatePendingtask($event)" style="color: black;">
+        <!--uib-popover="Send task to PH"-->
+        Send task to PH
+    </a>
+</script>
+<div class="row" id="PrintDiv">
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption font-gray-sharp col-md-9 col-sm-6 col-xs-12">
+                <span class="caption-subject">{{"Claim#"|translate}}&nbsp;{{CommonObj.ClaimNumber}} - {{AssginmentDetails.insuredBaseDetails.lastName+", "+AssginmentDetails.insuredBaseDetails.firstName}}</span>
+            </div>
+            <div class="col-md-2 col-sm-6 col-xs-12 col-lg-2 pull-right padding1px margin-bottom-10">
+                <select class="input-small select2me form-control pull-right" ng-model="ClaimStatusContent.claimStatus.id" ng-change="SetCurrentStageID()"
+                        data-placeholder="Claim status" ng-options="item.id as item.status for item in  ClaimStatusList"></select>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+
+                    <div class="col-xs-12 visible-xs margin-bottom-5 clearfix"></div>
+                    <div class="col-md-6 arrowbuttonClaimDetails col-sm-6 col-xs-12 col-lg-6 padding1px" style="margin-top:-5px!important;margin-bottom:4px;">
+                        <center>
+                            <div class="col-lg-12  col-sm-12  col-md-12 col-xs-12 margin-top-10" style="margin-left:auto !important;margin-right:auto !important;">
+                                <div class="clearfix"></div>
+                                <div class="styleflex ClaimStatusHorizontalLineNewClaimDetails" style="margin-bottom: -13px !important;">
+                                    <div class="width16NewClaimDetails " ng-class="{true:'backgreen', false:'backGray'} [CurrentStageNumber > cycle.stageNumber]" ng-repeat="cycle in ClaimStatusList|limitTo:(ClaimStatusList.length-1)" ng-show="ClaimStatusList[$index-1].stageNumber != cycle.stageNumber"></div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="styleflex ClaimStatusNumberNewClaimDetails" id="statusList">
+                                    <div class="width14NewClaimDetails" ng-class="{'margintopleft10  width14NewClaimDetails':($index != 0),'width14NewClaimDetails':($index===0)}" ng-repeat="cycle in ClaimStatusList " ng-show="ClaimStatusList[$index-1].stageNumber != cycle.stageNumber">
+                                        <div class="text-center  ClaimStatus " ng-class="{true:'text-center bold ClaimStatusActive'}[CurrentStageNumber >= cycle.stageNumber]">{{cycle.stageNumber}}</div>
+                                        <span class="ClaimStatusActiveText clearfix " ng-class="{true:'font-green'}[CurrentStageNumber >= cycle.stageNumber]" ng-show="CurrentStageNumber===3 && cycle.stageNumber===3">{{ClaimStatusContent.claimStatus.status}}</span>
+                                        <span class="ClaimStatusActiveText clearfix " ng-class="{true:'font-green'}[CurrentStageNumber >= cycle.stageNumber]" ng-show="CurrentStageNumber===4 && cycle.stageNumber===4">{{ClaimStatusContent.claimStatus.status}}</span>
+                                        <span class="ClaimStatusActiveText clearfix " ng-class="{true:'font-green'}[CurrentStageNumber >= cycle.stageNumber]" ng-show="((CurrentStageNumber!=3 )||(cycle.stageNumber!=3 ))&&((CurrentStageNumber!=4 ) ||(cycle.stageNumber!=4 ))">{{cycle.status}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+                <!--Claim status-->
+                <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10">
+                    <div class="portlet">
+                        <div class="portlet-body " style="margin-top:-10px;">
+                            <div class="tabbable-custom">
+                                <ul class="nav nav-tabs">
+                                    <li ng-class="{'active':ContentTab =='Contents'}">
+                                        <a href="#" data-toggle="tab" ng-click="ContentTab ='Contents'">&nbsp;{{"TabHeaderTitle.Contents"|translate}} &nbsp;</a>
+                                    </li>
+                                    <li ng-class="{'active':ContentTab =='Invoices'}">
+                                        <a href="#" data-toggle="tab" ng-click="ShowInvoicesTab()"> &nbsp;{{"TabHeaderTitle.Invoices"|translate}}&nbsp; </a>
+                                    </li>
+                                    <li ng-class="{'active': ContentTab=='PurchaseOrders'}">
+                                        <a href="#" data-toggle="tab" ng-click="ShowPurchaseOrdersTab()">&nbsp; {{"Purchase Orders"|translate}} &nbsp;</a>
+                                    </li>
+                                    <li ng-class="{'active':ContentTab =='InsuranceCompany'}">
+                                        <a href="#" data-toggle="tab" ng-click="showInsuranceCompany()"> &nbsp;{{"TabHeaderTitle.InsuranceCompany"|translate}} &nbsp;</a>
+                                    </li>
+                                    <li ng-class="{'active':ContentTab =='Salvage'}">
+                                        <a href="#" data-toggle="tab" ng-click="showSalvageTab()"> &nbsp;{{"TabHeaderTitle.Salvage"|translate}} &nbsp;</a>
+                                    </li>
+                                    <li ng-class="{'active':ContentTab =='ClaimSummery'}">
+                                        <a href="#" data-toggle="tab" ng-click="showClaimSummeryTab()"> &nbsp;{{"TabHeaderTitle.ClaimSummery"|translate}} &nbsp;</a>
+                                    </li>
+                                    <!--<li ng-class="{'active':ContentTab =='Reports'}">
+                                        <a href="#" data-toggle="tab" ng-click="ContentTab ='Reports'"> &nbsp;{{"TabHeaderTitle.Reports"|translate}}&nbsp; </a>
+                                    </li>-->
+                                    <!--<li ng-class="{'active':ContentTab =='PolicyDetails'}">
+                                        <a href="#" data-toggle="tab" ng-click="ContentTab ='PolicyDetails'"> &nbsp;{{"TabHeaderTitle.PolicyDetails"|translate}}&nbsp; </a>
+                                    </li>-->
+                                </ul>
+
+                                <div class="tab-content minTabHeight">
+                                    <div class="row">
+                                        <!---Contents Div-->
+                                        <div class="col-md-12  clearfix" ng-show="ContentTab=='Contents'">
+                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                <div class="col-md-12 col-sm-12 text-right" ng-if="claimStatus!='CLOSED'">
+                                                    <button class="btn btnMargin sbold" ng-click="SendClaimToSupervisor()">{{"Supervisor Review"|translate}}</button>
+                                                    <button class="btn btnMargin sbold">{{"Assignment Billed"|translate}}</button>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 text-right" ng-if="claimStatus=='CLOSED'">
+                                                    <!--<button class="btn btnMargin sbold" ng-click="SendClaimToSupervisor()">{{"Supervisor Review"|translate}}</button>-->
+                                                    <button class="btn btnMargin sbold" ng-click="reOpenClaim()">{{"Re-Open"|translate}}</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="col-md-12 col-sm-12 form-group  portlet light bordered thirdPartClaimDetailsSectionTabHeight padding1px">
+                                                    <div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Claim Id "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <span class="control-label">{{CommonObj.ClaimNumber}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Assignment # "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.assignmentNumber}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Assignment Date "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.assignmentDate|DateFormatMMddyyyy}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"End Date "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.assignmentEndDate|DateFormatMMddyyyy}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Service Requested "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.service.name}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Time Elapsed "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.timeElapsed}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Status "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.status.status}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Loss damage type "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.damageType}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Tax % "|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <div ng-show="!isEditTaxRate">
+                                                                    <span class="control-label">
+                                                                        {{AssginmentDetails.taxRate}} &nbsp;&nbsp;
+                                                                        <!--<span ng-click="editTaxRate('1')" class="fa fa-pencil fa-2x UpdateTax" style="font-size: 1.5em;"></span>-->
+                                                                    </span>
+                                                                </div>
+                                                                <div ng-show="isEditTaxRate">
+                                                                    <input class="col-md-6" type="text" numbers-only ng-model="AssginmentDetails.taxRate" />&nbsp;&nbsp;
+                                                                    <span class="fa fa-check font-green-dark UpdateTax" ng-click="changeTaxRate()" style="font-size:20px;line-height:24px;"></span>
+                                                                    <span class="fa fa-close text-danger UpdateTax" ng-click="editTaxRate('0')" style="font-size:20px"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-6 text-right">
+                                                                <label class="control-label">{{"Aggregate Limit"|translate}}</label>
+                                                            </div>
+                                                            <div class="col-md-6 text-left">
+                                                                <span class="control-label">{{AssginmentDetails.aggregateLimit}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-sm-12 padding1px">
+                                                        <div class="col-md-12 col-sm-12 text-center padding1px">
+                                                            <label class="bold" style="font-size:16px">{{"#items assigned"}}</label>
+                                                            <p style="font-size:14px">{{totalAssignedItem}}</p>
+                                                        </div>
+                                                        <!--<div class="col-md-4 text-center padding1px">
+                                                            <label>{{"#items processed"}}</label>
+                                                            <p>56</p>
+                                                        </div>
+                                                        <div class="col-md-4 text-center padding1px">
+                                                            <label>{{"#items to be processed"}}</label>
+
+                                                            <p>56</p>
+                                                        </div>-->
+                                                    </div>
+                                                    <div ng-show="CommonObj.ClaimProfile!='Jewelry'" class="col-md-12 col-sm-12">
+                                                        <div class="col-md-12 col-sm-12  margin-top-10  margin-bottom-10" style="background-color:#f1f4f7;border-radius:2px; padding:4px;height:50px;">
+                                                            <div class="col-md-3 text-center padding1px">
+                                                                <label class="col-md-12 col-sm-12">{{"Total Policy Coverage"}}</label>
+                                                                <span>{{AssginmentDetails.totalPolicyCoverage|currency}}</span>
+                                                            </div>
+                                                            <div class="col-md-3 text-center padding1px">
+                                                                <label class="col-md-12 col-sm-12">{{"Total of ACVs "}}</label>
+                                                                <span>{{AssginmentDetails.totalAcv|currency}}</span>
+                                                            </div>
+                                                            <div class="col-md-3 text-center padding1px">
+                                                                <label class="col-md-12 col-sm-12">{{"Total of RCVs "}}</label>
+                                                                <span>{{AssginmentDetails.totalRcv|currency}}</span>
+                                                            </div>
+                                                            <div class="col-md-3 text-center padding1px">
+                                                                <label class="col-md-12 col-sm-12">{{"Idemnity Savings"}}</label>
+                                                                <span>{{AssginmentDetails.ideminitySaving|currency}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="CommonObj.ClaimProfile=='Jewelry'" class="col-md-12 col-sm-12">
+                                                        <div class="col-md-12 col-sm-12  margin-top-10  margin-bottom-10" style="background-color:#f1f4f7;border-radius:2px; padding:4px;height:50px;">
+                                                            <div class="col-md-12 text-center padding1px">
+                                                                <label class="col-md-12 col-sm-12">{{"Total Policy Coverage"}}</label>
+                                                                <span>{{AssginmentDetails.totalPolicyCoverage|currency}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--<div class="col-md-12 col-sm-12 form-group padding1px">
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Insurance Company "|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{GetInsurancDetails.company.companyName}}</span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Adjuster "|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{GetInsurancDetails.adjuster.lastName+", "+ GetInsurancDetails.adjuster.firstName}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Adjuster Email "|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{GetInsurancDetails.adjuster.email}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Adjuster Phone# "|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{GetInsurancDetails.adjuster.eveningTimePhone|tel}}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-12 padding1px">
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Policyholder Name "|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{AssginmentDetails.insuredBaseDetails.lastName+", "+AssginmentDetails.insuredBaseDetails.firstName}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label"> {{"Policyholder Email "|translate}}</label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{AssginmentDetails.insuredBaseDetails.email}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Policyholder Phone#"|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label">{{AssginmentDetails.insuredBaseDetails.dayTimePhone|tel}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 padding1px">
+                                                                <div class="col-md-6 text-right">
+                                                                    <label class="control-label">{{"Address"|translate}} </label>
+                                                                </div>
+                                                                <div class="col-md-6 text-left">
+                                                                    <span class="control-label" style="word-break:break-all">{{AssginmentDetails.insuredBaseDetails.address.completeAddress}} </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 clearfix">
+                                                <div class="tabbable-customNew">
+                                                    <ul class="nav nav-tabs">
+                                                        <li ng-class="{'active': EventsTab=='Event'}" style="width:25%!important">
+                                                            <a href="#" data-toggle="tab" ng-class="{selected:EventsTab=='Event'}" ng-click="EventsTab ='Event'">&nbsp;{{"TabHeaderTitle.Events"|translate}} &nbsp;</a>
+                                                        </li>
+                                                        <li ng-class="{'active': EventsTab=='Notes'}" style="width:25%!important">
+                                                            <a href="#" data-toggle="tab" ng-class="{selected:EventsTab=='Notes'}" ng-click="EventsTab ='Notes'"> &nbsp;{{"TabHeaderTitle.Notes"|translate}} &nbsp;</a>
+                                                        </li>
+                                                        <!--<li ng-class="{'active': EventsTab=='Participant'}" style="width:25%!important">
+                                                            <a href="#" data-toggle="tab" ng-class="{selected:EventsTab=='Participant'}" ng-click="ShowParticipantsTab()"> &nbsp;{{"TabHeaderTitle.ClaimParticipant"|translate}}&nbsp; </a>
+                                                        </li>-->
+                                                        <li ng-class="{'active': EventsTab=='Attachments'}" style="width:25%!important">
+                                                            <a href="#" data-toggle="tab" ng-class="{selected:EventsTab=='Attachments'}" ng-click="ShowAttachmentsTab()">&nbsp;{{"TabHeaderTitle.Attachments"|translate}}&nbsp; </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="row">
+                                                            <!---Event Tab-->
+                                                            <div class="col-md-12" ng-show="EventsTab=='Event'">
+                                                                <div class="col-md-12 clearfix padding1px options_Background">
+                                                                    <div class="col-md-12 margin-bottom-5 margin-top-5 ">
+                                                                        <button class="btn sbold btnOptions pull-left" ng-click="AddEventPopup($event)">
+                                                                            {{"ControlText.CreateEvent"|translate}}
+                                                                        </button>
+                                                                        <span class="icon-refresh sbold pull-right btnRefresh " ng-click="GetEventList()">
+
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive col-md-12 padding1px  AdjParticipantSection">
+                                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="width:30%">{{"Table.StartTime"|translate}}</th>
+                                                                                <th style="width:30%">{{"Table.Subject"|translate}}</th>
+                                                                                <th style="width:40%">{{"Table.Participant"|translate}} </th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="event in EventList |limitTo:5">
+                                                                                <td ng-click="GetEventDetails(event)">{{event.startTiming |DateFormatMMddyyyyHHmm }}</td>
+                                                                                <td class="tip" ng-click="GetEventDetails(event)"><span class="Overlay" ng-if="event.title.length>25">{{event.title}}</span><span>{{event.title|limitTo:25}}</span><span ng-if="event.title.length>25">..</span></td>
+                                                                                <td class="tip" ng-click="GetEventDetails(event)"><span class="Overlay" ng-if="event.particiapntsTstring.length>30">{{event.particiapntsTstring}}</span><span>{{event.particiapntsTstring|limitTo:30}}</span><span ng-if="event.particiapntsTstring.length>30">..</span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="!EventList.length||EventList===null">
+                                                                                <td class="text-center text-danger" colspan="3">{{"NoRecordText"|translate}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div class="col-lg-12 col-md-12">
+                                                                        <a href="#" class="pull-right" ng-click="GotoAllEvents()">{{"View All Events"}}</a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <!---End Event Tab-->
+                                                            <!--Notes Tab-->
+                                                            <div class="col-md-12" ng-show="EventsTab=='Notes'" ng-form="CreateNoteForm" id="CreateNoteForm">
+                                                                <div class="col-md-12 options_Background padding1px">
+                                                                    <div class="col-md-12 margin-bottom-5 margin-top-5 ">
+                                                                        <button class="btn sbold pull-left btnOptions" ng-click="AddNotePopup($event)">
+                                                                            {{"ControlText.SendNote"|translate}}
+                                                                        </button>
+                                                                        <span class="icon-refresh sbold pull-right btnRefresh " ng-click="GetNotes()"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive col-md-12 padding1px clearfix AdjParticipantSection">
+                                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="display:none;"></th>
+                                                                                <th class="width45">{{"Subject"|translate}}</th>
+                                                                                <th class="thwidth25">{{"Last Update"|translate}}</th>
+                                                                                <th class="thwidth30">{{"Participants"|translate}} </th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="Note in ClaimNotes |orderBy:sortNote:sortNotereverse|limitTo:10" ng-click="GetNoteDetails(Note)">
+                                                                                <td style="display:none;"></td>
+                                                                                <td class="tip"><span class="Overlay" ng-if="Note.groupTitle.length>30">{{Note.groupTitle}}</span><span>{{Note.groupTitle|limitTo:30}}</span><span ng-if="Note.groupTitle.length>30">..</span> </td>
+                                                                                <td>{{Note.updateDate|DateFormatMMddyyyyHHmmTime}} </td>
+                                                                                <td class="tip">
+                                                                                    <span class="Overlay" ng-if="Note.ParticipantList.length>25">{{Note.ParticipantList}}</span><span>{{Note.ParticipantList|limitTo:25}}</span><span ng-if="Note.ParticipantList.length>25">..</span>
+
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-if="!ClaimNotes.length||ClaimNotes===null">
+                                                                                <td class="text-center text-danger" colspan="3">{{"NoRecordText"|translate}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div class="col-lg-12 col-md-12">
+                                                                        <a href="#" class="pull-right" ng-click="GotoAllNotes()">{{"View All Notes"}}</a>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <!--End Notes Tab-->
+                                                            <!---Participant Tab-->
+                                                            <div class="col-md-12 clearfix" ng-show="EventsTab=='Participant'">
+                                                                <div class="col-md-12 options_Background clearfix">
+                                                                    <div class="col-md-12 margin-bottom-5 margin-top-5 ">
+                                                                        <button class="btn sbold pull-left btnOptions " ng-click="OpenAddNewVendorModel($event)">
+                                                                            {{"ControlText.AddVendor"|translate}}
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 table-responsive  padding1px AdjParticipantSection">
+                                                                    <table class="table table-bordered table-hover table-striped text-center">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th ng-click="sortVendor('firstName')" class="text-center">
+                                                                                    {{"Table.VendorName"|translate}}
+                                                                                    <span class="glyphicon sort-icon" ng-show="sortVendorKey=='firstName'" ng-class="{'glyphicon-chevron-up pull-right':reverseVendor,'glyphicon-chevron-down pull-right':!reverseVendor}"></span>
+                                                                                </th>
+                                                                                <th class="text-center thwidth25">
+                                                                                    {{"Table.Role"|translate}}
+                                                                                </th>
+                                                                                <th ng-click="sortVendor('startDate')" class="text-center">
+                                                                                    {{"Table.StartDate"|translate}}
+                                                                                    <span class="glyphicon sort-icon" ng-show="sortVendorKey=='startDate'" ng-class="{'glyphicon-chevron-up pull-right':reverseVendor,'glyphicon-chevron-down pull-right':!reverseVendor}"></span>
+                                                                                </th>
+                                                                                <th ng-click="sortVendor('endDate')" class="text-center">
+                                                                                    {{"Table.EndDate"|translate}}
+                                                                                    <span class="glyphicon sort-icon" ng-show="sortVendorKey=='endDate'" ng-class="{'glyphicon-chevron-up pull-right':reverseVendor,'glyphicon-chevron-down pull-right':!reverseVendor}"></span>
+                                                                                </th>
+                                                                                <th ng-click="sortVendor('status')" class="text-center width20 statusHeading">
+                                                                                    {{"Table.Status"|translate}}
+                                                                                    <span class="glyphicon sort-icon" ng-show="sortVendorKey=='status'" ng-class="{'glyphicon-chevron-up pull-right':reverseVendor,'glyphicon-chevron-down pull-right':!reverseVendor}"></span>
+                                                                                </th>
+
+                                                                                <!--<th class="text-center">{{"Table.Action"|translate}}</th>-->
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="vendor in VendorsAgainstClaim|limitTo:5|orderBy:sortVendorKey:reverseVendor">
+                                                                                <td class="tip">
+                                                                                    <span class="Overlay" ng-if="vendor.name.length>20">{{vendor.name}}</span>
+                                                                                    <span>{{vendor.name|limitTo:20}}</span><span ng-if="vendor.name.length>20">..</span>
+                                                                                </td>
+                                                                                <td class="tip">
+                                                                                    <span class="Overlay" ng-if="vendor.RoleString.length>15">{{vendor.RoleString}}</span>
+                                                                                    <span>{{vendor.RoleString|limitTo:15}}</span><span ng-if="vendor.RoleString.length>15">..</span>
+                                                                                </td>
+                                                                                <td>{{vendor.startDate|DateFormatMMddyyyy}}</td>
+                                                                                <td>{{vendor.endDate|DateFormatMMddyyyy}}</td>
+                                                                                <td class="tip">
+                                                                                    <span ng-if="vendor.status.length>15">{{vendor.status}}</span>
+                                                                                    <!--<span class="Overlay" ng-if="vendor.status.length>15">{{vendor.status}}</span>-->
+                                                                                    <!--<span ng-class="{'btn btn-circle ClaimSettled':vendor.status==='Completed','btn btn-circle ClaimAssigned':vendor.status==='ASSIGNED','btn btn-circle ClaimCreated':vendor.status==='CREATED','btn btn-circle ClaimUnderReview':vendor.status==='Processing'}">{{vendor.status|limitTo:15}}</span><span ng-if="vendor.status.length>15">..</span>-->
+                                                                                    <span>{{vendor.status|limitTo:15}}</span><span ng-if="vendor.status.length>15">..</span>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div ng-show="!VendorsAgainstClaim.length" class="col-md-12 text-center text-danger">{{"NoRecordText"|translate}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <!---End Participant Tab-->
+                                                            <!--Attachment Tab-->
+                                                            <div class="col-md-12" ng-show="EventsTab=='Attachments'">
+                                                                <div class="col-md-12 col-sm-12 col-lg-12 options_Background padding1px">
+                                                                    <div class="col-md-6 col-sm-6 pull-left  margin-top-5 margin-bottom-5 ">
+                                                                        <button class="btn btnOptions pull-left sbold" ng-click="SelectClaimFile()">
+                                                                            {{"New Attachment"|translate}}
+                                                                        </button>
+                                                                        <input id="ClaimFileUpload" type="file" onchange="angular.element(this).scope().getAttachmentDetails(this)" style="display:none;" accept="image/*" multiple>
+                                                                    </div>
+                                                                    <div class="col-md-4 col-xs-6 col-sm-6 margin-top-5 margin-bottom-5 pull-right">
+                                                                        <div class="input-icon left">
+                                                                            <i class="icon-magnifier"></i>
+                                                                            <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="SearchAttachments" placeholder={{"Search"|translate}}>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive col-md-12 padding1px clearfix AdjParticipantSection">
+                                                                    <table class="table table-striped table-bordered table-hover table-checkable order-column">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="paddingAttachment width45">{{"Title"|translate}}</th>
+                                                                                <th class="width24P">{{"Uploaded By"|translate}}</th>
+                                                                                <th class="width25P">{{"Uploaded Date"|translate}}</th>
+                                                                                <th class="Width6P">{{"Action"|translate}}</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                        <tbody>
+                                                                            <!--Claim Form Start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span class="display:flex;"><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer; font-size:14px;" ng-click="currentAttchment=='ClaimForm'?currentAttchment=null:currentAttchment='ClaimForm'">{{"Claim Form Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.claimFormAttachments|filter:SearchAttachments" ng-if="currentAttchment=='ClaimForm'" ng-hide="ClaimAttachments.claimFormAttachments==null||ClaimAttachments.claimFormAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span><span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='ClaimForm'" ng-hide="ClaimAttachments.claimFormAttachments!=null||ClaimAttachments.claimFormAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span class="text-danger">{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Claim Form End-->
+                                                                            <!--Incident Attachment Start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Incident'?currentAttchment=null:currentAttchment='Incident'">{{"Incident Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.incidentPicturesAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Incident'" ng-hide="ClaimAttachments.incidentPicturesAttachments==null||ClaimAttachments.incidentPicturesAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span><span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Incident'" ng-hide="ClaimAttachments.incidentPicturesAttachments!=null||ClaimAttachments.incidentPicturesAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span>{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Incident Attachment End-->
+                                                                            <!--Invoice Attachment start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Invoice'?currentAttchment=null:currentAttchment='Invoice'">{{"Invoice Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.invoiceAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Invoice'" ng-hide="ClaimAttachments.invoiceAttachments==null||ClaimAttachments.invoiceAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span> <span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Invoice'" ng-hide="ClaimAttachments.invoiceAttachments!=null||ClaimAttachments.invoiceAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span>{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Invoice Attachment End-->
+                                                                            <!--Notes Attachment Start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Notes'?currentAttchment=null:currentAttchment='Notes'">{{"Notes Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.noteAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Notes'" ng-hide="ClaimAttachments.noteAttachments==null||ClaimAttachments.noteAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)"></td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span><span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                                <td colspan="4" class="text-center text-danger" ng-if="currentAttchment=='Notes'" ng-hide="ClaimAttachments.noteAttachments!=null||ClaimAttachments.noteAttachments.length>0"><span class="text-danger">{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Notes'" ng-hide="ClaimAttachments.noteAttachments!=null||ClaimAttachments.noteAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span>{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Notes Attachment End-->
+                                                                            <!--Receipt Attachment Start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Receipt'?currentAttchment=null:currentAttchment='Receipt'">{{"Receipt Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.receiptAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Receipt'" ng-hide="ClaimAttachments.receiptAttachments==null||ClaimAttachments.receiptAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span><span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Receipt'" ng-hide="ClaimAttachments.receiptAttachments!=null||ClaimAttachments.receiptAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span>{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Receipt Attachment End-->
+                                                                            <!--Report Attachment Start-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Report'?currentAttchment=null:currentAttchment='Report'">{{"Report Attachments"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.reportAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Report'" ng-hide="ClaimAttachments.reportAttachments==null||ClaimAttachments.reportAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span> <span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Report'" ng-hide="ClaimAttachments.reportAttachments!=null||ClaimAttachments.reportAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span>{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Report Attachment End-->
+                                                                            <!--Other Attachment End-->
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <span><span class="fa fa-folder fa-2x font-yellow"></span><span class="text-primary" style="margin-left:5px;cursor:pointer;font-size:14px;" ng-click="currentAttchment=='Others'?currentAttchment=null:currentAttchment='Others'">{{"Others"|translate}}</span></span>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr ng-repeat="document in ClaimAttachments.otherAttachments|filter:SearchAttachments" ng-if="currentAttchment=='Others'" ng-hide="ClaimAttachments.otherAttachments==null||ClaimAttachments.otherAttachments.length==0">
+                                                                                <td class="paddingAttachment" ng-click="GoToMapping(document)">{{document.name}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{}}</td>
+                                                                                <td ng-click="GoToMapping(document)">{{document.uploadDate|DateFormatMMddyyyyHHmm}}</td>
+                                                                                <td><span class="fa fa-edit fa-lg" ng-click="GoToMapping(document)"></span><span>        </span><span ng-click="deteteClaimAttachment(document)" class="fa fa-trash fa-lg"></span></td>
+                                                                            </tr>
+                                                                            <tr ng-if="currentAttchment=='Others'" ng-hide="ClaimAttachments.otherAttachments!=null||ClaimAttachments.otherAttachments.length>0">
+                                                                                <td colspan="4" class="text-danger paddingAttachment"><span class="text-danger">{{"0 Attachments"}}</span></td>
+                                                                            </tr>
+                                                                            <!--Other Attachment End-->
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                                        <div class="col-md-6 col-sm-6 Label_Text_Right">
+                                                                            <font ng-repeat="file in attachmentList">
+                                                                                <span>{{file.FileName}}</span><span class="fa fa-times-circle fa-lg text-danger " ng-click="RemoveAttachment($index)" style="margin-left:3px;">
+                                                                                </span>
+                                                                                <span ng-if="!$last">, </span>
+                                                                            </font>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group" ng-if="displayAddImageButton">
+                                                                        <div class="col-md-6 col-sm-6 text-right">
+                                                                            <button id="addAttachment" class="btn sbold btnMargin" ng-click="AddClaimAttachment()">
+                                                                                {{"Save"|translate}}
+                                                                            </button>
+                                                                            <button id="addAttachment" class="btn sbold btnMargin" ng-click="cancelAttachment()">
+                                                                                {{"Cancel"|translate}}
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <!--End Attachment Tab-->
+                                                        </div>
+                                                        <!--End Attachment Tab-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="portlet light">
+                                                        <div class="portlet-title padding1px">
+                                                            <div class="caption font-gray-sharp col-md-9 padding1px ">
+                                                                <span class="caption-subject   padding1px">{{"HeaderTitle.ContentList"|translate}}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="portlet-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12 padding1px">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background padding1px">
+                                                                            <div class="col-md-12  margin-top-5 margin-bottom-5" style="height:25px">
+                                                                                <!--<button id="btnLoadFile" class="btn sbold btnOptions margin-right-10" ng-click="AddNewItemToList()">
+                                                                                    {{"Add Item"|translate}}
+                                                                                </button>-->
+                                                                                <!--<button id="btnLoadFile" class="btn sbold btnMargin btnOptions margin-right-10 " ng-click="UploadPostLossItem($event)">
+                                                                                    {{"ControlText.LoadFromFile"|translate}}
+                                                                                </button>-->
+                                                                                <!--<button id="btnAssign" class="btn sbold btnOptions" ng-click="AssignPostLostItem($event)">
+                                                                                    {{"ControlText.Assign_title"|translate}}
+                                                                                </button>-->
+                                                                                <!--ng-disabled="SelectedPostLostItems.length==0 || SelectedPostLostItems.length>1"  Only create 1 item quote-->
+                                                                                <!--<button id="btnAssign" class="btn sbold" ng-click="CreateQuote($event)" ng-disabled="SelectedPostLostItems.length<=0 ">
+                                                                                    {{"Create Quote"|translate}}
+                                                                                </button>-->
+                                                                                <!--<div class="pull-right col-lg-7 col-md-5 col-sm-12 manageSearch padding1px">
+                                                                                    <div class="col-lg-5 col-md-5 col-xs-12 col-sm-6 pull-right ">
+                                                                                        <div class="input-icon left">
+                                                                                            <i class="icon-magnifier"></i>
+                                                                                            <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="searchDamagedContent.$" placeholder={{"LostDamagedSearchText"|translate}}>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-lg-4 col-md-5 col-xs-12 col-sm-5  pull-right">
+                                                                                        <select class="input-small select2me form-control" name="Categories" ng-model="searchDamagedContent.claimItem.category.name" data-placeholder="All" ng-change="GetItemsByCategory(searchDamagedContent.claimItem.category.name)">
+                                                                                            <option value="">select</option>
+                                                                                            <option value="ALL">All</option>
+                                                                                            <option ng-repeat="category in DdlSourceCategoryList" value="{{category.categoryName}}">{{category.categoryName}}</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                    <div class="col-lg-1 col-md-1 col-sm-1 padding1px pull-right">
+                                                                                        <label class="control-label" style="color:#ffffff;">{{"ControlText.View_title"|translate}}</label>
+                                                                                    </div>
+                                                                                </div>-->
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="table-responsive col-md-12 col-sm-12 col-lg-12 ServiceRequestheight padding1px">
+                                                                            <table class="table table-striped table-bordered table-hover table-checkable order-column" id="NavigateTable">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th colspan="4"></th>
+                                                                                        <th colspan="4" style="text-align:center">
+                                                                                            {{"Orignal Item"|translate}}
+                                                                                        </th>
+                                                                                        <th colspan="4" style="text-align:center">
+                                                                                            {{"Comparable"|translate}}
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <!--<th class="Width2P">
+                                                                                            <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                                                                <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" />
+                                                                                                <span></span>
+                                                                                            </label>
+                                                                                        </th>-->
+                                                                                        <th class="Width4P" ng-click="sortpostlostitem('claimItem.itemNumber')">
+                                                                                            {{"Table.ItemNumber"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width6P statusHeading" ng-click="sortpostlostitem('claimItem.status.status')">
+                                                                                            {{"Table.Status"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width9P" ng-click="sortpostlostitem('claimItem.category.name')">
+                                                                                            {{"Table.Category"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width10P" ng-click="sortpostlostitem('claimItem.serviceRequested')">
+                                                                                            {{"Table.ServiceRequested"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width10P" ng-click="sortpostlostitem('claimItem.description')">
+                                                                                            {{"Table.ItemDescription"|translate}}
+                                                                                        </th>
+                                                                                        <!--<th class="Width3P" ng-click="sortpostlostitem('claimItem.age')">
+                                                                                            {{"Table.AssignmentNumber"|translate}}
+                                                                                        </th>-->
+                                                                                        <th class="Width3P" ng-click="sortpostlostitem('claimItem.age')">
+                                                                                            {{"Table.Age"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width3P" ng-click="sortpostlostitem('claimItem.quantity')">
+                                                                                            {{"Table.Qty"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width7P" ng-click="sortpostlostitem('claimItem.insuredPrice')">
+                                                                                            {{"Table.InsuredsUnitCost"|translate}}
+                                                                                        </th>
+                                                                                        <!--<th class="Width6P">
+                                                                                            {{"Associate"|translate}}
+                                                                                        </th>-->
+                                                                                        <th class="Width10P" ng-show="AddNewItem===false && EditItem===false">
+                                                                                            {{"Table.ReplacementDescription"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width6P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('comparableItems[0].unitPrice')">
+                                                                                            {{"Table.UnitCost"|translate}}
+                                                                                        </th>
+                                                                                        <!--<th class="Width6P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.depriciationRate')">
+                                                                                            {{"Table.Depriciation"|translate}}
+                                                                                        </th>-->
+                                                                                        <!--<th class="Width4P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.acv')">
+                                                                                            {{"Table.ACV"|translate}}
+                                                                                        </th>-->
+                                                                                        <th class="Width4P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.rcv')">
+                                                                                            {{"Table.RCV"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width4P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.salvageAmount')">
+                                                                                            {{"Table.SalvagePrice"|translate}}
+                                                                                        </th>
+                                                                                        <th class="Width8P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.contentService.name')">
+                                                                                            {{"Table.ServiceRequests"|translate}}
+                                                                                        </th>
+                                                                                        <!--<th class="Width4P" ng-show="AddNewItem===false && EditItem===false" ng-click="sortpostlostitem('claimItem.isScheduledItem')">
+                                                                                            {{"Table.Replaced"|translate}}
+                                                                                        </th>-->
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr dir-paginate="item in FiletrLostDamageList|orderBy:sortKey:reverse|filter:searchDamagedContent|itemsPerPage:pagesize" ng-include="getTemplate(item)" pagination-id="FiletrLostDamageListPge"></tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <div ng-show="!FiletrLostDamageList.length" class="col-md-12 text-center text-danger">{{"NoRecordText"|translate}}</div>
+
+                                                                            <!--Display template-->
+                                                                            <script type="text/ng-template" id="display">
+                                                                                <!--<th>
+                                                                                    <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single">
+                                                                                        <input type="checkbox" ng-click="SelectPostLostItem(item)" ng-model="item.Selected" ng-disabled="item.claimItem.status.id!==2" />
+                                                                                        <span></span>
+                                                                                    </label>
+                                                                                </th>-->
+                                                                                <!--<td style="text-decoration:none;color:black;" class="fa fa-pencil-square-o fa-lg" aria-hidden="true" ng-click="EditItemDetails(item)"></td>-->
+                                                                                <td ng-click="GoToDetails(item)" class="text-right"><i class="fa fa-paperclip imgAttachmentIcon" ng-show="item.claimItem.attachments.length"></i>&nbsp;&nbsp;{{item.claimItem.itemNumber}}</td>
+                                                                                
+                                                                                <!--<td ng-click="GoToDetails(item)"><span ng-if="item.claimItem.isScheduledItem===true">Yes</span><span ng-if="item.claimItem.isScheduledItem===false">No</span></td>-->
+                                                                                <td ng-click="GoToDetails(item)">
+                                                                                    <!--<span ng-class="{'stage ItemStageTwo':item.claimItem.status.status==='ASSIGNED',
+                                                                                      'stage ItemStegeOne':item.claimItem.status.status==='CREATED',
+                                                                                      'stage ItemStageThree':item.claimItem.status.status==='UNDER REVIEW',
+                                                                                      'stage ItemStageFour':item.claimItem.status.status==='APPROVED',
+                                                                                      'stage ItemStageFive':item.claimItem.status.status==='VALUED',
+                                                                                    'stage ItemStageSix':item.claimItem.status.status==='SETTLED'}">
+                                                                                        {{item.claimItem.status.status|limitTo: 15}}
+                                                                                    </span>-->
+
+                                                                                    <span>
+                                                                                        {{item.claimItem.status.status|limitTo: 15}}
+                                                                                    </span>
+
+                                                                                    <span>{{item.claimItem.status.status.length >  15 ? '...' : ''}}</span>
+                                                                                <td ng-click="GoToDetails(item)">{{item.claimItem.category.name}}</td>
+                                                                                <td ng-click="GoToDetails(item)">{{item.claimItem.serviceRequest}}</td>
+                                                                                <td ng-click="GoToDetails(item)">{{item.claimItem.description}}</td>
+                                                                                <!--<td ng-click="GoToDetails(item)">{{item.claimItem.assignmentDetails.assignmentNumber}}</td>-->
+                                                                                <!--<td ng-click="GoToDetails(item)">{{item.claimItem.subCategory.name}}</td>-->
+                                                                                <td ng-click="GoToDetails(item)" class="text-right">
+                                                                                    <span ng-if="(item.claimItem.ageYears!=0 && item.claimItem.ageYears!=null)&&(item.claimItem.ageMonths!=0 && item.claimItem.ageMonths!=null)">
+                                                                                        {{item.claimItem.ageYears+'yr' + item.claimItem.ageMonths +'mo'}}
+                                                                                    </span>
+                                                                                    <span ng-if="(item.claimItem.ageYears==0||item.claimItem.ageYears==null) && (item.claimItem.ageMonths!=0 && item.claimItem.ageMonths!=null )">{{item.claimItem.ageMonths+'mo'}}</span>
+                                                                                    <span ng-if="(item.claimItem.ageYears!=0 && item.claimItem.ageYears!=null) && (item.claimItem.ageMonths==0 || item.claimItem.ageMonths==null )">{{item.claimItem.ageYears+'yr'}}</span>
+                                                                                    <span ng-if="(item.claimItem.ageYears==0||item.claimItem.ageYears==null )&& (item.claimItem.ageMonths==0||item.claimItem.ageMonths==null)">NA</span>
+                                                                                </td>
+                                                                                <td ng-click="GoToDetails(item)" class="text-right">{{item.claimItem.quantity}}</td>
+                                                                                <td ng-click="GoToDetails(item)" class="text-right">{{item.claimItem.insuredPrice!=null?item.claimItem.insuredPrice:item.claimItem.totalStatedAmount==null?0:item.claimItem.totalStatedAmount |currency}}</td>
+                                                                                <!--<td ng-click="GoToDetails(item)" class="text-right"><span ng-if="item.claimItem.assignmentDetails.vendorAssociate!=null">{{item.claimItem.assignmentDetails.vendorAssociate.lastName+", "+item.claimItem.assignmentDetails.vendorAssociate.firstName}}</span></td>-->
+                                                                                <!--<td ng-show="AddNewItem===false && EditItem===false" ng-click="GoToDetails(item)">{{item.comparableItems[0].supplier}}</td>-->
+                                                                                <td ng-show="AddNewItem===false && EditItem===false" ng-click="GoToDetails(item)">{{item.claimItem.adjusterDescription}}</td>
+                                                                                <td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.comparableItems[0].unitPrice |currency}}</td>
+                                                                                <!--<td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.claimItem.subCategory.annualDepreciation}}</td>-->
+                                                                                <!--<td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.claimItem.acv |currency}}</td>-->
+                                                                                <td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.claimItem.rcv |currency}}</td>
+                                                                                <td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.claimItem.salvageAmount |currency}}</td>
+                                                                                <td ng-show="AddNewItem===false && EditItem===false" class="text-right" ng-click="GoToDetails(item)">{{item.claimItem.contentService.name}}</td>
+                                                                                <!--<td ng-show="AddNewItem===false && EditItem===false" ng-click="GoToDetails(item)"><span ng-if="item.claimItem.isReplaced===true">Yes</span><span ng-if="item.claimItem.isReplaced===false">No</span></td>-->
+                                                                                <!--<td class="no_border Width2P">
+                                                                                    <a ng-click="DeletItem(item)" class="text-danger font-sm sbold glyphicon glyphicon-minus-sign"></a>
+                                                                                </td>-->
+                                                                            </script>
+                                                                        </div>
+                                                                        <div class="text-center col-sm-12 col-lg-12 margin-top-10">
+                                                                            <dir-pagination-controls max-size="3" direction-links="true" boundary-links="true" pagination-id="FiletrLostDamageListPge">
+                                                                            </dir-pagination-controls>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <!--End Open Claims-->
+                                                <!--Closed Claims-->
+                                                <!--End Closed Claims-->
+                                            </div>
+
+                                        </div>
+                                        <!--End Contents Div-->
+                                        <!--Insurance Company Div-->
+                                        <div class="col-md-12 col-lg-12 clearfix detailsTabContent" style="height:auto!important" ng-show="ContentTab=='InsuranceCompany'">
+                                            <div class="col-md-12 col-lg-12 padding1px">
+                                                <div class="col-md-12 col-sm-12 margin-top-5 padding1px">
+                                                    <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                                                        <div class="SubHeadingDiv">
+                                                            <span class="caption-subject">
+                                                                {{"HeaderTitle.InsuranceComapnyDetails"|translate}}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 padding2px margin-top-5">
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="!editInsuranceCompany" ng-click="insuranceCompanyEdit()">{{"Edit Details"|translate}}</button>
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="editInsuranceCompany" ng-click="UpdateCompanyDetails()">{{"Update"|translate}}</button>
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="editInsuranceCompany" ng-click="cancleEdit()">{{"Cancle"|translate}}</button>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12 margin-top-10 padding1px">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Claim Id"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{CommonObj.ClaimId}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Label.CompanyName"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.company.companyName}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Branch"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Branch Address"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Adjuster Name"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjuster.lastName+", "+ GetInsurancDetails.adjuster.firstName}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Adjuster Email"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjuster.email}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Adjuster Phone#"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjuster.eveningTimePhone |tel}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Supervisor Name"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjusterSupervisor.lastName+", "+ GetInsurancDetails.adjusterSupervisor.firstName}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Supervisor Email"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjusterSupervisor.email |tel}}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Supervisor Phone#"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label">{{GetInsurancDetails.adjusterSupervisor.eveningTimePhone |tel}}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-12 col-sm-12 margin-top-5 padding1px">
+                                                        <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                                                            <div class="SubHeadingDiv">
+                                                                <span class="caption-subject">
+                                                                    {{"Policyholder Details"|translate}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Policyholder's First Name"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.firstName}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-model="editPolicyHolder.firstName" class="form-control" />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 margin-top-10 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Policyholder's Last Name"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{ GetInsurancDetails.policyHolder.lastName}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-model="editPolicyHolder.lastName" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Policyholder's Email"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.email}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" name="email" ng-pattern="/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/" ng-model="editPolicyHolder.email" class="form-control" />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Policyholder's Phone#"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.dayTimePhone |tel}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-model="editPolicyHolder.dayTimePhone" name="dayTimepHoneNo" required ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <label class="control-label col-md-2 col-lg-3 col-sm-6 text-right padding1px">{{"Address"|translate}}</label>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.address.streetAddressOne}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-if="editInsuranceCompany" ng-model="editPolicyHolder.address.streetAddressOne" class="form-control" />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <div class="col-md-2 col-lg-3 col-sm-6"></div>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.address.streetAddressTwo}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-if="editInsuranceCompany" ng-model="editPolicyHolder.address.streetAddressTwo" class="form-control" />
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <div class="col-md-2 col-lg-3 col-sm-6"></div>
+                                                        <div class="col-md-10 col-lg-9 col-sm-6 text-left">
+                                                            <span class="control-label" ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.address.city}}</span>
+                                                            <div class="col-lg-3" ng-if="editInsuranceCompany">
+                                                                <input type="text" ng-model="editPolicyHolder.address.city" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px form-group">
+                                                        <div class="col-md-2 col-lg-3 col-sm-6"></div>
+                                                        <div class="col-md-10 col-lg-1 col-sm-6 text-left" style="padding-left:30px">
+                                                            <span class="control-label " ng-if="!editInsuranceCompany">{{GetInsurancDetails.policyHolder.address.state.state}}</span>
+                                                            <div style="padding-left:2px">
+                                                                <select ng-if="editInsuranceCompany" class="input-sm select2me form-control" name="StateList" ng-attr-placeholder="Select State" required ng-model="editPolicyHolder.address.state.id"
+                                                                        ng-options="option.id as option.state for option in StateList"></select>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-10 col-lg-1 col-sm-6 text-left">
+                                                            <span ng-if="!editInsuranceCompany" class="control-label ">{{GetInsurancDetails.policyHolder.address.zipcode}}</span>
+                                                            <input type="text" ng-if="editInsuranceCompany" ng-model="editPolicyHolder.address.zipcode" class="form-control" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 padding2px margin-top-5">
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="!editInsuranceCompany" ng-click="insuranceCompanyEdit()">{{"Edit Details"|translate}}</button>
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="editInsuranceCompany" ng-click="UpdateCompanyDetails()">{{"Update"|translate}}</button>
+                                                    <button class="btn btnMargin sbold pull-right" ng-if="editInsuranceCompany" ng-click="cancleEdit()">{{"Cancle"|translate}}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--End Insurance Company Div-->
+                                        <!--Invoices Tab-->
+                                        <div class="" id="InvoicesTab" ng-show="ContentTab=='Invoices'">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="col-md-12 col-sm-12 padding1px" ng-if="!CreateInvoice">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+                                                        <div class="portlet light padding1px">
+                                                            <div class="portlet-title">
+                                                                <div class="caption font-gray-sharp">
+                                                                    <span class="caption-subject">{{"Invoices"}}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="portlet-body">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 col-sm-12">
+                                                                        <div class="col-md-12 col-sm-12 clearfix options_Background">
+                                                                            <div class="col-md-12 col-sm-12  margin-bottom-5 margin-top-5 ">
+                                                                                <button class="btn sbold btnOptions pull-left" ng-click="CreateNewInvoice()">
+                                                                                    {{"New Invoice"|translate}}
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 col-sm-12 col-lg-12 table-responsive">
+                                                                        <table class="table table-bordered table-striped table-hover" id="NavigateTable">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>
+                                                                                        {{"Invoice #"|translate}}
+                                                                                        <span ng-show="sortVendorKey=='vendorId'"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Vendor Note"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Aomunt"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Invoice Date"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Due Date"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Status"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Attachments"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                    <th>
+                                                                                        {{"Actions"|translate}}
+                                                                                        <span ng-show="sortVendorKey==''"></span>
+                                                                                    </th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr ng-repeat="Invoice in AssginmentInvoices|orderBy:sortVendorKey:sortVendorreverse">
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.invoiceNumber}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.vendorNote}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.invoiceAmount|currency}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.invoiceDate|DateFormatMMddyyyy}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.dueDate|DateFormatMMddyyyy}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">{{Invoice.status.status}}</td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)">
+                                                                                        <font ng-repeat="attachment in Invoice.attachments">
+                                                                                            <a href="{{attachment.url}}" download>{{attachment.name}}</a><span ng-if="!$last">, </span>
+                                                                                        </font>
+                                                                                    </td>
+                                                                                    <td ng-click="GoToInvoiceDetails(Invoice)"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="8" class="text-danger text-center" ng-if="AssginmentInvoices.length==0 ||AssginmentInvoices==null">{{"No Records Available"}}</td>
+                                                                                </tr>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 col-lg-12 margin-top-10" ng-if="CreateInvoice" ng-include="'views/ThirdPartyVendor/ThirdPartyCreateInvoice.html'" ng-controller="ThirdPartyCreateInvoiceController">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--End Invoices Tab-->
+                                        <!--Reports Tab-->
+                                        <div class="" id="ReportsDiv" ng-show="ContentTab=='Reports'">
+                                            <div class="col-md-12 col-sm-12 col-lg-12 margin-top-10" ng-include="'views/Reports/Report.html'" ng-controller="ReportController">
+                                            </div>
+                                        </div>
+                                        <!--End Reports Tab-->
+                                        <!-- Purchase rport -->
+                                        <div class="col-md-12 padding1px" ng-if="ContentTab=='PurchaseOrders'" id="PurchaseOrders">
+                                            <div class="col-md-12 padding1px" id="PurchaseOrders" ng-include="'views/PurchaseOrder/PurchaseOrderDetails.html'" ng-controller="PurchaseOrderDetailsController">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 padding1px" ng-if="ContentTab=='Salvage'" id="Salvage">
+                                            <div class="col-md-12 padding1px" id="Salvage">
+                                            </div>
+                                            <!--<div class="col-md-12 padding1px" id="Salvage" ng-include="'views/Salvage/SalvageDetails.html'" ng-controller="SalvageDetailsController">
+                                            </div>-->
+                                        </div>
+                                        <div class="col-md-12 padding1px" ng-if="ContentTab=='ClaimSummery'" id="ClaimSummery">
+                                            <div class="col-md-12 padding1px" id="ClaimSummery">
+                                            </div>
+                                        </div>
+                                        <!-- End purchase report -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End Claim status-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="col-md-6 col-sm-12">
+    <div class="col-md-12 col-sm-12 form-group  portlet light bordered thirdPartClaimDetailsSectionTabHeight">
+        <div class="col-md-6 col-lg-6 margin-bottom-10 col-xs-12 col-sm-6">
+            <span class="control-label ">
+                <label>{{"Label.ItemsClaimed"|translate}}</label>&nbsp;:&nbsp;
+                <span class="text-primary">{{ConentDetails.numberOfItemsClaimed}}</span>
+            </span>
+        </div>
+        <div class="col-md-6 col-lg-6 margin-bottom-10 col-xs-12 col-sm-6">
+            <span class="control-label ">
+                <label>{{"Label.taxRates"|translate}}</label>&nbsp;:&nbsp;
+                <span class="text-primary">{{ConentDetails.policyDetails.taxRates}}</span>
+            </span>
+        </div>
+        <div class="portlet">
+            <div class="portlet-title"></div>
+        </div>
+        <div class="col-md-12">
+            <label><b>{{"Label.RequestedServices"|translate}}</b> </label>
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+            <span ng-repeat="item in ConentDetails.contentServices"><a href="#">{{item.service}}</a> <a href="#" ng-if="!$last"> , </a></span>
+        </div>
+        <div class="portlet">
+            <div class="portlet-title"></div>
+        </div>
+        <div class="col-md-12 ">
+            <label><b>{{"Label.PolicyDetails"|translate}}</b> </label>
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+            <span class="control-label">
+                <label>{{"Label.AggregateLimit"|translate}}</label>&nbsp;:&nbsp;
+                <span class="text-primary">{{ConentDetails.policyDetails.aggregateLimit |currency}}</span>
+            </span>
+
+        </div>
+        <div class="col-md-6 col-lg-6 col-sm-6 col-xs-12">
+            <span class="control-label ">
+                <label>{{"Label.Deductible"|translate}}</label>&nbsp;:&nbsp;
+                <span class="text-primary">{{ConentDetails.policyDetails.deductible |currency}}</span>
+            </span>
+
+        </div>
+
+        <div class="portlet">
+            <div class="portlet-title"></div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <label><b>{{"Label.IndivisualCatagoryLimit"|translate}}</b> </label>
+        </div>
+        <div ng-repeat="item in ConentDetails.policyDetails.policyCategories" class="col-md-4 col-sm-6 col-xs-12">
+            <span class="control-label ">{{item.name}}&nbsp;:&nbsp;<span class="text-primary">{{item.coverageLimit |currency}}</span></span>
+        </div>
+    </div>
+</div>-->

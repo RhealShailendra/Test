@@ -1,0 +1,366 @@
+<style>
+    .custom-btn {
+        display: inline-block;
+        margin-bottom: 0;
+        font-size: 16px;
+        background-color: transparent;
+        text-align: right;
+        vertical-align: middle;
+        touch-action: manipulation;
+        cursor: pointer;
+        background-image: none;
+        border: none;
+        margin-top: -5px;
+    } 
+
+    .dollarSign {
+        padding-top: 2px;
+        float: left;
+        font-size: 15px;
+        font-weight: 500;
+        padding-right: 3px;
+    }
+
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Start -Added for Currency format for input field */
+
+    label.currencyLbl {
+        position: absolute;
+        background: white;
+        left: 15px;
+        top: 0px;
+        cursor: pointer;
+        padding: 2px 10px !important;
+        max-width: inherit;
+    }
+
+    input.currency {
+        position: relative;
+        width: 120px !important;
+    }
+
+    input.currency {
+        padding: 0;
+        border: 1px solid #c2cad8;
+        width: 120px !important;
+        font-family: Arial;
+        line-height: 20px;
+    }
+
+    label.currencyLbl {
+        padding: 0;
+        border: 1px solid #c2cad8;
+        width: 120px !important;
+        font-family: Arial;
+        line-height: 19px;
+        height: 25px;
+        font-weight: 400 !important;
+        color: #555555;
+        font-size: 12px !important;
+    }
+
+    input.currency:focus+label.currencyLbl {
+        display: none !important;
+    }
+
+    /* End -Added for Currency format for input field*/
+</style>
+<script>
+    $(':input[type=number]').on('focus', function (e) {
+        $(this).on('mousewheel.disableScroll', function (e) {
+            e.preventDefault();
+        })
+    }).on('blur', function (e) {
+        $(this).off('mousewheel.disableScroll')
+    });
+
+</script>
+
+<div class="col-md-12" ng-form="Apprisal">
+
+    <!--Add/Edit Section Start-->
+    <div class="portlet light ">
+        <div class="portlet-body" ng-form="ApprisalForm">
+            <div class="row">
+                <div class="col-md-12 text-right margin-top-10" ng-if="!isEditAppraisal">
+
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="">
+                        {{"Print/Download PDF"|translate}}
+                    </button>
+
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="supervisorReviewStatus==1" ng-click="SaveComparableComment()">
+                        {{"Save"|translate}}
+                    </button>
+
+                    <!--End New-->
+                </div>
+
+                <div>
+                    <div class="col-md-12 clearfix padding1px margin-top-10" id="cal">
+
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet">
+
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:0px solid lightgray;">
+                                    <div class="col-md-12 clearfix padding1px margin-top-10">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Policy #"|translate}}</b>
+
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>{{Appraisal.policyNumber}}</span>
+                                            </div>
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"CurrentTerm"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>#</span>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Primary Policyholder"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>uyytuyutf7ytf</span>&nbsp;&nbsp;
+                                                
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Appraisal #"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5 col-sm-7">
+                                                <span>
+                                                    {{Appraisal.appraisalNumber}}
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Original Appraisal Desc"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5 col-sm-7">
+                                                <span>
+                                                    {{Appraisal.OriginalDescription}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Appraisal Value"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>
+                                                    <b>{{Appraisal.AppraisalValue | currency}}</b>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b>{{"Appraisal Date"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>
+                                                    <b>{{Appraisal.AppraisalDate}}</b>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                            <div class="col-md-3 col-sm-7 Label_Text_Right">
+                                                <label>
+                                                    <b> {{"Speedcheck SuggestedVal"|translate}}</b>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-2 col-sm-5">
+                                                <span>
+                                                    <b>{{Appraisal.speedCheckSuggestedValue | currency}}</b>
+                                                </span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 padding1px margin-top-10">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet" style="padding-left:10px">
+
+
+                                    <!-- Comparable details Start -->
+
+                                    <div class="col-md-12 col-sm-12 margin-bottom-20 margin-top-20" style="padding:5px;"></div>
+                                    <span>
+                                        <h4>
+                                            <b>LKQ Comparable</b>
+                                        </h4>
+                                    </span>
+                                </div>
+
+
+                                <div class="col-md-12 col-sm-12 margin-bottom-20 margin-top-10" style="padding:5px;">
+
+                                    <div style="border:  0px solid lightgray;padding:  0px;" ng-if="Comparables.comparableItems.length>0">
+
+                                        <div class="col-md-12 portlet light bordered clearfix" ng-repeat="comp in Comparables.comparableItems">
+
+                                            <div class="col-md-3 col-sm-3 imagePostion text-center">
+                                                <div class="col-md-12 light bordered imageHeightComparable" style="border:1px solid #ddd;">
+                                                    <img ng-if="!comp.isDataImage && comp.imageURL!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';"
+                                                        class="ImageComparable" ng-src="{{comp.imageURL}}" alt="image" />
+                                                    <img ng-if="!comp.isDataImage && comp.imageURL===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';"
+                                                        class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image"
+                                                    />
+
+                                                    <img ng-if="comp.isDataImage && comp.imageData!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';"
+                                                        class="ImageComparable" ng-src="{{comp.imageData}}" alt="image" />
+                                                    <img ng-if="comp.isDataImage && comp.imageData===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';"
+                                                        class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 col-sm-4 col-xs-12 tip">
+                                                <label class="control-label">
+                                                    <span class="sbold text-primary">{{"FormControlText.Brand"|translate}}</span>&nbsp;:&nbsp;
+                                                    <span class="Overlay" ng-if="comp.brand.length>18">{{comp.brand}}{{comp.brand.length > 18 ? '...' : ''}}</span>
+                                                    <span>{{comp.brand | limitTo: 18}}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                                <label class="control-label">
+                                                    <span class="text-primary sbold">{{"FormControlText.Model"|translate}}</span>&nbsp;:&nbsp;
+                                                    <span class="Overlay" ng-if="comp.model.length>18">{{comp.model}}</span>
+                                                    <span>{{comp.model | limitTo: 18}}{{comp.model.length > 18 ? '...' : ''}}</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 tip">
+                                                <label class="control-label">
+                                                    <span class="text-primary sbold">{{"FormControlText.UnitPrice"|translate}}</span>&nbsp;:&nbsp;{{comp.unitPrice|currency}}</label>
+                                            </div>
+                                            <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                                <label class="control-label">
+                                                    <span class="text-primary sbold">{{"FormControlText.Supplier"|translate}}</span>&nbsp;:&nbsp;
+                                                    <span class="Overlay" ng-if="comp.supplier.length>18">{{comp.supplier}}</span>
+                                                    <span>{{comp.supplier | limitTo: 18}}{{comp.supplier.length > 18 ? '...' :
+                                                        ''}}
+                                                    </span>
+                                                </label>
+                                            </div>
+
+                                            <div class="col-md-8 col-sm-8 col-xs-12 margin-bottom-5 ">
+                                                <label class="control-label clearfix text-primary sbold">{{"FormControlText.VendorDescription"|translate}} &nbsp;:&nbsp;</label>
+                                                <input type="text" ng-model="comp.description" class="form-control" placeholder='{{"FormControlText.VendorDescription"|translate}}'
+                                                />
+                                            </div>
+                                            <div class="clearfix"></div>
+
+                                            <div class="col-md-12 col-sm-12 text-right">
+                                                <a href="#" style="color:red;" ng-click="ShopNow(comp)">{{"FormControlText.BuyViewHere"|translate}}</a>
+                                            </div>
+                                            <div class="margin-bottom-10"></div>
+
+                                        </div>
+
+
+
+                                        <br/>
+
+
+                                    </div>
+                                    <div ng-if="Comparables.comparableItems.length <1">
+                                        <span class="text-danger" style="text-align: center;">{{"No Comparable Available"|translate}}</span>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                <!-- Comparable details End  -->
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+
+
+                    <div class="col-md-12 form-group">
+                    
+                        <div class="col-md-12 col-lg-12  col-sm-12 col-xs-12 padding1px margin-top-10">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                    <div class="col-md-12 col-sm-7 Label_Text_Left" style="padding-left: 0px;">
+                                        <label>
+                                            <h4><b> {{"Comments"|translate}}</b></h4>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12" style="padding-left: 0px;">
+                                        <textarea id="comments" ng-model="Appraisal.comments" class="form-control" rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right margin-top-10" ng-if="!isEditAppraisal">
+
+                <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="">
+                    {{"Print/Download PDF"|translate}}
+                </button>
+                <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="supervisorReviewStatus==1" ng-click="SaveComparableComment()">
+                    {{"Save"|translate}}
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+</div>
+<!--Add/Edit Section Stop-->
+</div>
+<script>
+    ComponentsDateTimePickers.init(); // init todo page
+
+</script>

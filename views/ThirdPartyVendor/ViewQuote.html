@@ -1,0 +1,501 @@
+﻿<style>
+    .MinHeight {
+        min-height: 113px;
+    }
+</style>
+<div class="col-md-12">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="GoToClaimDetails()">{{CommonObject.ClaimNumber}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="GoToLineItem()">{{CommonObject.ItemNumber}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Quote"|translate}}</span>
+        </li>
+    </ul>
+    <div class="portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-gray-sharp">
+                <span class="caption-subject">{{"Quote"|translate}}</span>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 margin-top-5 text-right">
+            <button class="btn btnMargin sbold" ng-click="GoToBackPage()">{{"Cancel"|translate}}</button>
+            <button class="btn btnMargin sbold" ng-click="SendToAdjusterPopUp()">{{"Send Text To Adjuster"|translate}}</button>
+            <button class="btn btnMargin sbold" ng-disabled="IsSubmit" ng-click="SaveReplacementItem()">{{"Submit"|translate}}</button>
+            <button class="btn btnMargin sbold" ng-if="QuoteDetails.id" onclick="document.title = 'Quote Details';CreatePDF()">{{"Print"|translate}}</button>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <div class="col-md-12 col-sm-12 form-group margin-top-20">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label">{{"InsuranceCompany"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label" name="Name">{{InsuranceCompanyDetails.company.companyName}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label">{{"Address"|translate}}</label>
+                        <div class="col-md-7 col-sm-6 ">
+                            <input type="text" class="form-control margin-top-10" ng-model="InsuranceCompanyDetails.company.officeAddress.streetAddressOne" placeholder="{{'Street Address 1'|translate}}" />
+                            <input type="text" class="form-control margin-top-10" ng-model="InsuranceCompanyDetails.company.officeAddress.streetAddressTwo" placeholder="{{'Street Address 2'|translate}}" />
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <input type="text" class="form-control" ng-model="InsuranceCompanyDetails.company.officeAddress.city" placeholder="{{'City'|translate}}" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <select class="form-control select2me" placeholder='{{"State"|translate}}' ng-model="InsuranceCompanyDetails.company.officeAddress.state.id"
+                                        ng-options="item.id as item.state for item in ddlStateList"></select> <!---->
+                            </div>
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="InsuranceCompanyDetails.company.officeAddress.zipcode" placeholder="{{'ZipCode'|translate}}" />
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Adjuster"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label" name="Name">{{InsuranceCompanyDetails.adjuster.lastName+", "+InsuranceCompanyDetails.adjuster.firstName}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12">
+                    <div class="col-md-12 col-sm-12 form-group margin-top-20">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Date"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label">{{PolicyholderDetails.reportDate|DateFormatMMddyyyy }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group ">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Claim#"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label">{{CommonObject.ClaimNumber}}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group ">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"InsuredName"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label">{{ PolicyholderDetails.policyHolder.lastName+", "+ PolicyholderDetails.policyHolder.firstName}}</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label">{{"Address"|translate}}</label>
+                        <div class="col-md-7 col-sm-6 form-group">
+                            <input type="text" class="form-control margin-top-10" ng-model="PolicyholderDetails.policyHolder.address.streetAddressOne" placeholder="{{'Street Address 1'|translate}}" />
+                            <input type="text" class="form-control margin-top-10" ng-model="PolicyholderDetails.policyHolder.address.streetAddressTwo" placeholder="{{'Street Address 2'|translate}}" />
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <input type="text" class="form-control" ng-model="PolicyholderDetails.policyHolder.address.city" placeholder="{{'City'|translate}}" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <select class="form-control select2me" ng-model="PolicyholderDetails.policyHolder.address.state.id" ng-options="item.id as item.state for item in ddlStateList" placeholder='{{"State"|translate}}'></select> <!---->
+                            </div>
+                            <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' ng-model="PolicyholderDetails.policyHolder.address.zipcode" class="form-control" placeholder="{{'ZipCode'|translate}}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 form-group ">
+                        <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Phone"|translate}}</label>
+                        <div class="col-md-7 col-sm-6">
+                            <span class="control-label">{{PolicyholderDetails.policyHolder.cellPhone|tel}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="portlet padding1px">
+                        <div class="portlet-title"></div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px margin-bottom-20" ng-repeat="item in ReplacementItem" ng-if="ReplacementItemDetails!=null">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-6 col-sm-12" ng-if="item.claimItem!=null">
+                            <div class="SubHeadingDiv">
+                                <span>{{"Origional Item#"|translate}} &nbsp;{{item.claimItem.itemNumber}}</span>
+                            </div>
+                            <div class="col-md-12 col-sm-12 MinHeight  margin-top-10" style="border:1px solid #c7ccd0">
+                                <textarea rows="5" class="form-control margin-top-10 margin-bottom-10" ng-model="item.claimItem.description"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12  pull-right">
+                            <div class="col-md-12 col-sm-12" ng-repeat="replacementitem in item.comparableItems" ng-if="item.comparableItems!=null">
+                                <div class="SubHeadingDiv" ng-if="replacementitem.isReplacementItem===true">
+                                    <span>{{"Replacement Item"|translate}} &nbsp;{{replacementitem.id}}</span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 MinHeight  margin-top-10" style="border:1px solid #c7ccd0" ng-if="replacementitem.isReplacementItem===true">
+                                    <div class="col-md-9" style="border-right:1px solid #c7ccd0">
+                                        <textarea rows="5" class="form-control margin-top-10 margin-bottom-10" ng-model="replacementitem.description"></textarea>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <span style="line-height: 90px;">{{replacementitem.unitPrice}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12" ng-if="item.comparableItems===null">
+                                <div class="SubHeadingDiv">
+                                    <span>{{"Replacement Item"|translate}}</span>
+                                </div>
+                                <div class="col-md-12 col-sm-12 MinHeight text-center margin-top-10" style="border:1px solid #c7ccd0">
+                                    <a href="" class="margin-top-30 margin-bottom-10" style="line-height: 90px;" ng-click="GoToLineItem(item.claimItem.id)">{{"No repalcement available. Click to add one"}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 margin-top-10 margin-top-10 padding1px">
+                    <div class="portlet padding1px">
+                        <div class="portlet-title"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 margin-top-10 margin-bottom-10">
+                    <div class="SubHeadingDiv">
+                        <span>{{"Additional Comments"|translate}}</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 margin-top-10 MinHeight" style="border:1px solid #c7ccd0">
+                        <textarea rows="5" class="form-control margin-top-10 margin-bottom-10" ng-model="vendorComment"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 margin-top-10 margin-bottom-10">
+                    <div class="col-md-3 col-sm-6 pull-right padding1px">
+                        <table class="table table-bordered table-hover">
+                            <tr>
+                                <td style="width:50%">
+                                    <label>  {{"Subtotal"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{SubTotal| number : 2}}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    <label>  {{"TaxRate"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{TaxRate| number : 2}}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    <label>   {{"Tax"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{Tax| number : 2}}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    <label> {{"Shipping"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{Shipping| number : 2}}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    <label>   {{"Deductible"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{Deductible| number : 2}}</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:50%">
+                                    <label>    {{"Total"|translate}}</label>
+                                </td>
+                                <td>
+                                    <label>  {{Total| number : 2}}</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 margin-top-10">
+                    <div class="portlet padding1px">
+                        <div class="portlet-title"></div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 margin-top-10">
+                    <div class="SubHeadingDiv">
+                        <span>{{"Quote Prepared By"|translate}}</span>
+                    </div>
+                    <div class="col-md-12 col-sm-12 margin-top-10" style="border:1px solid #c7ccd0">
+                        <div class="col-md-12 col-sm-12 form-group margin-top-20">
+                            <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Vendor  Name"|translate}}</label>
+                            <!--<label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Vendor Associate Name"|translate}}</label>-->
+                            <div class="col-md-7 col-sm-6">
+                                <span class="control-label">{{CommonObject.Name}}</span>
+                            </div>
+                            <!--<div class="col-md-7 col-sm-6">
+                                <span class="control-label">{{AssociateDetails.firstName+" "+AssociateDetails.lastName}}</span>
+                            </div>-->
+                        </div>
+                        <div class="col-md-12 col-sm-12 form-group">
+                            <label class="col-md-4 col-sm-6 Label_Text_Right control-label">{{"Address"|translate}}</label>
+                            <div class="col-md-7 col-sm-6 form-group">
+                                <input type="text" class="form-control margin-top-10" ng-model="VendorDetails.billingAddress.streetAddressOne" placeholder="{{'Street Address 1'|translate}}" />
+                                <input type="text" class="form-control margin-top-10" ng-model="VendorDetails.billingAddress.streetAddressTwo" placeholder="{{'Street Address 2'|translate}}" />
+                                <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                    <input type="text" class="form-control" ng-model="VendorDetails.billingAddress.city" placeholder="{{'City'|translate}}" />
+                                </div>
+                                <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                    <select class="form-control select2me" ng-model="VendorDetails.billingAddress.state.id" ng-options="item.id as item.state for item in ddlStateList" placeholder='{{"State"|translate}}'></select> <!--ng-options="item.id as item.state for item in ddlStateList"-->
+                                </div>
+                                <div class="col-md-6 col-sm-6 padding1px margin-top-10">
+                                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorDetails.billingAddress.zipcode" placeholder="{{'ZipCode'|translate}}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 form-group ">
+                            <label class="col-md-4 col-sm-6 Label_Text_Right control-label sbold">{{"Phone"|translate}}</label>
+                            <div class="col-md-7 col-sm-6">
+                                <span class="control-label">{{VendorDetails.cellPhone|tel}}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-12 col-sm-12 margin-top-10 text-right topBorder">
+                    <div class="col-md-12 col-sm-12 margin-top-10">
+                        <button class="btn btnMargin sbold" ng-click="GoToBackPage()">{{"Cancel"|translate}}</button>
+                        <button class="btn btnMargin sbold" ng-click="SendToAdjusterPopUp()">{{"Send Text To Adjuster"|translate}}</button>
+                        <button class="btn btnMargin sbold" ng-disabled="IsSubmit" ng-click="SaveReplacementItem()">{{"Submit"|translate}}</button>
+                        <button class="btn btnMargin sbold" ng-if="QuoteDetails.id" onclick="document.title = 'Quote Details'; CreatePDF()" return false;>{{"Print"|translate}}</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Printable Div Start-->
+            <div class="row" id="PrintableDiv" style="display:none;">
+                <div style="width:100%;display:block;float:left;margin-top:30px">
+                    <!--Insurance Company Details-->
+                    <div style="width:50%;float:left;">
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left">
+                                <label style="float:right;margin-right:5px;">{{"InsuranceCompany : "|translate}}</label>
+                            </div>
+                            <span>{{InsuranceCompanyDetails.company.companyName}}</span>
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left">
+                                <label style="float:right;margin-right:5px;">{{"Address : "|translate}}</label>
+                            </div>
+                            <div style="width:50%;float:left">
+                                <span>{{InsuranceCompanyDetails.company.officeAddress.completeAddress}}</span>
+                            </div>
+                            
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left">
+                                <label style="float:right;margin-right:5px;">{{"Adjuster : "|translate}}</label>
+                            </div>
+                            <span>{{InsuranceCompanyDetails.adjuster.lastName+", "+InsuranceCompanyDetails.adjuster.firstName}}</span>
+                        </div>
+                    </div>
+                    <!--Claim Details-->
+                    <div style="width:50%;float:left">
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left;margin-right:5px;">
+                                <label style="float:right;margin-right:5px;">{{"Date : "|translate}}</label>
+                            </div>
+                            <span>{{PolicyholderDetails.reportDate|DateFormatMMddyyyy }}</span>
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left;margin-right:5px;">
+                                <label style="float:right;margin-right:5px;">{{"Claim# : "|translate}}</label>
+                            </div>
+                            <span>{{CommonObject.ClaimNumber}} </span>
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left;margin-right:5px;">
+                                <label style="float:right;margin-right:5px;">{{"Insured's Name : "|translate}}</label>
+                            </div>
+                            <span>{{ PolicyholderDetails.policyHolder.lastName+", "+ PolicyholderDetails.policyHolder.firstName}} </span>
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left;">
+                                <label style="float:right;margin-right:5px;">{{"Address : "|translate}}</label>
+                            </div>
+                            <div style="width:50%;float:right">
+                                <span>{{PolicyholderDetails.policyHolder.address.completeAddress}}</span>
+                            </div>                            
+                        </div>
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:50%;float:left;margin-right:5px;">
+                                <label style="float:right;margin-right:5px;">{{"Phone# : "|translate}}</label>
+                            </div>
+                            <span>{{PolicyholderDetails.policyHolder.cellPhone|tel}} </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%;display:block;border-top:1px solid black;float:left;margin-top:20px">
+                    <div style="width:100%;display:block;float:left;margin-top:10px" ng-repeat="item in ReplacementItem">
+                        <!--Main Item Div-->
+                        <div style="width:50%;float:left;">
+                            <div style="width:100%;display:block;float:left">
+                                <div style="width:100%;float:left">
+                                    <label style="float:left;margin-right:5px;">{{"Origional Item#"|translate}} &nbsp;{{item.claimItem.itemNumber}}</label>
+                                </div>
+                                <div style="width:100%;float:left">
+                                    <span>{{item.claimItem.description}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Replacement Item Div-->
+                        <div style="width:50%;float:left;">
+                            <div style="width:100%;margin-bottom:5px;margin-top:5px;display:block;float:left" ng-repeat="replacementitem in item.comparableItems" ng-if="replacementitem.isReplacementItem===true">
+                                <div style="width:80%;float:left">
+                                    <label style="float:left;margin-right:5px;"><span>{{"Replacement Item"|translate}} &nbsp;{{replacementitem.id}}</span></label>
+                                </div>
+                                <div style="width:20%;float:left">
+                                    <label style="float:left;"><span>{{replacementitem.unitPrice|currency}}</span></label>
+                                </div>
+                                <div style="width:80%;float:left">
+                                    <span>{{replacementitem.description}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%;display:block;border-top:1px solid black;float:left;margin-top:20px">
+                    <!--Additional Comments-->
+                    <div style="width:50%;float:left;margin-top:10px;">
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:100%;float:left">
+                                <label style="float:left;margin-right:5px;">{{"Additional Comments"|translate}} &nbsp;{{item.claimItem.itemNumber}}</label>
+                            </div>
+                            <div style="width:100%;float:left">
+                                <span>{{vendorComment}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Tax Details Div-->
+                    <div style="width:50%;float:left;">
+                        <div style="width:100%;display:block;float:left">
+                           <table style="width:40%;margin-top:10px;float:right;">
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{"Subtotal"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{SubTotal| number : 2}}</label>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{"TaxRate"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{TaxRate| number : 2}}</label>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>   {{"Tax"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{Tax| number : 2}}</label>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label> {{"Shipping"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{Shipping| number : 2}}</label>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>   {{"Deductible"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{Deductible| number : 2}}</label>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>    {{"Total"|translate}}</label>
+                                   </td>
+                                   <td style="width:50%;padding:2px;border:1px solid black">
+                                       <label>  {{Total| number : 2}}</label>
+                                   </td>
+                               </tr>
+                           </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width:100%;display:block;border-top:1px solid black;float:left;margin-top:20px">
+                    <!--Quote Creator Details-->
+                    <div style="width:50%;float:left;margin-top:10px;">
+                        <div style="width:100%;display:block;float:left">
+                            <div style="width:100%;float:left">
+                                <label style="float:left;margin-right:5px;">{{"Quote Prepared By"|translate}}</label>
+                            </div>
+                            <div style="width:100%;display:block;float:left;margin-top:5px;">
+                                <div style="width:30%;float:left">
+                                    <label style="float:right;margin-right:5px;">{{"Vendor Name : "|translate}}</label>
+                                </div>
+                                <span>{{CommonObject.Name}}</span>
+                            </div>
+                            <div style="width:100%;display:block;float:left">
+                                <div style="width:30%;float:left">
+                                    <label style="float:right;margin-right:5px;">{{"Address : "|translate}}</label>
+                                </div>
+                                <div style="width:50%;float:left">
+                                    <span>{{VendorDetails.billingAddress.completeAddress}}</span>
+                                </div>                                 
+                            </div>
+                            <div style="width:100%;display:block;float:left">
+                                <div style="width:30%;float:left">
+                                    <label style="float:right;margin-right:5px;">{{"Phone# : "|translate}}</label>
+                                </div>
+                                <span>{{VendorDetails.cellPhone|tel}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Printable Div End-->
+        </div>
+    </div>
+</div>
+<script>
+    function CreatePDF() {
+        ////Get the HTML of div
+        //var divElements = document.getElementById('PrintableDiv').innerHTML;
+        ////Get the HTML of whole page
+        //var oldPage = document.body.innerHTML;
+
+        ////Reset the page's HTML with div's HTML only
+        //document.body.innerHTML =
+        //  "<html><head><title>QUOTE DETAILS</title></head><body>" +
+        //  divElements + "</body>";
+        ////Print Page
+        //window.print();
+        ////Restore orignal HTML
+        //document.body.innerHTML = oldPage;
+
+
+
+        var printContents = document.getElementById('PrintableDiv').innerHTML;
+        var popupWin = window.open('', '_blank', 'width=1000px,height=800px;');
+        popupWin.document.open();
+        popupWin.document.write('<html><head><style> label{font-weight:bold;}</style></head><body onload="window.print()">' + printContents + '</body></html>');
+        popupWin.document.close();
+
+    }
+</script>

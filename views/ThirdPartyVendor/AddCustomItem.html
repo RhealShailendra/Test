@@ -1,0 +1,284 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="goToDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="goBack()">{{CommonObj.ClaimNo}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li ng-if="NewCustomItem">
+            <a ng-click="goItemPage()">{{CommonObj.ItemNumber}}</a>
+            <i class="fa fa-circle"></i>           
+        </li>
+        <li ng-if="!NewCustomItem">
+            <a ng-click="goItemPage()">{{CommonObj.ItemNumber}}</a>
+            
+        </li> 
+
+        <li ng-if="!CustomItem.id && NewCustomItem">
+            <span>{{"New Custom Item"}}</span>
+
+        </li> 
+        <li ng-if="CustomItem.id && NewCustomItem">
+            <span>{{CustomItem.id}}</span>
+
+        </li> 
+    </ul>
+</div>
+
+<div class="col-md-12 portlet light padding1px" ng-if="!NewCustomItem">
+    <div class="portlet-title">
+        <div class="caption font-gray-sharp">
+            <span class="caption-subject ">
+                {{"Custom Items"|translate}}
+            </span>
+        </div>
+        <div class="tools">
+        </div>
+    </div>
+   
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 padding1px">
+                    <div class="col-md-12 col-sm-12 clearfix padding1px">
+                        <div class="col-md-12 col-sm-12 ">
+                            <div class="col-md-12 col-sm-12 clearfix options_Background_WithBorder">
+                                <div class="col-md-12 col-sm-12 margin-top-5 margin-bottom-5 padding1px">
+                                    <button class="btn sbold btnMargin btnOptions" ng-click="NewItem()">{{"New Custom Item"}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                <thead>
+                                    <tr>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{"Item Id"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{"Item Description"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{"Replacement Cost"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{"Created Date"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{'Status'|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('')">
+                                            {{'Action'|translate}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in CustomItemList|orderBy:sortNewClaimKey:reverseNewClaim|filter:searchContract">
+                                        <td ng-click="GotoDetails(item)">{{item.id}}</td>
+                                        <td ng-click="GotoDetails(item)">{{item.description}}</td>
+                                        <td ng-click="GotoDetails(item)">{{item.replacementCost}}</td>
+                                        <td ng-click="GotoDetails(item)">{{item.createDate|DateFormatMMddyyyy}}</td>
+                                        <td ng-click="GotoDetails(item)">{{item.itemStatus}}</td>
+                                        <td style="width:10%">
+                                            <span class="text-success sbold" style="font-size:13px" ng-click="AddToComparable(item)">Add To Comparable</span>
+                                            &nbsp;&nbsp;
+                                            <span class="text-danger sbold" style="font-size:13px" ng-click="DeleteCustomItem(item)">Delete</span>
+                                        </td>
+                                    </tr>
+                                    <tr  ng-if="CustomItemList===null ||  CustomItemList.length===0"><td></td><td colspan="8" class="text-danger text-center"> {{"No items to show"|translate}} </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+<div class="col-md-12 portlet light padding1px" ng-if="NewCustomItem">
+    <div class="portlet-title">
+        <div class="caption font-gray-sharp">
+            <span class="caption-subject" ng-if="!CustomItem.id">
+                {{"NewCustomItem"|translate}}
+            </span>
+            <span class="caption-subject" ng-if="CustomItem.id">
+                {{"Item Id:"|translate}} {{CustomItem.id}}
+            </span>
+        </div>
+        <div class="tools">
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                        <span class="text_options_Label sbold caption">{{"HeaderText.ReplacementItem"|translate}}</span>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                        <!--Left Side-->
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 margin-top-10 padding1px">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                    <label class="control-label "> {{"Label.ReplacementDescription"|translate}}</label>
+                                </div>
+                                <div class="col-md-8 col-sm-6">
+                                    <textarea class="form-control" ng-model="CustomItem.description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-top-10 padding1px">
+                            <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12  form-group">
+                                <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                    <label class="control-label" style="margin-right:1px;"> {{"Label.ItemCoverageLimit"|translate}}</label>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right ">
+                                        <label class="control-label " style="margin-right:15px;"> {{"Label.GroupCoverageLimit"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 padding1px">
+                                        <span type="text" class="control-label" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label sbold ">{{"Label.ReplacementCost"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <span type="text" class="control-label">{{CustomItem.replacementCost}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Left Side-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 portlet light padding1px" ng-if="NewCustomItem">
+    <div class="portlet-title">
+        <div class="caption font-gray-sharp">
+            <span class="caption-subject ">
+                {{"Worksheet"|translate}}
+            </span>
+        </div>
+        <div class="tools">
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 clearfix padding1px">
+                <div class="col-md-12 col-sm-12">
+                    <div class="col-md-12 col-sm-12 clearfix options_Background_WithBorder ">
+                        <div class="col-md-4 col-sm-6 col-xs-6 pull-left margin-top-5 margin-bottom-5 ">
+                            <button id="sample_editable_1_new " class="btn sbold btnOptions" ng-click="NewItemPopup($event)">
+                                {{"NewItem"|translate}}
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6 pull-right margin-top-5 margin-bottom-5">
+                            <div class="input-icon left">
+                                <i class="icon-magnifier"></i>
+                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="search" placeholder='{{"search"|translate}}'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                        <thead>
+                            <tr>
+                                <th ng-click="sortNewClaim('claimNumber')">
+                                    {{"Table.ItemID"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('insuranceCompany.name')">
+                                    {{"Table.ItemDescription"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='insuranceCompany.name'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('adjusterDetails.firstName')">
+                                    {{"Table.UnitPrice"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='adjusterDetails.firstName'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('claimedItems')" class="statusHeading">
+                                    {{"Table.Quantity"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('claimedItems')" class="statusHeading">
+                                    {{"Table.TotalCost"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('claimedItems')" class="statusHeading">
+                                    {{"Table.Attachments"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th>
+                                    {{"Table.Action"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in CustomSubItem|orderBy:sortNewClaimKey:reverseNewClaim|filter:search">
+                                <td class="text-center">{{item.id}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.unitPrice}}</td>
+                                <td>{{item.quantity}}</td>
+                                <td>{{item.totalCost}}</td>
+                                <td><font ng-repeat="attachments in item.attachment"><a href="{{attachments.url}}" download>{{attachments.name}}</a><span ng-if="!$last"> , </span></font></td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-circle btn-outline" style="display:flex !important;">
+                                        <!--<span ng-click="AddItem(item)" class="text-success sbold pull-left" style="font-size:13px;">{{"Add"|translate}}</span>-->
+                                        &nbsp; &nbsp;
+                                        <span ng-click="RemoveSubItem(item,$index)" class="text-danger sbold pull-right" style="font-size:13px;">{{"Delete"|translate}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-if="CustomSubItem===null || CustomSubItem.length===0"><td></td><td colspan="8" class="text-danger text-center"> {{"No items to show"|translate}} </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6 pull-right">
+                    <div class="col-md-3 col-sm-6 Label_Text_Right ">
+                        <label class="control-label "> {{"Label.TotalCost"|translate}} : {{CustomSubItemTotalCost|currency}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="portlet">
+                    <div class="">
+                        <div class="tools pull-right margin-right-10">
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Cancel()">
+                                {{"Cancel"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="AddUpdateCustomItem('Draft')">
+                                {{"Draft"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="AddUpdateCustomItem('Create')">
+                                {{"Create"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="AddUpdateCustomItem('Comparable')">
+                                {{"Add to comparable"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="DeleteCustomItem(CustomItem)">
+                                {{"Delete"|translate}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

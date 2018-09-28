@@ -1,0 +1,102 @@
+﻿
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="Back()">{{"Content Services Offered"|translate}}</a>
+        </li>
+        <li>
+            <span><i class="fa fa-circle"></i>{{"New Content Services"|translate}}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-12 clearfix portlet light padding1px">
+    <div class="portlet-title">
+        <div class="caption font-gray-sharp">
+            <span class="caption-subject">
+                {{"Content Services"|translate}}
+            </span>
+        </div>
+    </div>
+    <div class="tools pull-right margin-top-10">
+        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Back()">
+            {{"Cancel"|translate}}
+        </button>
+        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="SaveContentService()">
+            {{"Save"|translate}}
+        </button>
+
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12 clearfix padding1px margin-bottom-10" ng-form="Service">
+                <div class="col-lg-12 col-md-12 col-sm-12  form-group margin-top-10 ">
+                    <label class="col-md-3 col-sm-12 text-right">{{"Category Name"|translate}}</label>
+                    <div class="col-md-3 col-sm-12">
+                        <select class="form-control select2me input-large" style="width:100%;" ng-model="ContentService.category.categoryId" data-placeholder="Select Participant"
+                                id="select2insidemodal" ng-change="GetContentServicesOnCategory()"
+                                required name="Category" ng-options="item.categoryId as item.categoryName for item in categoryList"></select>
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="(Service.Category.$error.required && Service.Category.$touched)">
+                                <span class="text-danger">{{"Please select Category"|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                    <label class="col-md-3 col-sm-12 text-right">{{"Service Name"|translate}}</label>
+                    <div class="col-md-3 col-sm-12">
+                        <select class="form-control select2_sample2 input-large" style="width:100%;" multiple ng-model="ContentService.contentServiceIds"
+                                data-placeholder="Select Content Service" id="multi" ng-change="AddEditContentServiceFromList()"
+                                name="Servicename" ng-options="item.id as item.service for item in ContentServiceList"></select>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 margin-top-10" ng-repeat="item in CategoryServiceList.contentService">
+                   <div class="col-md-offset-2 col-md-4 portlet light padding1px">
+                       <div class="portlet-title">                           
+                               <label>{{item.service}}</label>                        
+                       </div>
+                   </div>
+                    <div class="col-md-12 col-sm-12 padding1px margin-top-5" ng-repeat="subservice in item.subServices">
+                        <div class="col-md-3 text-right">
+                            <span class="control-label text-right">{{subservice.service}}</span> 
+                            &nbsp;  &nbsp;
+                            <label class="mt-checkbox mt-checkbox-outline text-success">
+                                <input type="checkbox" class="checkboxes" ng-model="subservice.isAvailable" />
+                                <span></span>
+                            </label>
+                        </div>                      
+                        <div class="col-md-3 col-sm-12 padding1px">
+                            <input type="text" ng-readonly="!item.isminimumServiceFee" ng-model="subservice.serviceCharge" class="form-control" placeholder='{{"Minimum Cost"|translate}}' />
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tools pull-right">
+        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Back()">
+            {{"Cancel"|translate}}
+        </button>
+        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="SaveContentService()">
+            {{"Save"|translate}}
+        </button>
+
+    </div>
+</div>
+<script>
+    $("select").select2({
+
+    });
+</script>
+<style>
+    .select2-container--default.select2-container--focus .select2-selection--multiple {
+        border: solid #c2cad8 1px;
+        outline: 0;
+    }
+</style>

@@ -1,0 +1,741 @@
+﻿<!--<div class="row">
+    <span class="text-muted bold caption col-md-12 col-sm-12 col-xs-12 col-lg-12 margin-bottom-5 Custombreadcrumb">
+        <a href="#" ng-click="G()">{{"Claim Details"|translate}} </a>&nbsp; > &nbsp; <a href="#" ng-click="Back($event)">{{CommomObj.ClaimNo}} </a>
+    </span>
+</div>-->
+<!--<div class="row">
+    <div class="col-md-12">
+        <ul class="page-breadcrumb breadcrumb sbold">
+            <li>
+                <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ng-click="Back()">{{CommomObj.ClaimNo}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>{{"Reports"|translate}}</span>
+            </li>
+        </ul>
+    </div>
+
+</div>-->
+<div class="portlet padding1px">
+    <div class="portlet-body">
+            <div class="tabbable-customNew">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='ItemSummary'}" ng-click="CurrentTab = CurrentTab=='ItemSummary'? null: 'ItemSummary'">&nbsp;{{"ItemSummary"|translate}}&nbsp;</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='ReplacementSummary'}" ng-click="CurrentTab = CurrentTab=='ReplacementSummary'? null: 'ReplacementSummary'"> &nbsp;{{"ReplacementSummary"|translate}} &nbsp;</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='AboveLimitItems'}" ng-click="CurrentTab = CurrentTab=='AboveLimitItems'? null: 'AboveLimitItems'"> &nbsp;{{"AboveLimitItems"|translate}}&nbsp; </a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='PaymentSummary'}" ng-click="CurrentTab = CurrentTab=='PaymentSummary'? null: 'PaymentSummary'">&nbsp;{{"PaymentSummary"|translate}}&nbsp; </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="row">
+                        <!---Item Summary Tab-->
+                        <div class="col-lg-12" ng-show="CurrentTab=='ItemSummary'">
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <!--Company Logo-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
+                                            <img ng-src="assets/global/img/no-image.png" height="150px" width="150px" alt="company logo" />
+                                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 sbold">< Insurance Company Name ></label>
+                                        </div>
+                                    </div>
+                                    <!--End Company Logo-->
+                                    <div class="col-md-12"><a class="pull-right sbold" ng-click="ExportItemDetails()">Export to PDF</a></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10">
+                                        <div class="col-lg-4 col-md-4 col-sm-6  padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"ClaimNo"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ReportDetails.reportClaimDetails.claimNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossType"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ReportDetails.reportClaimDetails.lossType}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"Tax"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ReportDetails.reportClaimDetails.taxPercent}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossDate"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ReportDetails.reportClaimDetails.lossDate|DateFormatMMddyyyy}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-sm-12">{{"ClaimResolutionDate"|translate}} &nbsp;&nbsp;&nbsp;<span class="text-primary">{{ReportDetails.reportClaimDetails.claimResolutionDate|DateFormatMMddyyyy}}</span></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"PolicyHolderName"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.policyholderName}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"Adjuster"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.adjuster}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterPhone"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.adjusterPhone}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterEmail"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.adjusterEmailId}}</label>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-sm-12 margin-top-20 visible-sm"></div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyNo"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.policyNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyType"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.policyType}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"Deductible"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.deductible}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"CoverageLimit"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ReportDetails.reportClaimDetails.coverageLimit}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-xs-12 col-sm-12">{{"PersoanlPropertyCoverageLimit"|translate}}&nbsp;&nbsp;&nbsp;<span class="text-primary">{{ReportDetails.reportClaimDetails.personalPropertyCoverageLimit}}</span></label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    
+                                    <!--Start Table-->
+                                    <div class="col-md-12 col-sm-12">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive margin-top-10">
+                                            <table class="table table-bordered table-striped table-hover" id="NavigateTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th ng-click="sortReport('itemNumber')">
+                                                            {{"ItemNo"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='itemNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('categoryDetails.name')">
+                                                            {{"Category"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='categoryDetails.name'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th>
+                                                            {{"OrigionalItemDescription"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='originalItemDescription'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('unitPrice')">
+                                                            {{"UnitPrice"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='unitPrice'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('quantity')">
+                                                            {{"Qunatity"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='quantity'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('age')">
+                                                            {{"Age"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='age'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            {{"ReplacementItemDescription"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='replacementItemDescription'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('replacementCost')">
+                                                            {{"ReplacementCost"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='replacementCost'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('depreciationPercent')">
+                                                            {{"Deprn"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='depreciationPercent'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('depreciationAmount')">
+                                                            {{"DeprnAmt"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='depreciationAmount'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('actualCashValue')">
+                                                            {{"ActualCashValue"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='actualCashValue'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('isReplaced')">
+                                                            {{"Replaced"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='isReplaced'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                        <th ng-click="sortReport('settlementValue')">
+                                                            {{"SettlementValue"|translate}}
+                                                            <span class="glyphicon sort-icon" ng-show="sortReportKey=='settlementValue'" ng-class="{'glyphicon-chevron-up pull-right':reverseReport,'glyphicon-chevron-down pull-right':!reverseReport}"></span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr dir-paginate="Report in ReportDetails.claimItemsDetails|orderBy:sortReportKey:reverseReport|itemsPerPage:5" pagination-id="Report">
+                                                        <td>{{Report.itemNumber}}</td>
+                                                        <td>{{Report.categoryDetails.name}}</td>
+                                                        <td>{{Report.originalItemDescription}}</td>
+                                                        <td>{{Report.unitPrice}}</td>
+                                                        <td>{{Report.quantity}}</td>
+                                                        <td>{{Report.age}}</td>
+                                                        <td>{{Report.replacementItemDescription}}</td>
+                                                        <td>{{Report.replacementCost}}</td>
+                                                        <td>{{Report.depreciationPercent}}</td>
+                                                        <td>{{Report.depreciationAmount}}</td>
+                                                        <td>{{Report.actualCashValue}}</td>
+                                                        <td>{{Report.isReplaced}}</td>
+                                                        <td>{{Report.settlementValue}}</td>
+                                                    </tr>
+                                                    <tr class="sbold">
+                                                        <td class="text-right" colspan="7">{{"Total"|translate}}</td>
+                                                        <td>{{TotalReplacementCost|currency}}</td>
+                                                        <td></td>
+                                                        <td>{{TotalDepreciationAmount|currency}}</td>
+                                                        <td>{{TotalActualCashValue|currency}}</td>
+                                                        <td colspan="2"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <dir-pagination-controls max-size="3" pagination-id="Report"
+                                                                     direction-links="true"
+                                                                     boundary-links="true" class="pull-right">
+                                            </dir-pagination-controls>
+                                        </div>
+                                    </div>
+                                    <!--End Table-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Item Summary Tab-->
+                        <!---Replacement Summary Tab-->
+                        <div class="col-lg-12" ng-show="CurrentTab=='ReplacementSummary'">
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <!--Company Logo-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
+                                            <img ng-src="assets/global/img/no-image.png" height="150px" width="150px" alt="company logo" />
+                                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 sbold">< Insurance Company Name ></label>
+                                        </div>
+                                    </div>
+                                    <!--End Company Logo-->
+                                    <div class="col-md-12"><a class="pull-right sbold" ng-click="ExportReplacementDetails()">Export to PDF</a></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10">
+                                        <div class="col-lg-4 col-md-4 col-sm-6  padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"ClaimNo"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.claimNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossType"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.lossType}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"Tax"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.taxPercent}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossDate"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.lossDate|DateFormatMMddyyyy}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-sm-12">{{"ClaimResolutionDate"|translate}} &nbsp;&nbsp;&nbsp;<span class="text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.claimResolutionDate|DateFormatMMddyyyy}}</span></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"PolicyHolderName"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.policyholderName}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"Adjuster"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.adjuster}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterPhone"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.adjusterPhone}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterEmail"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.adjusterEmailId}}</label>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-sm-12 margin-top-20 visible-sm"></div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyNo"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.policyNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyType"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.policyType}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"Deductible"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.deductible}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"CoverageLimit"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.coverageLimit}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-xs-12 col-sm-12">{{"PersoanlPropertyCoverageLimit"|translate}}&nbsp;&nbsp;&nbsp;<span class="text-primary">{{ItemsReplacedOrPaid.reportClaimDetails.personalPropertyCoverageLimit}}</span></label>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                 
+                                    <div class="col-lg-12 margin-top-10">
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-12 portlet light bordered">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-sm-12 col-sm-12 col-xs-12">
+                                                        <h5 class="sbold">{{"ReplacementCostSettlement"|translate}}</h5>
+                                                    </div>
+                                                    <div class="col-lg-12 col-sm-12 col-sm-12 col-xs-12 padding1px">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"ItemsReplaced"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.replacementCostSettlement.noOfItemsReplaced}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"TotalReceiptValue"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.replacementCostSettlement.totalReceiptValue}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"LessAmountOverLimit"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.replacementCostSettlement.lessAmountOverLimits}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"LessPolicyDeductible"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.replacementCostSettlement.lessPolicyDeductible}}</label>
+                                                        </div>
+                                                        <div class="portlet">
+                                                            <div class="portlet-title">
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                                <label class="col-lg-6 col-md-6 col-sm-5 sbold">{{"NetReplacementCost"|translate}}</label>
+                                                                <label class="col-lg-6 col-md-6 col-sm-7 sbold text-primary">{{ItemsReplacedOrPaid.replacementCostSettlement.netReplacementCost|currency}}</label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-12 portlet light bordered">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-sm-12 col-sm-12 col-xs-12">
+                                                        <h5 class="sbold">{{"ActualCashValueSettlement"|translate}}</h5>
+                                                    </div>
+
+                                                    <div class="col-lg-12 col-sm-12 col-sm-12 col-xs-12 padding1px">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12  form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"ItemsCashed"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.noOfItemsCashed}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"TotalReplacementCost"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.totalReplacementCost}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"LessDepreciationCost"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.lessDepreciationCost}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"LessAmountOverLimit"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.lessAmountOverLimits}}</label>
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                            <label class="col-lg-6 col-md-6 col-sm-5">{{"LessPolicyDeductible"|translate}}</label>
+                                                            <label class="col-lg-6 col-md-6 col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.lessPolicyDeductible}}</label>
+                                                        </div>
+                                                        <div class="portlet">
+                                                            <div class="portlet-title">
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                                                <label class="col-lg-6 col-md-6 sbold col-sm-5">{{"NetClaimCost"|translate}}</label>
+                                                                <label class="col-lg-6 col-md-6 sbold col-sm-7 text-primary">{{ItemsReplacedOrPaid.actualCashValueSettlementDTO.netClaimCost|currency}}</label>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-8 control-label">
+                                                <label class="sbold">{{"TotalItemsClaimed"|translate}}:</label>
+                                            </div>
+                                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-4 control-label">
+                                                <label class="sbold text-primary">{{ItemsReplacedOrPaid.totalNoOfItemsClaimed}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
+                                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-8 control-label">
+                                                <label class="sbold">{{"TotalCostOfClaim"|translate}}:</label>
+                                            </div>
+                                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-4 control-label">
+                                                <label class="sbold text-primary">{{ItemsReplacedOrPaid.totalCostOfClaim|currency}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Replacement Summary Tab-->
+                        <!---Above Limit Items Tab-->
+                        <div class="col-lg-12 " ng-show="CurrentTab=='AboveLimitItems'">
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <!--Company Logo-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
+                                            <img ng-src="assets/global/img/no-image.png" height="150px" width="150px" alt="company logo" />
+                                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 sbold">< Insurance Company Name ></label>
+                                        </div>
+                                    </div>
+                                    <!--End Company Logo-->
+                                    <div class="col-md-12"><a class="pull-right sbold" ng-click="ExportCategoryDetails()">Export to PDF</a></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10">
+                                        <div class="col-lg-4 col-md-4 col-sm-6  padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"ClaimNo"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsAboveLimit.reportClaimDetails.claimNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossType"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsAboveLimit.reportClaimDetails.lossType}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"Tax"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsAboveLimit.reportClaimDetails.taxPercent}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossDate"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{ItemsAboveLimit.reportClaimDetails.lossDate|DateFormatMMddyyyy}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-sm-12">{{"ClaimResolutionDate"|translate}} &nbsp;&nbsp;&nbsp;<span class="text-primary">{{ItemsAboveLimit.reportClaimDetails.claimResolutionDate|DateFormatMMddyyyy}}</span></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"PolicyHolderName"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.policyholderName}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"Adjuster"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.adjuster}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterPhone"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.adjusterPhone}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterEmail"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.adjusterEmailId}}</label>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px  margin-bottom-20">
+                                            <div class="col-sm-12 margin-top-20 visible-sm"></div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyNo"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.policyNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyType"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.policyType}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"Deductible"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.deductible}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"CoverageLimit"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{ItemsAboveLimit.reportClaimDetails.coverageLimit}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-xs-12 col-sm-12">{{"PersoanlPropertyCoverageLimit"|translate}}&nbsp;&nbsp;&nbsp;<span class="text-primary">{{ItemsAboveLimit.reportClaimDetails.personalPropertyCoverageLimit}}</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="portlet light">
+                                            <div class="portlet-title">
+                                                <div class="caption font-gray-sharp">
+                                                    <span class="caption-subject">{{"AboveLimitItems"|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="row">
+                                                    <!--Start Table-->
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
+                                                        <table class="table table-bordered table-striped table-hover" id="NavigateTable">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th ng-click="sortAboveLimit('categoryName')">
+                                                                        {{"Category"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='categoryName'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortAboveLimit('totalItems')">
+                                                                        {{"ToTalItems"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='totalItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortAboveLimit('noOfItemsAboveLimit')">
+                                                                        {{"ItemsAboveLimit"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='noOfItemsAboveLimit'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortAboveLimit('categoryAggregateLimit')">
+                                                                        {{"AggregateLimit"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='categoryAggregateLimit'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="col-md-12  text-center">{{"Actuals"|translate}}</div>
+                                                                        <div class="col-md-6 text-center" ng-click="sortAboveLimit('actualsRCV')">
+                                                                            {{"RepalcementCost"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='actualsRCV'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                        </div>
+                                                                        <div class="col-md-6 text-center" ng-click="sortAboveLimit('actualsACV')">
+                                                                            {{"ActualCost"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='actualsACV'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th>
+                                                                        <div class="col-md-12  text-center">{{"AboveLimit"|translate}}</div>
+                                                                        <div class="col-md-6 text-center" ng-click="sortAboveLimit('aboveLimitRCV')">
+                                                                            {{"RepalcementCost"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='aboveLimitRCV'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                        </div>
+                                                                        <div class="col-md-6 text-center" ng-click="sortAboveLimit('aboveLimitACV')">
+                                                                            {{"ActualCost"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortAboveLimitKey=='aboveLimitACV'" ng-class="{'glyphicon-chevron-up pull-right':reverseAboveLimit,'glyphicon-chevron-down pull-right':!reverseAboveLimit}"></span>
+                                                                        </div>
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr dir-paginate="Items in ItemsAboveLimit.claimCategoryDetails|orderBy:sortAboveLimitKey:reverseAboveLimit|itemsPerPage:5" pagination-id="AboveLimit">
+                                                                    <td>{{Items.categoryName}}</td>
+                                                                    <td>{{Items.totalItems}}</td>
+                                                                    <td>{{Items.noOfItemsAboveLimit}}</td>
+                                                                    <td>{{Items.categoryAggregateLimit}}</td>
+                                                                    <td><div class="col-md-6  text-center">{{Items.actualsRCV}}</div> <div class="col-md-6  text-center">{{Items.actualsACV}}</div> </td>
+                                                                    <td><div class="col-md-6  text-center">{{Items.aboveLimitRCV}}</div> <div class="col-md-6  text-center">{{Items.aboveLimitACV}}</div> </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <dir-pagination-controls max-size="3" pagination-id="AboveLimit"
+                                                                                 direction-links="true"
+                                                                                 boundary-links="true" class="pull-right">
+                                                        </dir-pagination-controls>
+                                                    </div>
+                                                    <!--End Table-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+                                  
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Above Limit Items Tab-->
+                        <!---Payment Summary Tab-->
+                        <div class="col-lg-12" ng-show="CurrentTab=='PaymentSummary'">
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <!--Company Logo-->
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-12 text-center">
+                                            <img ng-src="assets/global/img/no-image.png" height="150px" width="150px" alt="company logo" />
+                                            <label class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 sbold">< Insurance Company Name ></label>
+                                        </div>
+                                    </div>
+                                    <!--End Company Logo-->
+                                    <div class="col-md-12"><a class="pull-right sbold" ng-click="ExportPaymentDetails()">Export to PDF</a></div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-10 margin-bottom-10">
+                                        <div class="col-lg-4 col-md-4 col-sm-6  padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"ClaimNo"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{PaymentSummary.reportClaimDetails.claimNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossType"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{PaymentSummary.reportClaimDetails.lossType}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"Tax"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{PaymentSummary.reportClaimDetails.taxPercent}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-4 col-md-5 col-sm-4">{{"LossDate"|translate}}</label>
+                                                <label class="control-label col-lg-8 col-md-7 col-sm-8 text-primary">{{PaymentSummary.reportClaimDetails.lossDate|DateFormatMMddyyyy}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-sm-12">{{"ClaimResolutionDate"|translate}} &nbsp;&nbsp;&nbsp;<span class="text-primary">{{PaymentSummary.reportClaimDetails.claimResolutionDate|DateFormatMMddyyyy}}</span></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"PolicyHolderName"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.policyholderName}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"Adjuster"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.adjuster}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterPhone"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.adjusterPhone}}</label>
+                                            </div>
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-6 col-md-7 col-sm-6">{{"AdjusterEmail"|translate}}</label>
+                                                <label class="control-label col-lg-6 col-md-5 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.adjusterEmailId}}</label>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 padding1px margin-bottom-20">
+                                            <div class="col-sm-12 margin-top-20 visible-sm"></div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyNo"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.policyNumber}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"PolicyType"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.policyType}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"Deductible"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.deductible}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-5 col-md-6 col-sm-6">{{"CoverageLimit"|translate}}</label>
+                                                <label class="control-label col-lg-7 col-md-6 col-sm-6 text-primary">{{PaymentSummary.reportClaimDetails.coverageLimit}}</label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                <label class="control-label col-lg-12 col-md-12 col-xs-12 col-sm-12">{{"PersoanlPropertyCoverageLimit"|translate}}&nbsp;&nbsp;&nbsp;<span class="text-primary">{{PaymentSummary.reportClaimDetails.personalPropertyCoverageLimit}}</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="portlet light">
+                                            <div class="portlet-title">
+                                                <div class="caption font-gray-sharp">
+                                                    <span class="caption-subject">{{"PaymentSummary"|translate}}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="portlet-body">
+                                                <div class="row">
+                                                    <!--Start Table-->
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive">
+                                                        <table class="table table-bordered table-striped table-hover" id="NavigateTable">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th ng-click="sortPaymentSummary('paymentID')">
+                                                                        {{"PaymentId"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='paymentID'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortPaymentSummary('amountPaid')">
+                                                                        {{"PaymentAmount"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='amountPaid'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortPaymentSummary('paymentDate')">
+                                                                        {{"PaymentDate"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='paymentDate'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortPaymentSummary('paymentMode')">
+                                                                        {{"PaymentMode"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='paymentMode'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortPaymentSummary('referenceNumber')">
+                                                                        {{"ReferenceCheckNo"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='referenceNumber'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortPaymentSummary('note')">
+                                                                        {{"Note"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortPaymenySummaryKey=='note'" ng-class="{'glyphicon-chevron-up pull-right':reversePaymentSummary,'glyphicon-chevron-down pull-right':!reversePaymentSummary}"></span>
+                                                                    </th>
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr dir-paginate="Payment in PaymentSummary.paymentSummaryDetails|orderBy:sortPaymenySummaryKey:reversePaymentSummary|itemsPerPage:5" pagination-id="PaymentSummary">
+                                                                    <td>{{Payment.paymentID}}</td>
+                                                                    <td> {{Payment.amountPaid}}</td>
+                                                                    <td> {{Payment.paymentDate|DateFormatMMddyyyy}}</td>
+                                                                    <td> {{Payment.paymentMode}}</td>
+                                                                    <td> {{Payment.referenceNumber}}</td>
+                                                                    <td> {{Payment.note}}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="text-right sbold">{{"TotalPaid"|translate}}</td>
+                                                                    <td class="sbold" colspan="5">{{TotalAmountPaid|currency}}</td>
+
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <dir-pagination-controls max-size="3" pagination-id="PaymentSummary"
+                                                                                 direction-links="true"
+                                                                                 boundary-links="true" class="pull-right">
+                                                        </dir-pagination-controls>
+                                                    </div>
+                                                    <!--End Table-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   
+
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                        <!--End Payment Summary Tab-->
+                    </div>
+                </div>
+            </div>
+     
+       
+    </div>
+</div>

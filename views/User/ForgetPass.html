@@ -1,0 +1,60 @@
+﻿<div class="user-login-5" ng-controller="ForgotPasswordController" style="display:block !important">
+    <div class="row bs-reset">
+        <div class="col-md-6 bs-reset mt-login-5-bsfix">           
+            <div class="col-md-12 col-sm-12">
+                <img class="img-responsive" src="assets/pages/img/login/3Circle.png" style="vertical-align:middle;margin-top:10vh" />
+                <img src="assets/pages/img/login/Artigem.png" style="position: absolute;z-index: 3;top:20vh; left:2vh;" />
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 margin-bottom-15">
+            <div class="col-md-12 portlet light bordered loginHeightVendor" style="box-shadow: 2px 0px 16px 0px lightgrey;margin-top:33%; ">
+                <div class="portlet-title ">
+                    <div class="caption font-blue-sharp sbold">
+                        <i class="font-green-sharp"></i>
+                        {{"LoginText.ForgotPassTitle"|translate}}
+                    </div>
+                    <div class="tools">
+                    </div>
+                </div>
+                <div class="portlet-body" ng-form="UserLogin">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that--> 
+                                <div class="col-md-12 col-sm-12 text-center padding1px margin-top-10">
+                                    <p>{{"LoginText.ForgotPassTitleMessage"|translate}}</p> 
+                                </div>                                                          
+                                <div class="clearfix col-md-12" style="margin-top:25px;"></div>
+                                <label class="control-label col-md-3 col-sm-3 text-right">{{"LoginText.Email_title"|translate}}</label>
+                                <div class="col-md-5 col-sm-5">
+                                    <input class="form-control form-control-solid placeholder-no-fix " pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" tabindex="1" required ng-model="username" type="text" autocomplete="off" placeholder={{"LoginText.Email_title"|translate}} name="Email" />
+                                    <div class="errormessage" role="alert" multiple>
+                                        <div ng-message="required" ng-show="(UserLogin.Email.$error.required && UserLogin.Email.$touched)">
+                                            <span>{{"ErrorMessage.EmailRequired_message"|translate}}</span>
+                                        </div>
+                                        <div ng-message="pattern" ng-show="(UserLogin.Email.$touched && UserLogin.Email.$error.pattern)">
+                                            <span>{{"ErrorMessage.ValidEmail_message"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>                            
+                            <div class="errormessage col-md-12 col-sm-12 text-center text-danger margin-top-10">{{errormsg}}</div>
+                            <div class="form-actions col-md-12 col-sm-12 margin-top-10">
+                                <div class="col-md-9 col-md-offset-3 col-sm-offset-3 ">
+                                    <button type="button" ng-click="SendEmail($event)" class="btn green " ng-disabled="UserLogin.$invalid || UserLogin.$pristine">{{"ControlText.Submit_title"|translate}}</button>
+                                </div>                               
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+jQuery(document).ready(function() {
+    Login.init()
+});
+</script>

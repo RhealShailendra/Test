@@ -1,0 +1,53 @@
+﻿{
+  "HeaderText": {
+    "SalvageClaims": "Salvage Claims",
+    "GemLabOrders": "GemLab Orders",
+    "ToDoList": "To Do List",
+    "WaitingForApproval": "Waiting For Approval",
+    "Orders": "Orders",
+    "MyClaims_title": "My Claims",
+    "Alert_title": "Alert Box",
+    "OpenSalvageItem": "Open Salvage Item",
+    "Alerts": "Alerts",
+    "Events": "Events"
+
+  },
+  "ControlText": {
+    "Show": "Show",
+    "View": "View",
+    "Dashboard": "Dashboard"
+  },
+  "Table": {
+    "Adjuster": "Adjuster",
+    "AssignedDate": "*Assignment Date",
+    "AssignmentId": "Assignment#",
+    "AssignmentNumber": "Assignment #",
+    "ClaimAssociate": "Claim Associate",
+    "ClaimId": "*Claim #",
+    "ClaimNumber": "Claim #",
+    "CreatedDate": "Created Date",
+    "DateofCutters": "Date of Cutters",
+    "DatetoGIA": "Date to GIA",
+    "Description": "Description",
+    "EstimateWeight":"Estimate Weight",
+    "InsuredName": "*Insured's Name",
+    "InsurenceCompany": "Insurance Company",
+    "ItemDescription": "*Item #-Description",
+    "LineItem": "*Line Item#",
+    "LineItemDescription": "Line Item #-Description",
+    "OrderNumber": "Order #",
+    "OrderType": "Order Type",
+    "OrignalWeight":"Orignal Weight",
+    "PolicyholderName": "Policyholder Name",
+    "SalvageID": "Salvage ID",
+    "ServiceRequested": "Service Requested",
+    "Status": "Status"
+  },
+  "SearchText": "Claim #,Assignment #,insured's name",
+  "searchClaim_SalvageText": "Claim #,Assignment #,Line item #,insured's name",
+  "GlobalSearchText": "Search ...Any Claim #, Policyholder",
+  "NoRecordText": "No Records Available",
+  "NoAlertText": "No new messages available",
+  "NoEventsText": "No events scheduled in next month"
+
+}

@@ -1,0 +1,557 @@
+﻿<div class="col-md-12" ng-form="Apprisal">
+    <!--List Start-->
+    <div class="portlet light padding1px" ng-show="!ApprisalOrderAddEdit">
+        <div class="portlet-title ">
+            <div class="caption font-gray-sharp">
+                <span class="caption-subject ">
+                    {{"Appraisal"|translate}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 clearfix padding1px">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="col-md-12 col-sm-12 clearfix options_Background_WithBorder">
+                            <div class="col-lg-6 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch ">
+                                <button id="btnAssign" class="btn sbold  btnOptions " ng-click="NewApprisal()">
+                                    {{"Create New Appraisal"|translate}}
+                                </button>
+                            </div>
+                            <div class="pull-right col-lg-6 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch padding1px">
+                                <div class="caption font-green-sharp col-lg-5 col-md-5 col-xs-12 col-sm-5 pull-right padding1px">
+                                    <div class="input-icon left">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="searchPO" placeholder="OrderId, description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                        <thead>
+                            <tr>
+                                <th ng-click="sortApprisal('appraisalNumber')">
+                                    {{'Appraisal#'|translate}}
+                                </th>
+                                <th ng-click="sortApprisal('appraisalDate')">
+                                    {{'Date'|translate}}
+                                </th>
+                                <th ng-click="sortApprisal('date')">
+                                    {{'ItemDescription'|translate}}
+                                </th>
+                                <th ng-click="sortApprisal('date')">
+                                    {{'TypeOfAppraisal'|translate}}
+                                </th>
+                                <th ng-click="sortApprisal('date')">
+                                    {{'AppraisalValue'|translate}}
+                                </th>
+                                <th ng-click="sortApprisal('date')">
+                                    {{'Action'|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr dir-paginate="appraisal in appraisals|orderBy:sortPOKey:reversePO|filter:searchPO|itemsPerPage:PageSize" pagination-id="apprisal">
+                                <td>{{appraisal.appraisalNumber}}</td>
+                                <td>{{appraisal.appraisalDate|DateFormatMMddyyyyHHmm}}</td>
+                                <td>{{appraisal.itemDescription}}</td>
+                                <td>{{appraisal.appraisalType.type}}</td>
+                                <td>{{appraisal.appraisalValue}}</td>
+                                <td>
+                                    <a ng-click="GotoDetails(appraisal.appraisalNumber)">{{"Edit"|translate}}</a>|
+                                    <a ng-click="DeleteAppraisal(appraisal)">{{"Detete"|translate}}</a>
+                                </td>                                
+                            </tr>
+                            <!--<tr ng-if="!Orders.length">
+                                <td colspan="6" class="text-danger text-center">{{"0 purchase orders available"|translate}}</td>
+                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center">
+                    <dir-pagination-controls max-size="3" pagination-id="apprisal"
+                                             direction-links="true"
+                                             boundary-links="true">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--List End-->
+    <!--Add/Edit Section Start-->
+    <div class="portlet light " ng-show="ApprisalOrderAddEdit">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-gray-sharp" ng-show="!IsEditOrder">
+                    {{"New appraisal"|translate}}
+                </span>
+                <span class="caption-subject font-gray-sharp" ng-show="IsEditOrder">
+                    {{"appraisal #"|translate}} : {{Appraisal.appraisalNumber}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body" ng-form="ApprisalForm">
+            <div class="row">
+                <div class="col-md-12 text-right margin-top-10">
+                    <!--For New-->
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="ApprisalPreivew($event)">
+                        {{"Preview"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="btnCancel()">
+                        {{"Back"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="ApprisalForm.$invalid || ApprisalForm.$pristine" ng-show="!IsEditOrder" ng-click="saveApprisalOrder($event)">
+                        {{"Create"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="ApprisalForm.$invalid || ApprisalForm.$pristine" ng-show="(IsEditOrder)" ng-click="saveApprisalOrder($event)">
+                        {{"Update"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="printAppraisal()">
+                        {{"Print"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-show="IsEditOrder" ng-click="DeleteAppraisalDetails()">
+                        {{"Delete"|translate}}
+                    </button>
+                    <!--End New-->
+                </div>
+
+                <div class="col-md-12 clearfix padding1px margin-top-10" id="cal">
+
+                    <div class="col-md-12 form-group">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                <span class="text_options_Label sbold caption">{{"Appraisal Summary"|translate}}</span>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                                <div class="col-md-12 clearfix padding1px margin-top-10">
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group ">
+                                        <div class="col-md-2 col-sm-6 Label_Text_Right">
+                                            <label class="control-label "> {{"Replacement Description"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-10 col-sm-6">
+                                            <textarea class="form-control" rows="3" ng-model="Appraisal.replacementDescription" ng-attr-placeholder='{{"Replacement Description"|translate}}'></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 form-group">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single">
+                                                <input type="checkbox" name="chb"  ng-disabled="isReplacement==true" ng-change="changeReplacememnt(isReplacement)" ng-model="isReplacement" ng-true-value="true" />
+                                                {{"Select as appraisal description"}} {{isReplacement}}<span></span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <!--start Item details-->
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 portlet padding1px margin-top-10">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                                        <span class="text_options_Label sbold caption">{{"Item Details"|translate}}</span>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;height:870px;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px margin-top-20">
+                                            <button id="generate_Description" class="btn sbold  btnMargin pull-right" ng-click="GenerateDescription()">
+                                                {{"Generate Description"|translate}}
+                                            </button>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Gender"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.selectedGender.id" id="selectedGender" name="gender" ng-options="item.id as item.gender for item in genderList" ng-change="setGender()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Custom"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.SelectedCustom.id" ng-options="item.id as item.customType for item in Custom" ng-change="setCustom()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Metal"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.selectedMetal.id" ng-options="item.id as item.name for item in Metal" ng-change="setMetal()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Metal Color"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.metalcolor.id" ng-options="item.id as item.name for item in MetalColor" ng-change="setMetalcolor()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Jewelry Type"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.jewellarytype.id" ng-options="item.id as item.name for item in JewellaryType" ng-change="setJewellarytype()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Length (Inches)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text"  class="form-control" ng-model="Appraisal.lengthInInches" placeholder='{{"Length of Item"|translate}}' />
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Weight (Grams)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.WaightInGrams" class="form-control" placeholder='{{"Mounting Weight"|translate}}'/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12   col-sm-12">
+                                                <div class="col-md-12 col-sm-12 SubHeadingDiv margin-bottom-10"><span class="caption-subject  ">{{"Center Stone"|translate}}</span></div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Shape"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.shapes.id" ng-options="item.id as item.name for item in shape" ng-change="setShapes()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Measurement (mm)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <input type="text" ng-model="Appraisal.measurement1" class="form-control" placeholder='{{"mm"|translate}}' />
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-6">
+                                                        <span>X</span>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <input type="text" ng-model="Appraisal.measurement2" class="form-control" placeholder='{{"mm"|translate}}' />
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-6">
+                                                        <span>X</span>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-6">
+                                                        <input type="text" ng-model="Appraisal.measurement3" class="form-control" placeholder='{{"mm"|translate}}' />
+                                                    </div>
+                                                    <div class="col-md-1 col-sm-6">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Weight (carats)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.WaightInCarats" class="form-control" placeholder='{{"Weight of center diamond"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Color"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.color1.id" ng-options="item.id as item.name for item in  color" ng-change="setColor1()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Clarity"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.Clarity1.id" ng-options="item.id as item.name for item in clarity" ng-change="setClarity1()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"GIA #"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.GIA" class="form-control" placeholder='{{"GIA #"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12   col-sm-12">
+                                                <div class="col-md-12 col-sm-12 SubHeadingDiv margin-bottom-10"><span class="caption-subject  ">{{"Side Stones"|translate}}</span></div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Quantity "|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.Quantity1" class="form-control" placeholder='{{"Quantity"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Shape"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.shp.id" ng-options="item.id as item.name for item  in shape " ng-change="setShp()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Weight (CTW)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.WeightCTW"  class="form-control" placeholder='{{"Weight (CTW)"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Color"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.color2.id" ng-options="item.id as item.name for item in color" ng-change="setColor2()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Clarity"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.Clarity2.id" ng-options="item.id as item.name for item in clarity" ng-change="setClarity2()"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12   col-sm-12">
+                                                <div class="col-md-12 col-sm-12 SubHeadingDiv margin-bottom-10"><span class="caption-subject  ">{{"Side Stones"|translate}}</span></div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Quantity "|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.Quantity" class="form-control" placeholder='{{"Quantity"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Shape"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.shapes1.id" ng-options="item.id as item.name for item  in shape " ng-change="setShapes1()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label ">{{"Weight (CTW)"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" ng-model="Appraisal.weightctw1" class="form-control" placeholder='{{"Weight"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Color"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.color3.id" ng-blur="color3()" ng-options="item.id as item.name for item in color" ng-change="setColor3()"></select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                                <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                                    <label class="control-label "> {{"Clarity"|translate}}</label>
+                                                </div>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="form-control" ng-model="Appraisal.Clarity3.id" ng-blur="Clarity3()" ng-options="item.id as item.name for item in clarity" ng-change="setClarity3()"></select>
+                                                </div>
+                                            </div>
+                                            <button id="generate_Description" class="btn sbold  btnMargin pull-right" ng-click="GenerateDescription()">
+                                                {{"Generate Description"|translate}}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End Item Details-->
+                        <!---Start Auto Generatred Description-->
+                        <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12 padding1px margin-top-10">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 portlet" style="padding-left:5px">
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;">
+                                            <span class="text_options_Label sbold caption">
+                                                {{"Auto Generated Description"|translate}}
+                                                <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single pull-right">
+                                                    <input type="checkbox" name="chb" ng-change="changeReplacememnt(isReplacement)" ng-checked="isReplacement==false" ng-model="isReplacement" ng-disabled="isReplacement==false" ng-true-value="false"/>
+                                                    {{"Select as appraisal description"}} {{isAutogenerated}}<span></span>
+                                                </label>
+
+                                            </span>
+
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                                            <div class="col-md-12 col-sm-12 margin-bottom-20 margin-top-20 ">
+                                                  <textarea id="autoGeneratedDescription" ng-model="Desc.description" class="form-control" rows="30" ></textarea>
+                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group margin-top-30">
+                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                            <label class="control-label "><span style="color:red">*</span>{{"Type of Appraisal"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <!--<select class="form-control" ng-model="Appraisal.TypeofAppraisal.id" ng-options="item.id as apprisal.type for apprisal in typeofAppraisal" ng-change="setTypeofAppraisal()"></select>-->
+                                            <select class="form-control" required name="typeOfAppraisal" ng-model="Appraisal.TypeofAppraisal.id" ng-options="apprisal.id as apprisal.type for apprisal in typeofAppraisal" ng-change="setTypeofAppraisal()"></select>
+                                            <div ng-message="required" ng-show="(ApprisalForm.typeOfAppraisal.$error.required && ApprisalForm.typeOfAppraisal.$touched)">
+                                                <span class="text-danger">{{"please select Appraisal type"|translate}}</span>
+                                            </div>
+                                         </div>
+                                        <div class="col-md-3 col-sm-6 Label_Text_Right">
+                                            <label class="control-label "><span style="color:red">*</span>{{"Appraisal Value"|translate}}</label>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="input-icon left ">
+                                                <input class="text" required name="appraisalValue" ng-model="Appraisal.appraisalValue" type="text" placeholder='{{"appraisal Value"|translate}}' />
+                                            </div>
+                                            <div ng-message="required" ng-show="(ApprisalForm.appraisalValue.$error.required && ApprisalForm.appraisalValue.$touched)">
+                                                <span class="text-danger">{{"please select Appraisal type"|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+
+                                        <input id="FileUpload1" multiple type="file" onchange="angular.element(this).scope().getAttachmentDetails(this)" style="display: none;" accept="image/*">
+                                        <a ng-click="AddAttachment($event)">
+                                            <span class="sbold" style="font-family:Calibri; font-size:18px;">
+                                                {{"Add Photos"|translate}}
+                                            </span>
+                                        </a>
+                                        <span ng-show="!showAttachmentErro">(4 pictures maximum)</span>
+                                        <span ng-show="showAttachmentErro" style="color:red">(maximum 4 pictures)</span>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                            <div class="col-md-12 col-sm-12 ">
+                                                <font ng-repeat="file in attachmentList">
+                                                    <span>{{file.FileName}}</span><span class="fa fa-times-circle fa-lg text-danger" 
+                                                                                        ng-click="RemoveAttachment($index)" 
+                                                                                        style="margin-left:10px;">
+                                                    </span>
+                                                    <span ng-if="!$last">, </span>
+                                                </font>                                                
+                                                <font ng-repeat="file in attachmentEditList">
+                                                   <a href={{file.url}} class="text-primary" download style="text-decoration:none;">{{file.name}}</a>
+                                                    <span ng-if="!$last">,</span>
+                                                </font>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-right margin-top-10">
+                    <!--For New-->
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="ApprisalPreivew($event)">
+                        {{"Preview"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="btnCancel()">
+                        {{"Back"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="ApprisalForm.$invalid || ApprisalForm.$pristine" ng-show="!IsEditOrder" ng-click="saveApprisalOrder($event)">
+                        {{"Create"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="ApprisalForm.$invalid || ApprisalForm.$pristine" ng-show="(IsEditOrder)" ng-click="saveApprisalOrder($event)">
+                        {{"Update"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-click="printAppraisal()">
+                        {{"Print"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin"  ng-show="IsEditOrder" ng-click="DeleteAppraisalDetails()">
+                        {{"Delete"|translate}}
+                    </button>
+                    <!--End New-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Add/Edit Section Stop-->
+    <!--Printable Div Start-->
+    <div class="row" id="PrintableDiv" style="display:none;">
+        <div>
+            <div style="width:100%">
+                <div style="text-align:center">
+                    <img class="img-responsive" src="assets/pages/img/login/3Circle.png"
+                         style="vertical-align:middle;height:200px;width:400px;text-align:center">
+                </div>
+            </div>
+            <h3 class="modal-title" style="text-align:center"><u>{{"Insurance Appraisal"|translate}}</u></h3>
+        </div>
+        <div style="width:100%;display:block;float:left;margin-top:5px;border-top:1px solid black;">
+            <div style="width:100%;display:block;float:left;margin:5px 0;padding:3px;">
+                <div style="width:65%;float:left;display:block;">
+                    <label style="font-size:20px">  This appraisal has been prepared for:{{PolicyholderDetails.policyHolder.lastName}},{{PolicyholderDetails.policyHolder.firstName}}</label>
+                </div>               
+                <div style="width:35%;display:block;float:right">
+                    Current Date
+                    {{date | date:'MM/dd/yyyy'}}
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-top:5px;margin:5px 0;border:1px;border-style:solid;padding:3px;">
+                <div style="width:100%;height:150px;display:block;text-align:left;">
+                    <span ng-if="!isReplacement">{{Desc.description}}</span>
+                    <span ng-if="isReplacement">{{Appraisal.replacementDescription}}</span>
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;display:block;float:left;margin-top:5px;border-top:1px solid black;"ng-if="attachmentList.length>0||editAttachmentList.length>0">
+            <div style="width:100%;display:block" ng-if="attachmentList.length>0">
+                <div style="width:45%;padding:3px;float:left" ng-repeat="file in attachmentList">
+                    <img ng-src="{{file.Image}}" class="img-thumbnail" style="height: 150px !important;width: 150px!important;" />
+                </div>    
+            </div>
+            <div style="width:100%;display:block" ng-if="editAttachmentList.length>0">
+                <div style="width:45%;padding:3px;float:left" ng-repeat="file in editAttachmentList">
+                    <img ng-src="{{file.url}}" class="img-thumbnail" style="height: 150px !important;width:150px!important;text-align:center" />
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;display:block;float:left;margin-top:10px;border-top:1px solid black;">
+            <div style="width:100%;float:left;margin-top:10px;">
+                <div style="width:40%;float:left">
+                    <div>Jason Greenwalt,CG</div>
+                    <div>Artigem,LLC</div>
+                    <div>15 N 1st street,Suit 100</div>
+                    <div>Belleville ,IL 62220</div>
+                </div>
+                <div style="width:60%;float:left">
+                    <div style="width:50%;display:block;float:left">
+                        <label class="control-label">Insurance Replacement Value</label>
+                    </div>
+                    <div style="width:10%;display:block;float:left">
+                        <span>{{Appraisal.appraisalValue}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width:100%;display:block;float:left;margin-top:10px;">
+            <div style="width:100%;display:block">
+                This appraisal is intented for Insuring purpose only.All referencesto quality are approximate or as represented to artigem,LLC by the manufacturer unless othrwise stated.This Appraisal is based on an average selling price of the described item in the United states and is intented to be a reference price for the purpose of insuring the jewellary.
+            </div>
+        </div>
+       
+    </div>
+    <!--Printable Div End-->
+</div>
+<script>
+    ComponentsDateTimePickers.init(); // init todo page
+</script>

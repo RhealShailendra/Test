@@ -1,0 +1,12 @@
+﻿{
+  "EmailAppraisal" : "Email Appraisal",
+  "To" : "To",
+  "EmailIdErrorMsg" : "Please Enter Email Id",
+  "Subject" : "Subject",
+  "SubjectErrorMsg" : "Please Enter Subject",
+  "Attachment" : "Attachment",
+  "Description" : "Description",
+  "DescriptionErrorMsg" : "Please Enter Description",
+  "Cancel" : "Cancel",
+  "Send" : "Send"
+}

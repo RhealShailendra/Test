@@ -1,0 +1,145 @@
+﻿
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="GotoSuppplier()">{{"Suppliers"|translate}}</a>
+            <i class="fa fa-circle"></i>            
+        </li>
+        <li>
+            <span ng-show="!SupplierDetails.id">{{"New Supplier"|translate}}</span>
+            <span ng-show="SupplierDetails.id">{{SupplierDetails.supplierName}}</span>
+        </li>
+    </ul>
+</div>
+<!--Company details-->
+<div class="col-md-12 portlet light padding1px" ng-form="SupplierDetails">
+    <div class="portlet-title">
+        <div class="caption font-grey-sharp">
+            <span class="caption-subject" ng-show="!SupplierDetails.id">{{"New Supplier"|translate}}</span>
+            <span class="caption-subject" ng-show="SupplierDetails.id">{{SupplierDetails.supplierName}}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-12 col-xs-12 margin-top-15">
+            <div class="pull-right text-right ">
+                <button ng-click="GotoSuppplier()" class="btn sbold btnMargin">
+                    {{"Cancel"|translate}}
+                </button>
+                <button id="sample_editable_1_new" ng-disabled="SupplierDetails.$invalid||SupplierDetails.$pristine" ng-click="SaveSupplier()" class="btn sbold btnMargin">
+                    {{"Save"|translate}}
+                </button>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group margin-top-20" ng-show="SupplierDetails.id">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label sbold">{{"SupplierID"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <span class="control-label"  name="Name" >{{SupplierDetails.id}}</span>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label sbold">{{"Supplier Name"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" required name="Name" ng-model="SupplierDetails.supplierName" type="text" placeholder="{{'Supplier Name'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="SupplierDetails.Name.$error.required && SupplierDetails.Name.$touched">{{"Supplier name required."|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Website"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" name="Website" ng-model="SupplierDetails.website" type="text" placeholder="{{'Website'|translate}}" />
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label sbold">{{"Phone #"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input type="text" name="Phone" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required ng-model="SupplierDetails.phone"
+                        placeholder="(XXX)XXX-XXXX" phone-input class="input-phone form-control"  />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="SupplierDetails.Phone.$error.required && SupplierDetails.Phone.$touched">{{"Phone# required."|translate}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Address"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control margin-bottom-5" ng-model="SupplierDetails.address.streetAddressOne" type="text" placeholder="{{'Street Address 1'|translate}}" />
+                <input class="form-control margin-bottom-5" ng-model="SupplierDetails.address.streetAddressTwo" type="text" placeholder="{{'Street Address 2'|translate}}" />
+                <input class="form-control margin-bottom-5" ng-model="SupplierDetails.address.city" type="text" placeholder="{{'City'|translate}}" />
+                <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                    <select class="form-control select2me" ng-model="SupplierDetails.address.state.id" placeholder='{{"State"|translate}}'
+                            ng-options="item.id as item.state for item in ddlStateList"></select>
+                </div>
+                <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="SupplierDetails.address.zipcode" placeholder='{{"Zip Code"|translate}}' />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group" ng-show="SupplierDetails.id">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label sbold">{{"Status"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                    <select class="form-control select2me" ng-model="SupplierDetails.active" placeholder='{{"State"|translate}}'
+                            ng-options="item.id as item.status for item in ddlStatusList"></select>
+                </div>            
+            </div>
+        </div>
+
+        <div class="col-md-8 margin-bottom-10">
+            <div class="portlet">
+                <div class="SubHeadingDiv">
+                    <span class="caption font-grey-sharp sbold">
+                        {{"Supplier Contact"|translate}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"First Name"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="SupplierDetails.firstName" required name="FirstName" type="text" placeholder="{{'First Name'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="SupplierDetails.FirstName.$error.required && SupplierDetails.FirstName.$touched">{{"First name required."|translate}}</span>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col-md-12 col-sm-12 form-group">           
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Last Name"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="SupplierDetails.lastName" required name="LastName" type="text" placeholder="{{'Last Name'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="SupplierDetails.LastName.$error.required && SupplierDetails.LastName.$touched">{{"Last name required."|translate}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"EmailID"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="SupplierDetails.email" type="email" pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required name="Email" placeholder="{{'EmailID'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="SupplierDetails.Email.$error.required && SupplierDetails.Email.$touched">{{"Email required."|translate}}</span>
+                    <span class="text-danger" ng-show="SupplierDetails.Email.$error.pattern">{{"Please enter valid emailID"|translate}}</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-8 col-sm-12 col-xs-12 margin-top-15">
+            <div class="pull-right text-right ">
+                <button ng-click="GotoSuppplier()" class="btn sbold btnMargin">
+                    {{"Cancel"|translate}}
+                </button>
+                <button id="sample_editable_1_new" ng-disabled="SupplierDetails.$invalid||SupplierDetails.$pristine" ng-click="SaveSupplier()" class="btn sbold btnMargin">
+                    {{"Save"|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

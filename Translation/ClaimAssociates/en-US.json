@@ -1,0 +1,28 @@
+﻿{
+  "MainHeader": {
+    "ClaimAssociates": "Employees"
+  },
+  "ControlText": {
+    "View": "View",
+    "NewAssociate": "New Employees",
+    "Search": "Employee Name, Designation, Role",
+    "Show": "Show",
+    "Dashboard": "Dashboard",
+    "ClaimAssociates": "Employees",
+    "Load From File": "Load From File"
+  },
+  "Table": {
+    "EmployeeId": "Employee Id",
+    "Name": "Name",
+    "Claimsinhand": "Claims in hand",
+    "Itemsprocessing": "Items Processing",
+    "Designation": "Designation",
+    "Type": "Type",
+    "Status": "Status",
+    "Yes": "Yes",
+    "No": "No",
+    "Active": "Active",
+    "InActive": "In-Active"
+  },
+  "Home":"Home"
+}

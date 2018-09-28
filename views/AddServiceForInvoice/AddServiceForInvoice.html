@@ -1,0 +1,88 @@
+﻿<div id="myModal">
+    <div class="modal-header">
+        <a class="close" ng-click="Cancel()" aria-hidden="true"></a>
+        <label class="modal-title "> {{"Select the replacement item"|translate}}</label>
+    </div>
+    <div class="modal-body" style="max-height: 570px;min-height: 100px;overflow: auto;">
+        
+                <div class="col-md-12 portlet light bordered clearfix" ng-repeat="item in ReplacementItemList">
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label ">
+                            {{"Item ID /SKU #"|translate}}                            
+                        </label>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12 ">
+                        <label class="control-label">{{item.id}}</label>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label">
+                            {{"Vendor Description"|translate}}
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 ">
+                        <textarea readonly class="form-control" ng-model="item.description" rows="3"/>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+
+
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label">
+                            {{"Unite Price"|translate}}
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 ">
+                        <label class="control-label">{{item.unitPrice|currency}}</label>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label">
+                            {{"Brand"|translate}}
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 ">
+                        <label class="control-label">{{item.brand}}</label>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label">
+                            {{"Model"|translate}}
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 ">
+                        <label class="control-label">{{item.model}}</label>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+
+
+                    <div class="col-md-4 col-sm-6 col-xs-12 Label_Text_Right">
+                        <label class="control-label">
+                            {{"Supplier"|translate}}
+                        </label>
+                    </div>
+                    <div class="col-md-8 col-sm-6 col-xs-12 ">
+                        <label class="control-label">{{item.supplier}}</label>
+                    </div>
+                    <div class="col-md-12 clearfix"></div>
+
+
+                    <div class="col-md-6 col-sm-6 text-left">
+                        <a  >{{"View Item Here"|translate}}</a>
+                    </div>
+                    <div class="col-md-6 col-sm-6 text-right">
+                        <a href="#" ng-click="SelectItem(item)">{{"Select item"|translate}}</a>
+                    </div>
+                    <div class="margin-bottom-10"></div>
+                </div>
+          
+        <div class="col-md-12 portlet light bordered clearfix" ng-if="!ReplacementItemList.length">
+            {{"No Replacement items are available"|translate}}
+        </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer " style="text-align: center !important;">
+                <button type="button" class="btn btn-outline dark" ng-click="Cancel()">{{"Cancel"|translate}}</button>
+            </div>
+        </div>
+</div>

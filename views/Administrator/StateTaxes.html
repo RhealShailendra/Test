@@ -1,0 +1,45 @@
+﻿<div class="col-md-12 col-lg-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>        
+        <li>
+            <span>{{"State Taxes"|translate}}</span>
+        </li>
+    </ul>
+    <div class="portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-gray-sharp">
+                <span class="caption-subject">{{"StateTaxes"|translate}}</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 margin-top-10" ng-form="StateTaxForm">
+                    <div class="col-md-2 col-lg-2 col-sm-4">                   
+                            <select class="form-control select2me"  ng-change="onStateChange(State)" name="State" id="select2insidemodal" required ng-model="State" placeholder='{{"Select State"|translate}}'>
+                                <option value="">Select</option>
+                                <option ng-repeat="State in StateList" value="{{State.id}}">{{State.state}}</option>
+                            </select> 
+                        <div class="errormessage">
+                            <span class="text-danger" ng-show="StateTaxForm.State.$error.required">{{"Please Select State"}}</span>
+                        </div>                     
+                    </div>
+                    <div class="col-md-2 col-lg-2 col-sm-4">
+                        <input type="text" class="form-control" name="TaxRate" ng-model="TaxRate" required placeholder='{{"Corresponding Tax Rate"|translate}}'/>
+                        <div class="errormessage">
+                            <span class="text-danger" ng-show="StateTaxForm.TaxRate.$error.required && StateTaxForm.TaxRate.$touched">{{"Please enter tax rate"}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 margin-top-10">
+                    <div class="col-md-4 col-lg-4 col-sm-8 topBorder">
+                        <button class="btn btnMargin margin-top-10 pull-right" ng-click="UpdateStateTax()" ng-disabled="StateTaxForm.$invalid||StateTaxForm.$pristine">{{"Save"|translate}}</button>
+                    </div>                   
+                </div>
+                </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,711 @@
+﻿<div class="row">
+    <div class="col-md-12" ng-if="Contracts">
+        <ul class="page-breadcrumb breadcrumb sbold">
+            <li>
+                <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>{{"Contracts"|translate}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-12 col-sm-12">
+        <div class="portlet light padding1px" ng-if="Contracts && !isSalvageContract">
+            <div class="portlet-title ">
+                <div class="caption font-gray-sharp">
+                    <span class="caption-subject ">
+                        {{"ControlText.Contracts"|translate}}
+                    </span>
+                </div>
+                <div class="tools">
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 clearfix padding1px">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12 clearfix options_Background_WithBorder">
+                                <div class="pull-right col-lg-6 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch padding1px">
+                                    <div class="caption font-green-sharp col-lg-5 col-md-5 col-xs-12 col-sm-5 pull-right padding1px">
+                                        <div class="input-icon left">
+                                            <i class="icon-magnifier"></i>
+                                            <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="searchContract" placeholder={{"ControlText.ContactSearch"|translate}}>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                <thead>
+
+                                    <tr>
+                                        <th ng-click="sortNewClaim('contractUID')">
+                                            {{"Table.ContractID"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('insuranceName')">
+                                            {{"Table.InsuranceCompanyName"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('contractName')">
+                                            {{"Table.ContractName"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('startDate')">
+                                            {{"Table.StartDate "|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('expirationDate')">
+                                            {{'Table.ExpirationDate'|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('maxCliamTime')">
+                                            {{"Table.MaxClaimTime"|translate}}
+                                        </th>
+                                        <th ng-click="sortNewClaim('Status')" class="statusHeading">
+                                            {{"Table.Status"|translate}}
+                                        </th>
+                                        <th class="statusHeading">
+                                            {{"Action"|translate}}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in ContractList|orderBy:sortNewClaimKey:reverseNewClaim|filter:searchContract">
+                                        <td ng-click="EditContract(item)">{{item.contractUID}}</td>
+                                        <td ng-click="EditContract(item)">{{item.company.name}}</td>
+                                        <td ng-click="EditContract(item)">{{item.contractName}}</td>
+                                        <td ng-click="EditContract(item)">{{item.startDate |DateFormatMMddyyyyHHmm}}</td>
+                                        <td ng-click="EditContract(item)">{{item.endDate |DateFormatMMddyyyyHHmm}}</td>
+                                        <td ng-click="EditContract(item)">{{item.maxClaimTime}}</td>
+                                        <td ng-click="EditContract(item)" class="text-center"><span class="control-label">{{item.contractStatus.status}}</span></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr ng-repeat="item in SalvageContractList|orderBy:ContractKey:reverseContract|filter:Contractsearch">
+                                        <td ng-click="EditSalvageContract(item)">{{item.contractUID}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.vendor.vendorName}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.contractName}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.startDate |DateFormatMMddyyyyHHmm}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.expirationDate|DateFormatMMddyyyyHHmm}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.maxClaimTime}}</td>
+                                        <td ng-click="EditSalvageContract(item)">{{item.contractStatus.status}}</td>
+                                        <td><a ng-click="DeleteSalvageContract(item)">{{"Table.Delete"|translate}}</a></td>
+                                    </tr>
+                                    <tr  ng-if="!$scope.SalvageContractList.length && $scope.ContractList.length==0"><td></td><td colspan="7" class="text-danger text-center"> {{"No contracts to show"|translate}} </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 padding1px" ng-if="!Contracts && isSalvageContract">
+            <ul class="page-breadcrumb breadcrumb sbold">
+                <li>
+                    <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <a ng-click="ViewContract(true,null)">{{"Contracts"|translate}}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <span>{{ContractDetails.contractName}}</span>
+                </li>
+            </ul>
+        </div>
+
+        <div ng-if="!Contracts && !isSalvageContract">
+            <div class="col-md-12 clearfix portlet light padding1px">
+                <div class="portlet-title">
+                    <div class="caption font-gray-sharp">
+                        <span class="caption-subject font-gray-sharp">
+                            {{ConrtactDetails.contractName}}
+                        </span>
+                    </div>                    
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 colsm-12">
+                            <div class="tools pull-right">
+                                <button id="sample_editable_1_new " class="btn sbold  btnMargin" ng-click="CancelContracts()">
+                                    {{"ControlText.Cancel"|translate}}
+                                </button>
+                            </div>
+                        </div>                       
+                        <div class="col-md-12 clearfix" >
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-10">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ContractID"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.contractNumber}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.InsuranceCompanyName"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.company.name}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ContractName"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.contractName}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.StartDate"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.createDate}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{'Label.ExpirationDate'|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.endDate}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.MaxCliamTimeAgreed"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label ">{{ContractDetails.maxClaimTime}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 clearfix portlet light ">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-gray-sharp">
+                        <span class="caption-subject font-gray-sharp">
+                           {{"Contract Document(s)"|translate}}
+                        </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" >
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-10 ">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Contract Documents"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-5" ng-repeat="attach in ContractDetails.attachments">
+                                        <a ng-href="{{attach.fileUrl}}" download>{{attach.name}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 clearfix portlet light ">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject ">
+                            {{"Response Time "|translate}}
+                        </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" id="cal">
+                            <div class="col-md-8 col-sm-8 margin-top-10">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Label.FirstContactTime"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.initialResponseTime}}</span>                                   
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Label.FollowUpResponseTime"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.followUpResponseTime}}</span>                                    
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Label.MaxClaimTimeAgreed"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.maxClaimTime}}</span>                                  
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 clearfix portlet light ">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject ">
+                            {{"Shipping Charges"|translate}}
+                        </span>
+
+                    </div>
+
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" id="cal">
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-10">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ShippingCharges"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.shippingCharge}}</span>  
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                              
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.PickupFee"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.pickupFee}}</span>                                     
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 clearfix portlet light ">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject ">
+                            {{"Quote Fees and Evaluation Fees"|translate}}
+                        </span>
+                        
+                    </div>
+
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" id="cal">
+                            <div class="col-md-8 col-sm-8  margin-top-10">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Quote Only Fee"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.pickupFee}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Max. Line Item in an assignment"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.pickupFee}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Additional Line Item Quote Fee"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.pickupFee}}</span> 
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Full Evalution Fee"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.pickupFee}}</span> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 clearfix portlet light ">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject ">
+                            {{"Additional Services Rate Card"|translate}}
+                        </span>
+
+                    </div>
+
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" id="cal">
+                            <div class="col-md-8 col-sm-8 margin-top-10">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Gemologist Eval Fee"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.gemologistEvalFee}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-5">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Gemologist Eval Fee with Full Report"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <span class="control-label">{{ContractDetails.gemologistEvalFullReportFee}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tools pull-right margin-bottom-20">               
+                <button id="sample_editable_1_new " class="btn sbold  btnMargin" ng-click="CancelContracts()">
+                    {{"ControlText.Cancel"|translate}}
+                </button>
+            </div>
+        </div>
+
+        <div ng-if="isSalvageContract" ng-form="NewContractForm">
+           <div class="col-md-12 col-sm-12 text-right">
+                <button id="sample_editable_2_new " class="btn sbold btnMargin" ng-click="CancelContracts()">
+                    {{"ControlText.Cancel"|translate}}
+                </button>
+                <button id="sample_editable_2_new " class="btn sbold btnMargin" ng-click="saveSalvegContract()">
+                    {{"ControlText.Save"|translate}}
+                </button>
+            </div>
+            <div class="col-md-12 clearfix portlet light">
+                <div class="SubHeadingDiv">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject " ng-show="!salvageDetails.id">
+                            {{"ControlText.NewContract"|translate}}
+                        </span>
+                        <span class="caption-subject " ng-show="salvageDetails.id">
+                            {{salvageDetails.contractName}}
+                        </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 clearfix" id="cal">
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Contract#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <!--<label>{{ContractDetails.contractNumber}}</label>-->
+                                    <input class="form-control " disabled ng-model="salvageDetails.contractUID" required name="ContractNo" placeholder="Contract Number" type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-10">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.VendorName"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" disabled id="#select2insidemodal" ng-model="salvageDetails.vendor.vendorId" data-placeholder="Select Vendor" id="select2insidemodal"
+                                            name="vendorName" ng-options="item.vendorId as item.vendorName for item in ActiveVendorsList"></select>
+                                    <!--<span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                      ng-show="(NewContractForm.vendorName.$error.required && NewContractForm.vendorName.$touched)">
+                                    {{"Please enter Vendor name."|translate}}
+                                </span>-->
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ContractName"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="salvageDetails.contractName" required name="ContractName" placeholder="Contract Name" type="text" />
+                                    <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                          ng-show="(NewContractForm.ContractName.$error.required && NewContractForm.ContractName.$touched)">
+                                        {{"Please enter contract name."|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.StartDate"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control datepicker" ng-model="salvageDetails.startDate" data-date-container='#cal' data-provide="datepicker" required name="startDate" type="text" />
+                                    <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                          ng-show="(NewContractForm.startDate.$error.required && NewContractForm.startDate.$touched)">
+                                        {{"Please enter start date."|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ExpirationDate"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control datepicker" data-date-container='#cal' ng-model="salvageDetails.expirationDate" data-provide="datepicker" required name="expirationDate" type="text" />
+                                    <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                          ng-show="(NewContractForm.expirationDate.$error.required && NewContractForm.expirationDate.$touched)">
+                                        {{"Please enter expiration date."|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  col-md-offset-2 margin-top-5">
+                                <label class="col-md-3 col-sm-6 text-right">{{"Label.ContractType"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="select2me form-control" name="Company" ng-model="ContractType" ng-change="ChangeClaimType(ContractType)" ng-options="item.id as item.name for item in ContractTypeList"></select>
+                                    <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                          ng-show="(NewContractForm.expirationDate.$error.required && NewContractForm.expirationDate.$touched)">
+                                        {{"Please enter expiration date."|translate}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Salvage Contract-->
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Salvage Contract Document(s)"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Label.ContractDocument"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input id="FileUpload" type="file" ng-model="Attachment" multiple onchange="angular.element(this).scope().getFileDetails(event)" style="display: none;" accept="image/*">
+                                        <a class="padding1px col-md-12 col-sm-12" ng-repeat="attached in ContractDetails.attachment" download ng-href="{{attached.url}}">{{attached.fileName}}</a>
+                                        <div class="col-md-12 padding1px margin-top-10">
+                                            <span class="padding1px text-success margin-top-10" ng-repeat="attachment in files">{{attachment.FileName}}<span ng-if="!$last">, </span></span>
+                                        </div>
+                                        <i class="fa fa-upload pull-left" style="font-size:20px" aria-hidden="true" ng-click="SelectFile()"></i>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-8 margin-top-5">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Label.ImmediateGo"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <select class="select2me form-control" name="immediateRepair" ng-model="salvageDetails.immediateRepair">
+                                            <option value="false">Yes</option>
+                                            <option value="true">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Scrap/Salvaged Metal"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Scrap/Salvaged Metal%"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.salvageMetal" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Finished Jewelry"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Finished Jewelry $0-500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.finishedJewlery0_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Finished Jewelry $501-1500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.finishedJewlery5_15" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Finished Jewelry $1500-5000"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.finishedJewlery15_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Finished Jewelry $5000+"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.finishedJewlery5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Loose Diamonds"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Loose Diamonds over.50ct $0-500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.looseDiamonds0_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Loose Diamonds over.50ct $501-1500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.looseDaimond5_15" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Loose Diamonds over.50ct $1501-5000"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.looseDiamond15_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Loose Diamonds over.50ct $5001+"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.looseDiamond5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Sales Channels"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Retail:Loose Stones .50ct"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.retailLooseStones" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Wholesale:Loose Stones .50ct"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.wholesaleLooseStones" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Direct purchase by artigem:Loose Stones .50ct"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.purchaseByArtigem" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Listed Prices"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Listed Prices decrease after 30 days"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.priceDecrease30" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Listed Prices decrease after 60 days"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.priceDecrease60" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Listed Prices decrease after 90 days"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.priceDecrease90" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix portlet light">
+                    <div class="SubHeadingDiv ">
+                        <div class="caption font-grey-sharp">
+                            <span class="caption-subject ">
+                                {{"Watches (Min of three bids)"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Commission Rate $0-500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.commissionRate0_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Commission Rate $501-1500"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.commissionRate5_15" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Commission Rate $1501-5000"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.commissionRate15_5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix">
+                                <div class="col-md-8 col-sm-8 margin-top-10">
+                                    <label class="col-md-6 col-sm-6 text-right">{{"Commission Rate $5000+"|translate}}</label>
+                                    <div class="col-md-4 col-sm-6">
+                                        <input class="form-control" ng-model="salvageDetails.commissionRate5" placeholder="{{'%'|translate}}" type="text" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tools pull-right">
+                                <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="CancelContracts()">
+                                    {{"ControlText.Cancel"|translate}}
+                                </button>
+                                <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="updateSalvegContract()">
+
+                                    {{"ControlText.Save"|translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
