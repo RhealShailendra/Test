@@ -1,0 +1,41 @@
+﻿<div id="myModal" >
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h5 class="modal-title"><b>{{NoteDetails.groupTitle}}</b></h5>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12 padding1px" style="overflow-y:auto; max-height:500px;">
+                <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10 well" ng-repeat="item in NoteDetails.messages">
+                    <label class="col-md-2 col-sm-3 col-xs-12 margin-bottom-5 NoDecoration ">Author:</label>
+                    <span class="col-md-10 col-sm-9 col-xs-12 margin-bottom-5 NoDecoration ">{{item.addedBy.name}}</span>
+                    <div class="clearfix margin-bottom-5"></div>
+                    <label class="col-md-2 col-sm-3 col-xs-12  NoDecoration ">Message:</label>
+                    <span class="col-md-10 col-sm-9 col-xs-12  NoDecoration ">{{item.message}}</span>
+                    <div class="clearfix margin-bottom-5"></div>
+                    <label class="col-md-2 col-sm-3 col-xs-12 NoDecoration margin-bottom-5" ng-show="item.attachments.length>0">Attachments:</label>
+
+                    <div class="col-md-10 col-sm-9 col-xs-12 " ng-show="item.attachments.length>0">
+                        <!--<span ng-show="item.attachments==null">No attachment for the message</span>-->
+                        <a class="col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-5" ng-repeat="attachment in item.attachments" download href="{{attachment.url}}">{{attachment.name}}</a>
+                        <!--<span class="col-md-6 col-sm-4 col-xs-4"> {{attachment.uploadDate}}</span>-->
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="col-md-12 col-sm-12 col-xs-12  NoDecoration  text-right">
+
+                        {{ item.lastVisitDate ? (item.lastVisitDate|DateFormatMMddyyyyHHmm) : (item.createDate|DateFormatMMddyyyyHHmm) }}
+                    </div>
+                    <div class="col-md-12 col-sm-12 margin-top-10">
+                        <button class="btn sbold pull-right" ng-if="UserId.toString()==item.addedBy.id.toString()&&RoleList!='VENDOR ASSOCIATE'" ng-click="DeleteNotes(item,NoteDetails.participants)">{{"Delete"|translate}}</button> 
+                    </div>                     
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline dark" ng-click="cancel()">{{"Cancel"|translate}}</button>
+            <button type="button" ng-if="UserId.toString()==item.addedBy.id.toString()" class="btn btn-outline dark" ng-click="DeleteNote()">{{"Delete"|translate}}</button>
+        </div>
+    </div>
+</div>

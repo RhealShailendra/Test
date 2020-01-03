@@ -1,0 +1,100 @@
+﻿<div class="">
+    <!--Serach TextBox-->
+    <div class="col-md-12 margin-bottom-20" ng-click="SerchAgain()">
+        <div class="col-md-offset-1 col-md-10 ">
+            <div class="input-icon left">
+                <i class="icon-magnifier globlaSearchIcon"></i>
+                <input type="text" style="height:35px;" ng-model="GlobalSearchText" ng-keydown="$event.which === 13 && SerchAgain()" ng-blur="SerchAgain()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"GlobalSearchText"|translate}}>
+            </div>
+        </div>
+    </div>
+
+    <!--Clams assigned-->
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <span class="caption-subject bold">
+                        <i class="fa fa-gear"></i>
+                        {{"HeaderText.Searchresult"|translate}} &nbsp; <label style="color:black;font-size:13px;">{{SerchString}}</label>
+                    </span>
+                </div>
+                <div class="tools">
+                    <button class="btn sbold btnMargin" ng ng-click="GoBack()">
+                        <i class="fa fa-arrow-left"></i>
+                        {{"ControlText.back"|translate}}
+                    </button>
+                    <a href="#" class="collapse"></a>                   
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 clearfix">
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-hover table-bordered table-striped">
+                                <thead>
+
+                                    <tr>
+                                        <th ng-click="Assignsort('claimNumber')">
+                                            {{"Table.Claim"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('InsurenceCompany')">
+                                            {{"Table.InsurenceCompany"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='InsurenceCompany'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('Adjustername')">
+                                            {{"Table.Adjustername"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='Adjustername'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('Item')">
+                                            {{"Table.#Item"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='Item'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('ServiceRequested')">
+                                            {{"Table.ServiceRequested"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='ServiceRequested'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('Status')">
+                                            {{"Table.Status"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='Status'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('ReportDate')">
+                                            {{"Table.ReportDate"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='ReportDate'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('LastUpdate')">
+                                            {{"Table.LastUpdate"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='LastUpdate'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                        <th ng-click="Assignsort('status.status')">
+                                            {{"Table.LastNote"|translate}}
+                                            <span class="glyphicon sort-icon" ng-show="AssignsortKey=='LastNote'" ng-class="{'glyphicon-chevron-up pull-right':Assignreverse,'glyphicon-chevron-down pull-right':!Assignreverse}"></span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="Claims in ClaimsTobeAssigned|orderBy:AssignsortKey:Assignreverse|filter:search|itemsPerPage:pagesize" pagination-id="ClaimToAssigned">
+                                        <td><a href="#" ng-click="GoToClaimDetails(Claims)">{{Claims.claimNumber}}</a></td>
+                                        <td>{{Claims.insuranceCompany.name}}</td>
+                                        <td>{{Claims.adjusterDetails.firstName}}&nbsp;{{Claims.adjusterDetails.lastName}}</td>
+                                        <td>{{Claims.claimedItems}}</td>
+                                        <td><span ng-repeat="service in Claims.servicesRequested">{{service.name}}<span ng-if="!$last">,&nbsp;</span></span></td>
+                                        <td><a ng-class="Claims.status.status=='ASSIGNED'?'btn btn-circle  btn-xs green':'btn btn-circle  btn-xs blue'">{{Claims.status.status}}</a></td>
+                                        <td>{{Claims.createDate | DateFormatMMddyyyy}}</td>
+                                        <td>{{Claims.lastUpdateDate |DateFormatMMddyyyy}}</td>
+                                        <td><input type="text" class="form-control" ng-model="Claims.lastNote.message" readonly /></td>
+                                    </tr>
+                                    <tr ng-if="ClaimsTobeAssigned===null || ClaimsTobeAssigned.length===0"><td></td><td colspan="8" class="text-danger text-center"> {{"NoRecordText"|translate}} </td></tr>
+                                </tbody>
+                            </table>
+                            <dir-pagination-controls max-size="3" direction-links="true" ng-if="ClaimsTobeAssigned!==null || ClaimsTobeAssigned.length > 0" boundary-links="true" class="pull-right" pagination-id="ClaimToAssigned">  </dir-pagination-controls>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

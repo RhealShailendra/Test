@@ -1,0 +1,542 @@
+﻿<style>
+    .btn-arrow-right,
+    .btn-arrow-left {
+        position: relative;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .btn-arrow-right {
+        padding-left: 36px;
+    }
+
+    .btn-arrow-left {
+        padding-right: 36px;
+    }
+
+        .btn-arrow-right:before,
+        .btn-arrow-right:after,
+        .btn-arrow-left:before,
+        .btn-arrow-left:after {
+            /* make two squares (before and after), looking similar to the button */
+            content: "";
+            position: absolute;
+            top: 5px;
+            /* move it down because of rounded corners */
+            width: 22px;
+            /* same as height */
+            height: 22px;
+            /* button_outer_height / sqrt(2) */
+            background: inherit;
+            /* use parent background */
+            border: inherit;
+            /* use parent border */
+            border-left-color: transparent;
+            /* hide left border */
+            border-bottom-color: transparent;
+            /* hide bottom border */
+            border-radius: 0px 4px 0px 0px;
+            /* round arrow corner, the shorthand property doesn't accept "inherit" so it is set to 4px */
+            -webkit-border-radius: 0px 4px 0px 0px;
+            -moz-border-radius: 0px 4px 0px 0px;
+        }
+
+    .btn-arrow-right:before,
+    .btn-arrow-right:after {
+        transform: rotate(45deg);
+        /* rotate right arrow squares 45 deg to point right */
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+    }
+
+    .btn-arrow-left:before,
+    .btn-arrow-left:after {
+        transform: rotate(225deg);
+        /* rotate left arrow squares 225 deg to point left */
+        -webkit-transform: rotate(225deg);
+        -moz-transform: rotate(225deg);
+        -o-transform: rotate(225deg);
+        -ms-transform: rotate(225deg);
+    }
+
+    .btn-arrow-right:before,
+    .btn-arrow-left:before {
+        /* align the "before" square to the left */
+        left: -11px;
+    }
+
+    .btn-arrow-right:after,
+    .btn-arrow-left:after {
+        /* align the "after" square to the right */
+        right: -11px;
+    }
+
+    .btn-arrow-right:after,
+    .btn-arrow-left:before {
+        /* bring arrow pointers to front */
+        z-index: 1;
+    }
+
+    .btn-arrow-right:before,
+    .btn-arrow-left:after {
+        /* hide arrow tails background */
+        background-color: white;
+    }
+</style>
+
+
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Workflow Management"|translate}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-lg-12 col-md-12 col-sm-12 padding1px">
+    <div class="portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject">
+                    {{"Workflow Management"|translate}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="tabbable-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='ClaimWorkflow'}" ng-click="CurrentTab = CurrentTab=='ClaimWorkflow'? null: 'ClaimWorkflow'">&nbsp;{{"Claim Workflow"|translate}}&nbsp;</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='ItemWorkflow'}" ng-click="CurrentTab = CurrentTab=='ItemWorkflow'? null: 'ItemWorkflow'"> &nbsp;{{"Item Workflow"|translate}} &nbsp;</a>
+                    </li>
+                    <li>
+                        <a href="#" data-toggle="tab" ng-class="{selected:CurrentTab=='ServiceWorkflow'}" ng-click="CurrentTab = CurrentTab=='ServiceWorkflow'? null: 'ServiceWorkflow'"> &nbsp;{{"Service-Workflow Mapping"|translate}} &nbsp;</a>
+                    </li>
+                </ul>
+                <div class="tab-content minTabHeight">
+                    <div class="row">
+                        <!---ClaimWorkflow Tab-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px" ng-show="CurrentTab=='ClaimWorkflow'">
+                            <div class="portlet-body">
+                                <div class="col-md-12 col-lg-12 col-sm-12">
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px note note-info">
+                                        <ul>
+
+                                            <li><span class="col-md-12">{{"ClaimTextFirst"|translate}}</span></li>
+                                            <li><span class="col-md-12 ">{{"ClaimTextSecond"|translate}} {{"ClaimTextThird"|translate}}</span></li>
+                                            <li><span class="col-md-12 ">{{"ClaimTextThird"|translate}}</span></li>
+                                        </ul>
+
+
+
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px">
+                                        <div class="portlet">
+                                            <div class="SubHeadingDiv">
+                                                <label class="caption subject bold">{{"Quote Only Cliam Assignments"|translate}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="portlet light bordered col-lg-12 col-sm-12 col-md-12 padding1px">
+                                            <div class="">
+                                                <div class="col-md-2 col-lg-2 col-sm-4 text-center">
+                                                    <a class="fa fa-plus-circle fa-2x font-green col-md-12 col-sm-12 col-lg-12" style="text-decoration:none;" ng-click="AddNewStage()"></a>
+                                                    <label class="font-red" tooltip="add">{{"Add New Stage"|translate}}</label>
+                                                </div>
+
+                                            </div>
+                                            <!--Dynamic Stages-->
+                                            <div class="col-md-12 col-lg-12 col-sm-12 margin-top-10">
+                                                <div class="col-lg-3 col-md-3 col-sm-4 margin-top-10" ng-if="Stages!==null||Stages.length>0" ng-repeat="stage in QuoteOnlyClaim.Stages">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;background-color:#f5f8fd;border-bottom:1px solid #8bb4e7;" ng-if="!$last">
+
+                                                            <label type="text" ng-model="stage.StepName" class="margin-bottom-5" style="margin-top:5px;">{{stage.StepName}}</label>
+
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;" ng-if="$last">
+
+                                                            <div class="col-lg-10 col-md-10 col-sm-10 padding1px">
+                                                                <label type="text" ng-model="stage.StepName" class="margin-bottom-5">{{stage.StepName}}</label>
+                                                            </div>
+                                                            <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                <a class="fa fa-times-circle fa-2x font-red" style="line-height:20px;text-decoration:none;" ng-click="RemoveStage()"></a>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="hrclass clearfix" />
+                                                        <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" style="min-height:120px;max-height:120px;overflow-y:auto;">
+                                                            <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" ng-repeat="substage in stage.Substages">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 padding1px">
+                                                                    <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                        <a class="fa fa-times-circle fa-2x font-red" style="line-height:26px;text-decoration:none;" ng-if="!$last" ng-click="RemoveSubstage(stage,$index)"></a>
+                                                                        <a class="fa fa-plus-circle fa-2x font-green" style="line-height:26px;text-decoration:none;" ng-if="$last" ng-click="AddSubstage(stage)"></a>
+                                                                    </div>
+                                                                    <div class="col-lg-10 col-sm-9 col-md-10 padding1px">
+                                                                        <select class="form-control select2me" ng-model="substage.id" placeholder='{{"State"|translate}}'
+                                                                                ng-options="item.id as item.status for item in StatusList"></select>
+                                                                        <!--<input type="text" class="form-control" ng-model="substage.Name" placeholder='{{"Sub Stage"|translate}}' />-->
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--End Dynamic Stages-->
+
+                                            <div class="tools ">
+                                                <button class="btn sbold gray btnMargin pull-right margin-right-10 margin-bottom-10" ng-click="AddVendorStage(QuoteOnlyClaim.Stages)">
+                                                    {{"Save"|translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px">
+                                        <div class="portlet">
+                                            <div class="SubHeadingDiv">
+                                                <label class="caption subject bold">{{"Replacement Cliam Assignments"|translate}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="portlet light bordered col-lg-12 col-sm-12 col-md-12 padding1px">
+                                            <div class="">
+                                                <div class="col-md-2 col-lg-2 col-sm-4 text-center">
+                                                    <a class="fa fa-plus-circle fa-2x font-green col-md-12 col-sm-12 col-lg-12" style="text-decoration:none;" ng-click="AddNewStage1()"></a>
+                                                    <label class="font-red" tooltip="add">{{"Add New Stage"|translate}}</label>
+                                                </div>
+
+                                            </div>
+
+                                            <!--Dynamic Stages-->
+                                            <div class="col-md-12 col-lg-12 col-sm-12 margin-top-10">
+                                                <div class="col-lg-3 col-md-3 col-sm-4 margin-top-10" ng-if="Stages1!==null||Stages1.length>0" ng-repeat="stage in Stages1">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;background-color:#f5f8fd;border-bottom:1px solid #8bb4e7;" ng-if="!$last">
+
+                                                            <label type="text" ng-model="stage.StepName1" class="margin-bottom-5" style="margin-top:5px;">{{stage.StepName1}}</label>
+
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;" ng-if="$last">
+
+                                                            <div class="col-lg-10 col-md-10 col-sm-10 padding1px">
+                                                                <label type="text" ng-model="stage.StepName1" class="margin-bottom-5">{{stage.StepName1}}</label>
+                                                            </div>
+                                                            <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                <a class="fa fa-times-circle fa-2x font-red" style="line-height:20px;text-decoration:none;" ng-click="RemoveStage1()"></a>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="hrclass clearfix" />
+                                                        <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" style="min-height:120px;max-height:120px;overflow-y:auto;">
+                                                            <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" ng-repeat="substage in stage.Substages1">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 padding1px">
+                                                                    <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                        <a class="fa fa-times-circle fa-2x font-red" style="line-height:26px;text-decoration:none;" ng-if="!$last" ng-click="RemoveSubstage1(stage,$index)"></a>
+                                                                        <a class="fa fa-plus-circle fa-2x font-green" style="line-height:26px;text-decoration:none;" ng-if="$last" ng-click="AddSubstage1(stage)"></a>
+                                                                    </div>
+                                                                    <div class="col-lg-10 col-sm-9 col-md-10 padding1px">
+                                                                        <input type="text" class="form-control" ng-model="substage.Name" placeholder='{{"Sub Stage"|translate}}' />
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--End Dynamic Stages-->
+                                            <div class="tools ">
+                                                <button class="btn sbold gray btnMargin pull-right margin-right-10 margin-bottom-10">
+                                                    {{"Save"|translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px">
+                                        <div class="portlet">
+                                            <div class="SubHeadingDiv">
+                                                <label class="caption subject bold">{{"Salvage/Full Evaluation Cliam Assignments"|translate}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="portlet light bordered col-lg-12 col-sm-12 col-md-12 padding1px">
+                                            <div class="">
+                                                <div class="col-md-2 col-lg-2 col-sm-4 text-center">
+                                                    <a class="fa fa-plus-circle fa-2x font-green col-md-12 col-sm-12 col-lg-12" style="text-decoration:none;" ng-click="AddNewStage2()"></a>
+                                                    <label class="font-red" tooltip="add">{{"Add New Stage"|translate}}</label>
+                                                </div>
+
+                                            </div>
+                                            <!--Dynamic Stages-->
+                                            <div class="col-md-12 col-lg-12 col-sm-12 margin-top-10">
+                                                <div class="col-lg-3 col-md-3 col-sm-4 margin-top-10" ng-if="Stages2!==null||Stages2.length>0" ng-repeat="stage in Stages2">
+                                                    <div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+                                                        <div class="col-md-12 col-lg-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;background-color:#f5f8fd;border-bottom:1px solid #8bb4e7;" ng-if="!$last">
+
+                                                            <label type="text" ng-model="stage.StepName2" class="margin-bottom-5" style="margin-top:5px;">{{stage.StepName2}}</label>
+
+                                                        </div>
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;" ng-if="$last">
+
+                                                            <div class="col-lg-10 col-md-10 col-sm-10 padding1px">
+                                                                <label type="text" ng-model="stage.StepName2" class="margin-bottom-5">{{stage.StepName2}}</label>
+                                                            </div>
+                                                            <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                <a class="fa fa-times-circle fa-2x font-red" style="line-height:20px;text-decoration:none;" ng-click="RemoveStage2()"></a>
+                                                            </div>
+                                                        </div>
+                                                        <hr class="hrclass clearfix" />
+                                                        <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" style="min-height:120px;max-height:120px;overflow-y:auto;">
+                                                            <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" ng-repeat="substage in stage.Substages2">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 padding1px">
+                                                                    <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                                        <a class="fa fa-times-circle fa-2x font-red" style="line-height:26px;text-decoration:none;" ng-if="!$last" ng-click="RemoveSubstage2(stage,$index)"></a>
+                                                                        <a class="fa fa-plus-circle fa-2x font-green" style="line-height:26px;text-decoration:none;" ng-if="$last" ng-click="AddSubstage2(stage)"></a>
+                                                                    </div>
+                                                                    <div class="col-lg-10 col-sm-9 col-md-10 padding1px">
+                                                                        <input type="text" class="form-control" ng-model="substage.Name" placeholder='{{"Sub Stage"|translate}}' />
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--End Stages-->
+
+                                            <div class="tools ">
+                                                <button class="btn sbold gray btnMargin pull-right margin-right-10 margin-bottom-10">
+                                                    {{"Save"|translate}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End IClaimWorkflow Tab-->
+                        <!---ItemWorkflow Tab-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px" ng-show="CurrentTab=='ItemWorkflow'">
+                            <div class="portlet-body">
+                                <div class="col-md-12 col-lg-12 col-sm-12">
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px note note-info">
+                                        <span class="col-md-12">{{"ClaimTextFirst"|translate}}</span>
+                                        <span class="col-md-12 ">{{"ClaimTextSecond"|translate}} {{"ClaimTextThird"|translate}}</span>
+                                        <!--<label class="col-md-12 text-primary">{{"ClaimTextThird"|translate}}</label>-->
+                                    </div>
+                                    <div class="col-lg-12 col-sm-12 col-md-12 padding1px" style="border-bottom:1px solid lavender;">
+
+                                        <div class="col-md-2 col-lg-2 col-sm-4 text-center">
+                                            <a clas
+                                            <a class="fa fa-plus-circle fa-2x font-green col-md-12 col-sm-12 col-lg-12" style="text-decoration:none;" ng-click="AddItemStage()"></a>
+                                            <label class="font-red" tooltip="add">{{"Add New Stage"|translate}}</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--Dynamic Stages-->
+                                <div class="col-md-12 col-lg-12 col-sm-12 margin-top-10">
+                                    <div class="col-lg-3 col-md-3 col-sm-4 margin-top-10" ng-if="Stages!==null||Stages.length>0" ng-repeat="stage in ItemStages">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+                                            <div class="col-md-12 col-lg-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;background-color:#f5f8fd;border-bottom:1px solid #8bb4e7;" ng-if="!$last">
+
+                                                <label type="text" ng-model="stage.StepName" class="margin-bottom-5" style="margin-top:5px;">{{stage.StepName}}</label>
+
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 padding1px text-center btn-arrow-right" style="height:32px;" ng-if="$last">
+
+                                                <div class="col-lg-10 col-md-10 col-sm-10 padding1px">
+                                                    <label type="text" ng-model="stage.StepName" class="margin-bottom-5">{{stage.StepName}}</label>
+                                                </div>
+                                                <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                    <a class="fa fa-times-circle fa-2x font-red" style="line-height:20px;text-decoration:none;" ng-click="RemoveItemStage()"></a>
+                                                </div>
+                                            </div>
+                                            <hr class="hrclass clearfix" />
+                                            <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" style="min-height:120px;max-height:120px;overflow-y:auto;">
+                                                <div class="col-md-12 col-sm-12 col-lg-12 padding1px margin-top-5" ng-repeat="substage in stage.Substages">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 padding1px">
+                                                        <div class="col-lg-2 col-sm-3 col-md-2 padding1px">
+                                                            <a class="fa fa-times-circle fa-2x font-red" style="line-height:26px;text-decoration:none;" ng-if="!$last" ng-click="RemoveItemSubstage(stage,$index)"></a>
+                                                            <a class="fa fa-plus-circle fa-2x font-green" style="line-height:26px;text-decoration:none;" ng-if="$last" ng-click="AddItemSubstage(stage)"></a>
+                                                        </div>
+                                                        <div class="col-lg-10 col-sm-9 col-md-10 padding1px">
+                                                            <input type="text" class="form-control" ng-model="substage.Name" placeholder='{{"Sub Stage"|translate}}' />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-2 col-md-2 col-sm-3 margin-top-10">
+                                        <div class="col-lg-1 col-sm-2 col-md-1 padding1px">
+                                            <span class="fa fa-plus-circle fa-2x font-green" style="line-height:20px;" ng-click="AddNewStage()"></span>
+                                        </div>
+                                        <div class="col-lg-11 col-md-11 col-sm-10">
+                                            <label class="font-red" tooltip="add">{{"New Stage"|translate}}</label>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <!--End Stages-->
+                                <div class="tools">
+                                    <button class="btn sbold green btnMargin pull-right pull-right margin-right-10">
+                                        {{"Save"|translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--End ItemWorkflow Tab-->
+                        <!---ClaimWorkflow Tab-->
+                        <div class="col-lg-12 col-md-12 col-sm-12 padding1px" ng-show="CurrentTab=='ServiceWorkflow'">
+                            <div class="portlet-body">
+                                <div class="col-md-12 col-lg-12 col-sm-12">
+                                    <div class="col-md-12 col-lg-12 col-sm-12 ">
+                                        <div class="row">
+                                            <div class="col-md-3 col-lg-3 text-right">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <span class="caption-subject bold font-green">{{"Workflow Assignment"|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9 col-lg-9 text-left">
+                                                <div class="col-md-12 col-lg-12">
+                                                    <span class="caption-subject bold font-green">{{"Services Selected"|translate}}</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 col-lg-12 col-sm-12 margin-top-20">
+                                                <div class="col-md-3 col-lg-3  text-right">
+                                                    <span class="text-left">{{"Quote Only Claim Assignments"|translate}}</span>
+                                                </div>
+                                                <div class="col-md-9 col-lg-9">
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Quote Only
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Replacement
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Full Evaluation
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Salvage
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                                <div class="col-md-3 col-lg-3  text-right">
+                                                    <span class="text-left">{{"Replacement Claim Assignments"|translate}}</span>
+                                                </div>
+                                                <div class="col-md-9 col-lg-9">
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Quote Only
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Replacement
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Full Evaluation
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Salvage
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-lg-12 col-sm-12">
+                                                <div class="col-md-3 col-lg-3  text-right">
+                                                    <span class="text-left">{{"Slavage / Full Evaluation Claim Assignments"|translate}}</span>
+                                                </div>
+                                                <div class="col-md-9 col-lg-9">
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Quote Only
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Replacement
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Full Evaluation
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                            <input type="checkbox" />
+                                                            <span></span>Salvage
+                                                        </label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-8 topBorder margin-top-10">
+                                                <button class="sbold btn btnMargin pull-right margin-top-10">
+                                                    Save
+                                                </button>
+                                                <button class="sbold btn btnMargin pull-right margin-top-10">
+                                                    Cancel
+                                                </button>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Service Workflow Tab-->
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

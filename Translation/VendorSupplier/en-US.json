@@ -1,0 +1,18 @@
+﻿{
+  "Suppliers": "Suppliers",
+  "SupplierID": "SupplierID",
+  "Name": "Name",
+  "Status": "Status",
+  "Action": "Action",
+  "Active": "Active",
+  "In-Active": "In-Active",
+  "Activate": "Activate",
+  "De-Activate": "De-Activate",
+  "Supplier ID, Supplier Name": "Supplier ID, Supplier Name",
+  "New Supplier": "New Supplier",
+  "Load From File": "Load From File",
+  "No records avaliable.": "No records avaliable.",
+  "Phone #": "Phone #",
+  "Website": "Website"
+
+}

@@ -1,0 +1,45 @@
+﻿<div>
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h4 class="modal-title">{{"Send Comparable to Policyholder"|translate}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12 padding1px " ng-form="CreateNoteForm">               
+               <div class="col-md-12 margin-top-5">
+                   <div class="col-md-5 text-right">
+                       <label class="control-label">Policyholder Name</label>
+                   </div>
+                   <div class="col-md-5">
+                       <span class="control-label">{{PoDetails.Name}}</span>                     
+                   </div>
+               </div>
+                <div class="col-md-12 margin-top-5">
+                    <div class="col-md-5 text-right">
+                        <label class="control-label">Policyholder Cell Phone#</label>
+                    </div>
+                    <div class="col-md-5">                        
+                        <input class="form-control " required name="phone"  ng-trim="false" maxlength="15"  ng-model="PoDetails.CellPhone" placeholder='{{"PH Phone#"|translate}}' type="text" />
+                        <div ng-message="required" ng-show="(CreateNoteForm.phone.$error.required && CreateNoteForm.phone.$touched)">
+                            <span class="text-danger">{{"please enter phone number"|translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 margin-top-5 margin-bottom-5">
+                    <div class="col-md-5 text-right">
+                        <label class="control-label">Text Content</label>
+                    </div>
+                    <div class="col-md-5">
+                        <textarea type="text" rows="3" ng-model="PoDetails.Description" class="form-control" placeholder="Text content"> </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline dark" ng-click="cancel()">Cancel</button>
+            <button type="button" data-dismiss="modal" class="btn sbold btnMargin" ng-click="ok()" ng-disabled="CreateNoteForm.$invalid || CreateNoteForm.$pristine">{{"Send"|translate}}</button>
+        </div>
+    </div>
+
+</div>

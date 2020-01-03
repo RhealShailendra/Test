@@ -1,0 +1,94 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Content Services Offered"|translate}}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-12 portlet light padding1px" >
+    <div class="portlet-title" >
+        <div class="caption font-gray-sharp">
+            <span class="caption-subject ">
+                {{"Content Services"|translate}}
+            </span>
+        </div>
+        <div class="tools">
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 clearfix padding1px">
+                <div class="col-md-12 col-sm-12">
+                    <div class="col-md-12 col-sm-12 clearfix options_Background_WithBorder ">
+                        <div class="col-md-4 col-sm-6 col-xs-6 pull-left margin-top-5 margin-bottom-5 ">
+                            <button id="sample_editable_1_new " class="btn sbold btnOptions" ng-click="NewService(0)">
+                                {{"New Content Service"|translate}}
+                            </button>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-6 pull-right margin-top-5 margin-bottom-5">
+                            <div class="input-icon left">
+                                <i class="icon-magnifier"></i>
+                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="search" placeholder='{{"search"|translate}}'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                        <thead>
+
+                            <tr>
+                                <th ng-click="sortNewClaim('claimNumber')">
+                                    {{"Category ID"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('insuranceCompany.name')">
+                                    {{"Category"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='insuranceCompany.name'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('adjusterDetails.firstName')">
+                                    {{"Services Offered"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='adjusterDetails.firstName'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th ng-click="sortNewClaim('claimedItems')" class="statusHeading">
+                                    {{"Status"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                </th>
+                                <th>
+                                    {{"Action"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ContentServiceList.categoriesAndServices|orderBy:sortNewClaimKey:reverseNewClaim|filter:search">
+                                <td class="text-center" ng-click="NewService(item.category.id)">{{item.category.id}}</td>
+                                <td ng-click="NewService(item.category.id)">{{item.category.name}}</td>
+                                <td ng-click="NewService(item.category.id)"><font ng-repeat="service in item.contentServices">{{service.service}}<span ng-if="!$last"> , </span></font></td>
+                                <td class="text-center" ng-click="NewService(item.category.id)">
+                                    <span ng-show="item.isAvailable===true" class="btn btn-circle btn-sm green">Available</span>
+                                    <span ng-show="item.isAvailable===false" class="btn btn-circle btn-sm red">Un-Available</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-circle btn-outline" style="display:flex !important;">
+                                        <span ng-click="NewService(item.id)" class="btn green btn-sm btn-outline">{{"Remove"|translate}}</span>
+                                        <span ng-click="RemoveContentService(item)" class="btn red btn-sm btn-outline">{{"Delete"|translate}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-if="$scope.ServiceRequestList===null ||  $scope.ServiceRequestList.length===0"><td></td><td colspan="4" class="text-danger text-center"> {{"No services to show"|translate}} </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+

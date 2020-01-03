@@ -1,0 +1,63 @@
+﻿<div class="col-md-12">
+    <div class="portlet light bordered">
+        <div class="portlet-title tabbable-line">
+            <ul class="nav nav-tabs pull-left">
+                <li class="active">
+                    <a href="ContentCategory" data-toggle="tab" ng-click="ShowContentCategory($event)">{{"TabHeaderText.ContentCategory"|translate}}</a>
+                </li>
+                <li>
+                    <a href="HomeOwnersPolicies" data-toggle="tab" ng-click="ShowHomeOwnersPolicies($event)"> {{"TabHeaderText.HomeOwnersPolicies"|translate}} </a>
+                </li>
+                <li>
+                    <a href="ClaimForm" data-toggle="tab" ng-click="ShowCliamForm($event)"> {{"TabHeaderText.ClaimForm"|translate}}</a>
+                </li>
+                <li>
+                    <a href="EmailTempalte" data-toggle="tab" ng-click="ShowEmailTemplate($event)"> {{"TabHeaderText.EmailTempalte"|translate}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet-body">
+            <div class="tab-content">
+                <!--ContentCategory Tab-->
+                <div class="tab-pane active" id="tab_home" ng-if="ContentCategory">
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="row" ng-include="'views/Administrator/ContentCategories.html'" ng-controller="ContentCategoriesController">
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End ContentCategory Tab-->
+               
+                <!--HomeOwnersPolicies Tab-->
+                <div class="tab-pane active " id="HomeOwnersPolicies" ng-if="HomeOwnersPolicies">
+                    <div class="row " ng-include="'views/Administrator/HomeOwnersPolicies.html'" ng-controller="HomeOwnersPoliciesController">
+
+                    </div>
+                </div>
+                <!--End HomeOwnersPolicies Tab-->
+
+                <!--ClaimForm Tab-->
+                <div class="tab-pane active"  ng-if="ClaimForm"  id="ClaimForm">
+                    <!-- BEGIN:Completed-->
+                    <div class="row" ng-if="ClaimForm" ng-include="'views/Administrator/ClaimForm.html'" ng-controller="ClaimFormController">
+                   
+                    </div>
+                </div>
+                <!--End ClaimForm Tab-->
+
+                <!--EmailTempalte Tab-->
+                <div class="tab-pane active" ng-if="EmailTempalte" id="EmailTempalte">
+                    <div class="row" ng-if="EmailTempalte" ng-include="'views/Administrator/EmailTempalte.html'" ng-controller="EmailTempalteController">
+                    </div>
+                <!--End EmailTempalte Tab-->
+               
+            </div>
+        </div>
+    </div>
+</div>

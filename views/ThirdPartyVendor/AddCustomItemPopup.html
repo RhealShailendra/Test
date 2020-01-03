@@ -1,0 +1,100 @@
+﻿<script>
+$(document).ready(function () {
+    $("#select2insidemodal").select2({
+        dropdownParent: $("#myModal")
+    });
+    window.addEventListener("paste", processEvent);
+    function processEvent(e) {
+        for (var i = 0 ; i < e.clipboardData.items.length ; i++) {
+            // get the clipboard item
+            var clipboardItem = e.clipboardData.items[i];
+            var type = clipboardItem.type;
+            // if it's an image add it to the image field
+            if (type.indexOf("image") != -1) {
+                // get the image content and create an img dom element
+                var blob = clipboardItem.getAsFile();
+                var blobUrl = window.URL.createObjectURL(blob);
+                var img = document.getElementById('customImage');
+                var fileReader = new FileReader();
+                fileReader.onloadend = function () {
+                    var result = fileReader.result
+                    img.src = result;
+                }
+                fileReader.readAsDataURL(blob);                
+                var Imagefile = this.dataURItoBlob(img.currentSrc);
+                var image = new File([Imagefile], 'image.png');
+               
+            } else {
+             //   console.log("Not supported: " + type);
+            }
+        }
+    }
+
+});
+
+function dataURItoBlob(dataURI) {
+    var byteString = atob(dataURI.toString().split(',')[1]);
+    //var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    var blob = new Blob([ab], { type: 'image/png' }); //or mimeString if you want
+    return blob;
+}
+
+</script>
+<div id="myModal">
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h4 class="modal-title">{{"HeaderText.NewCustomItem"|translate}}</h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="col-md-12 col-lg-12 col-sm-12 clearfix padding1px form-group" ng-form="CreateCustomItem" id="CreateCustomItem">
+                    <div class="col-lg-3 col-md-3 col-sm-3" ng-paste='handlePaste($event)'>
+                        <img ng-paste="paste()" id="customImage" ng-src={{NoImagePath}} class="img-responsive" style="height: 120px !important;width: 120px !important; border:1px solid #a1a1a1;padding:2px;border-radius:4px" />
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-9 margin-bottom-10">
+                        <div class="col-md-12 col-lg-12 col-sm-12">
+                            <label class="control-label ">{{"ControlText.ItemDescription"|translate}} </label>
+                            <textarea class="form-control" name="desc" required ng-model="ItemDetails.ItemDescription" ng-attr-placeholder='{{"ControlText.ItemDescription"|translate}}'></textarea>
+                        <div class="errormessage">
+                            <span ng-show="(CreateCustomItem.desc.$error.required && CreateCustomItem.desc.$touched)">{{"Please enter item description"|translate}}</span>
+                        </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-sm-12 margin-top-5">
+                            <div class="col-md-4 col-sm-6 col-lg-4 padding1px">
+                                <label class="control-label ">{{"ControlText.ItemPrice"|translate}} </label>
+                                <input type="text" class="form-control" required name="itemPrice" ng-model="ItemDetails.ItemPrice" ng-attr-placeholder='{{"ControlText.ItemPrice"|translate}}' />
+                                <div class="errormessage">
+                                    <span ng-show="(CreateCustomItem.itemPrice.$error.required && CreateCustomItem.itemPrice.$touched)">{{"Please enter price"|translate}}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-7 col-sm-6 col-lg-7 pull-right padding1px">
+                                <label class="control-label ">{{"ControlText.SupplierWebsite"|translate}} </label>
+                                <input type="text" class="form-control" required name="website" ng-model="ItemDetails.SupplierWebsite" ng-attr-placeholder='{{"ControlText.SupplierWebsite"|translate}}' />
+                                <div class="errormessage">
+                                    <span ng-show="(CreateCustomItem.website.$error.required && CreateCustomItem.website.$touched)">{{"Please enter website name"|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+           
+         </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+
+            <button type="button" data-dismiss="modal" class="btn btnMargin sbold" ng-click="addCustomItem()" ng-disabled="(CreateCustomItem.$invalid || CreateCustomItem.$pristine) ">{{"ControlText.AddComparable"|translate}}</button>
+            <button type="button" class="btn btnMargin sbold" ng-click="cancel()">{{"Cancel"|translate}}</button>
+        </div>
+    </div>
+</div>
+<script>
+    ComponentsDateTimePickers.init(); // init todo page
+</script>
+

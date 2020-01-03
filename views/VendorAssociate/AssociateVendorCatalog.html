@@ -1,0 +1,296 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span ng-show="!showNewCatalog">{{"Catalog"|translate}}</span>
+            <a ng-show="showNewCatalog" ng-click="back()">{{"Catalog"|translate}}</a>
+        </li>
+        <li ng-show="showNewCatalog">
+        <span  ng-show="IsEdit"><i class="fa fa-circle"></i>{{CatalogDetails.catalogName}}</span>
+            <span ng-show="!IsEdit"><i class="fa fa-circle" ></i>{{"New Catalog"|translate}}</span>
+
+        </li>
+    </ul>
+</div>
+<div class="col-md-12 col-sm-12 padding1px">
+    <div class="col-md-12 portlet light padding1px" ng-if="!showNewCatalog">
+        <div class="portlet-title">
+            <div class="caption font-grey-sharp">
+                <span class="font-grey-sharp caption-subject">
+                    {{"HeaderText.Catalogs"|translate}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="form-group col-md-12 text-right">
+                    <input type="file" name="FileUpload" id="FileUpload" class="green" onchange="angular.element(this).scope().uploadExcelCatalog(event)" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                </div>
+                <div class="col-md-12 clearfix table-responsive">
+                    <div class="col-md-12 clearfix options_Background ">
+                        <div class="margin-top-5 ">
+                            <button id="sample_editable_1_new" class="btn sbold btnOptions margin-right-10 pull-left" ng-click="NewCatalog()">
+
+                                {{"ControlText.NewCatalog"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new" class="btn sbold btnMargin pull-left">
+                                {{"ControlText.Export"|translate}}
+                            </button>
+                            <div class="col-md-3 col-sm-4 pull-right">
+                                <div class="input-icon left">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" ng-model="search" class="form-control form-control-solid input-circle input-block-level btnMargin" placeholder={{"SearchText"|translate}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 margin-bottom-5"></div>
+                    </div>
+                    <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                        <thead>
+                            <tr>
+                                <th ng-click="sort('id')">
+                                    {{"Table.CatalogId"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='id'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('catalogName')">
+                                    {{"Table.CatalogName"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='catalogName'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('noOfItems')">
+                                    {{"Table.ofItems"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='noOfItems'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('createDate')">
+                                    {{"Table.CreatedDate"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='createDate'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('startDate')">
+                                    {{"Table.StartDate"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='startDate'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('expirationDate')">
+                                    {{"Table.ExpirationDate"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='expirationDate'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th ng-click="sortCatalog('status.name')" class="statusHeading">
+                                    {{"Table.Status"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="CatalogsortKey=='status'" ng-class="{'glyphicon-chevron-up pull-right':Catalogreverse,'glyphicon-chevron-down pull-right':!Catalogreverse}"></span>
+                                </th>
+                                <th>
+                                    {{"Table.Action"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr dir-paginate="item in catalogsList|orderBy:CatalogsortKey:Catalogreverse|filter:search|itemsPerPage:Catalogpagesize" paginatio-id="catalogsList">
+                                <td class="text-right">{{item.id}}</td>
+                                <td>{{item.catalogName}}</td>
+                                <td class="text-right">{{item.noOfItems}}</td>
+                                <td>{{item.createDate |DateFormatMMddyyyy}}</td>
+                                <td>{{item.startDate  |DateFormatMMddyyyy}}</td>
+                                <td>{{item.expirationDate  |DateFormatMMddyyyy}}</td>
+                                <td class="text-center">
+                                    <a ng-class="Claims.status.status=='ASSIGNED'?'btn btn-circle  btn-xs green':'btn btn-circle  btn-xs blue'">{{item.status.name}}</a>
+                                </td>
+                                <td class="text-center"><a ng-click="EditCatalog(item)"><i class="fa fa-edit green"> </i> Edit</a>  | <a ng-click="PublishCatalog(item.id)"><i class="fa fa-bullhorn"></i> Publish</a></td>
+                            </tr>
+                            <tr ng-if="catalogsList.length ===0 || catalogsList===null">
+                                <td></td>
+                                <td colspan="7" class="text-center"><span class="text-center text-danger">{{"NoRecordText"}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <dir-pagination-controls max-size="3" ng-if="catalogsList.length !==0 || catalogsList!==null" paginatio-id="catalogsList"
+                                             direction-links="true"
+                                             boundary-links="true" class="pull-right">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 portlet light padding1px" ng-if="showNewCatalog" ng-form="AddEditCatalog">
+        <div class="portlet-title">
+            <div class="caption bold font-grey-sharp">
+                <span ng-if="!IsEdit" class="font-grey-sharp caption-subject">{{"HeaderText.NewCatalog"|translate}}</span>
+                <span ng-if="IsEdit" class="font-grey-sharp caption-subject">{{"HeaderText.UpdateCatalog"|translate}}</span>
+            </div>
+          
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12" id="cal">
+                    <div class="col-md-12 col-sm-12 text-right margin-bottom-10 margin-top-5">
+                        <button id="btnBack" class="btn sbold btnMargin " ng-click="back()">
+
+                            {{"Cancel"|translate}}
+                        </button>
+                        <button id="sample_editable_1_new " ng-click="SaveCatalog()" ng-disabled="AddEditCatalog.$invalid || AddEditCatalog.$pristine " class="btn sbold btnMargin">
+
+                            {{"ControlText.Save"|translate}}
+                        </button>
+                       
+                    </div>
+                    <div class="form-group col-sm-12 margin-top-10 clearfix" ng-if="IsEdit">
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"ControlText.CatalogId"|translate}} </label>
+                        <div class="col-md-3 col-sm-8">
+                            <span>{{CatalogDetails.id}}</span>
+                            <!--<input class="form-control" readonly ng-model="CatalogDetails.id" name="CategoryId" type="text" />-->
+                        </div>
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"ControlText.CreateDate"|translate}} </label>
+                        <div class="col-md-3 col-sm-8">
+                            <label>{{CatalogDetails.submitDate | DateFormatMMddyyyy}} </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 margin-top-10 clearfix">
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"ControlText.CatalogName"|translate}} </label>
+                        <div class="col-md-3 col-sm-8">
+                            <input class="form-control " ng-model="CatalogDetails.catalogName" required name="CatalogName" type="text" />
+                            <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                  ng-show="(AddEditCatalog.CatalogName.$error.required && AddEditCatalog.CatalogName.$touched)">
+                                {{"Please enter catalog name."|translate}}
+                            </span>
+                        </div>
+
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right" ng-if="IsEdit">{{"ControlText.Staus"|translate}} </label>
+                        <div class="col-md-3 col-sm-8" ng-if="IsEdit">
+                            <select class="select2me form-control" name="ItemType" ng-model="CatalogDetails.status.id" data-placeholder="Select Item Type"
+                                    ng-options="option.id as option.status for option in catalogStatusList"></select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12 margin-top-15 clearfix">
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"ControlText.StartDate"|translate}} </label>
+                        <div class="col-md-3 col-sm-8">
+                            <input class="form-control datepicker" data-date-container='#cal' ng-model="CatalogDetails.startDate" data-provide="datepicker" required name="startDate" type="text" />
+                            <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                  ng-show="(AddEditCatalog.startDate.$error.required && AddEditCatalog.startDate.$touched)">
+                                {{"Please enter start date."|translate}}
+                            </span>
+                        </div>
+                        <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"ControlText.ExpirationDate"|translate}} </label>
+                        <div class="col-md-3 col-sm-8">
+                            <input class="form-control datepicker" data-date-container='#cal' ng-model="CatalogDetails.expirationDate" data-provide="datepicker" required name="expirationDate" type="text" />
+                            <span class="text-danger col-sm-12 col-xs-12 col-lg-12 col-md-12" ng-message="required"
+                                  ng-show="(AddEditCatalog.expirationDate.$error.required && AddEditCatalog.expirationDate.$touched)">
+                                {{"Please enter expiration date."|translate}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 col-sm-12 text-right margin-bottom-10 margin-top-30 topBorder">
+                        <div class="scol-md-12 margin-top-10"></div>
+                        <button id="btnBack" class="btn sbold btnMargin " ng-click="back()">
+
+                            {{"Cancel"|translate}}
+                        </button>
+                        <button id="sample_editable_1_new " ng-click="SaveCatalog()" ng-disabled="AddEditCatalog.$invalid || AddEditCatalog.$pristine " class="btn sbold btnMargin">
+
+                            {{"ControlText.Save"|translate}}
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="portlet light padding1px margin-top-10">
+            <div class="portlet-title">
+                <div class="caption  font-grey-sharp">                    
+                        <span class="font-grey-sharp caption-subject">  {{"HeaderText.ItemsInCatalog"|translate}}</span>                    
+                </div>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="form-group col-md-12 text-right">
+                    <input type="file" name="FileUpload" id="FileUpload" class="green" onchange="angular.element(this).scope().uploadExcelCatalog(event)" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                </div>
+                <div class="col-md-12 clearfix table-responsive">
+                    <div class="col-md-12 clearfix  options_Background ">
+                        <div class="col-md-6 col-sm-6 margin-top-5 margin-bottom-5 ">
+                            <button id="sample_editable_1_new" class="btn sbold  pull-left btnOptions margin-right-10" ng-click="EditItem()">
+
+                                {{"ControlText.AddItem"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new" class="btn sbold  pull-left btnMargin margin-right-10" ng-click="UploadCatalogItems()">
+
+                                {{"ControlText.LoadFromFile"|translate}}
+                            </button>
+                            <button id="sample_editable_1_new" class="btn sbold  pull-left btnMargin">
+
+                                {{"ControlText.Export"|translate}}
+                            </button>
+                            </div>
+                        <div class="col-md-6 col-sm-6 margin-top-5 margin-bottom-5">                          
+                            <div class="col-md-6 col-sm-6 pull-right">
+                                <div class="input-icon left">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" ng-model="search" class="form-control form-control-solid input-circle input-block-level btnMargin" placeholder={{"SearchText"|translate}}>
+                                </div>
+                            </div>
+                        </div>                       
+                    </div>
+                    <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                        <thead>
+                            <tr>
+                                <th ng-click="sort('id')">
+                                    {{"Table.ItemId"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('itemName')">
+                                    {{"Table.ItemName"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='itemName'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+
+                                <th ng-click="sort('category.name')">
+                                    {{"Table.ItemType"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='category.name'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('description')">
+                                    {{"Table.Description"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('price')">
+                                    {{"Table.Prise"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='price'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+                                <th ng-click="sort('isAvailable')" class="statusHeading">
+                                    {{"Table.Status"|translate}}
+                                    <span class="glyphicon sort-icon" ng-show="sortKey=='isAvailable'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                                </th>
+                                <th>
+                                    {{"Table.Action"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr dir-paginate="item in catalogItemsList|orderBy:sortKey:reverse|filter:search|itemsPerPage:pagesize" paginatio-id="catalogItemsList">
+                                <td class="text-right">{{item.id}}</td>
+                                <td>{{item.itemName}}</td>
+                                <td>{{item.category.name}}</td>
+                                <td>{{item.description}}</td>
+                                <td class="text-right">{{item.price |currency}}</td>
+                                <td class="text-center">{{item.isAvailable ? 'Available' : 'Unavailable'}}</td>
+                                <td class="text-center"><a ng-click="EditItem(item.id)"><i class="fa fa-edit green"> </i> Edit</a>  | <a><i class="fa fa-exclamation-circle"></i> Not Avaliable</a></td>
+
+                            </tr>
+                            <tr ng-if="catalogItemsList.length ===0 || catalogItemsList===null">
+                                <td></td>
+                                <td colspan="7" class="text-center"><span class="text-center text-danger">{{"No Record Found"}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <dir-pagination-controls max-size="3" ng-if="catalogItemsList.length !==0 || catalogItemsList!==null" paginatio-id="catalogItemsList"
+                                             direction-links="true"
+                                             boundary-links="true" class="pull-right">
+                    </dir-pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,91 @@
+﻿
+<style>
+     .modal-dialog {
+  width: 1000px !important;
+  }
+     img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+<div >
+    <div id="responsive ">
+        <div class="border-after-blue-dark">
+            <div class="modal-header">
+                <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+                <div class="col-md-12 col-sm-12 text-center">
+                    <img class="img-responsive" src="assets/pages/img/login/3Circle.png"
+                         style="vertical-align:middle;height:200px;width:400px;text-align:center">
+                </div>
+                <h3 class="modal-title" style="text-align:center"><u>{{"Insurance Appraisal"|translate}}</u></h3>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 padding1px " ng-form="CreateNoteForm">
+                    <div class="col-md-12 margin-top-5">
+                        <span style="font-size:18px" class="col-md-7 col-lg-7 col-sm-12 col-xs-12">
+                            This appraisal has been prepared for:{{PoDetails.Name}}
+                        </span>
+                        <span style="font-size:18px" class="Label_Text_Right col-md-5 col-lg-5 col-sm-12 col-xs-12">
+                            Current Date
+                            {{date | date:'MM/dd/yyyy'}}
+                        </span>
+
+                        <!--<div class="col-md-5 text-right">
+                    <label class="control-label">Policyholder Name</label>
+                </div>
+                <div class="col-md-5">
+                    <span class="control-label">{{PoDetails.Name}}</span>
+                </div>-->
+                    </div>
+                    <div class="col-md-12 margin-top-5 margin-bottom-5">
+                        <textarea type="text" rows="20" ng-model="Appraisal.Description" class="form-control" placeholder="Descriptin"> </textarea>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-top-10 form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 portlet light bordered table-responsive" ng-if="attachmentList.length>0">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 " ng-repeat="file in attachmentList" style="padding:3px;">
+                                <img ng-src="{{file.Image}}" class="img-thumbnail" style="height: 150px !important;width: 150px!important;" />
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-top-10 form-group">
+                        <div class="col-md-12 col-sm-12 col-xs-12 portlet light bordered table-responsive" ng-if="editAttachmentList.length>0">
+                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-repeat="file in editAttachmentList" style="padding:3px;">
+                                <a href="{{file.url}}" download>
+                                    <img ng-src="{{file.url}}" class="img-thumbnail" alt="{{file.name}}" style="height: 150px !important;width: 150px!important;align-content:center" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="col-md-12 margin-top-10">
+                        <div class="col-md-4">
+                            <div>Jason Greenwalt,CG</div>
+                            <div>Artigem,LLC</div>
+                            <div>15 N 1st street,Suit 100</div>
+                            <div>Belleville ,IL 62220</div>
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <div class="col-md-8">
+                                <label class="control-label">Insurance Replacement Value</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-model="appraisalValue" placeholder="$5000">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: 20px">
+                        This appraisal is intented for Insuring purpose only.All referencesto quality are approximate or as represented to artigem,LLC by the manufacturer unless othrwise stated.This Appraisal is based on an average selling price of the described item in the United states and is intented to be a reference price for the purpose of insuring the jewellary.
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="modal-footer">
+                <!--<button type="button" class="btn btn-outline dark" ng-click="cancel()">Cancel</button>
+        <button type="button" data-dismiss="modal" class="btn sbold btnMargin" ng-click="ok()" ng-disabled="CreateNoteForm.$invalid || CreateNoteForm.$pristine">{{"Send"|translate}}</button>-->
+            </div>
+        </div>
+        
+    </div>
+
+</div>

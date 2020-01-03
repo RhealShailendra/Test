@@ -1,0 +1,12 @@
+﻿{
+  "data": {
+    "serverAddress": "http://69.164.195.59:8080",
+    "Xoriginator": "artigem.3Circlecrm.com",
+    "apiurl": "/ArtigemRS-FI_Vendor/api/",
+    "receipturl": "/",
+    "ExportUrl": "",
+    "VendorDetailsTemplate": "/artigem/templates/VendorCatalogUpload.xlsx",
+    "PolicyholderAppListURL": "http://69.164.195.59:8080/inshashmap/allportals.json",
+    "claimProfile": "Jewelry"
+  }
+}

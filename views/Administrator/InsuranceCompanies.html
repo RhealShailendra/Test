@@ -1,0 +1,358 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-show="newCompany" ng-click="Cancel(false)">{{"Insurance Companies"|translate}}</a>
+            <span ng-show="!newCompany">{{"Insurance Companies"|translate}}</span>
+        </li>
+        <li ng-show="newCompany">
+            <span ng-if="companyDetails.id > 0"><i class="fa fa-circle"></i> {{companyDetails.companyName}} </span>
+            <span ng-if="companyDetails.id == null"><i class="fa fa-circle"></i> New Company  </span>
+        </li>
+    </ul>
+</div>
+
+
+<div class="col-md-12 portlet light padding1px" ng-show="!newCompany">
+    <div class="portlet-title">
+        <div class="caption font-grey-sharp">
+            <span class="caption-subject">{{"Insurance Companies"|translate}}</span>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="row">
+            <div class="col-md-12 clearfix">
+                <div class="col-md-12 table-responsive padding1px">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background padding1px">
+                        <div class="col-md-4 col-sm-4 col-xs-12 margin-bottom-5 margin-top-5">
+                            <button id="sample_editable_1_new " class="btn sbold btnMargin btnOptions" ng-click="ShowNewCompany(true)">
+                                {{"New Company"|translate}}
+                            </button>
+                        </div>
+                        <div class="col-md-3 margin-bottom-5 margin-top-5 col-sm-8 col-xs-12 pull-right">
+                            <div class="input-icon left">
+                                <i class="icon-magnifier"></i>
+                                <input type="text" class="form-control form-control-solid input-circle  input-block-level " ng-model="search" placeholder='{{"Search service"|translate}}'>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                        <thead>
+                            <tr>
+                                <th class="width40P" ng-click="sortKey('branchName')">
+                                    {{"Company Name"|translate}}
+                                </th>
+                                <th class="width25P" ng-click="sortKey('city')">
+                                    {{"City"|translate}}
+                                </th>
+                                <th class="width15" ng-click="sortKey('activeSince')">
+                                    {{"Active Since"|translate}}
+                                </th>
+                                <th class="Width10P" ng-click="sortKey('numberOfEmployees')">
+                                    {{"# of Employees"|translate}}
+                                </th>
+                                <th class="Width7P">
+                                    {{"Action"|translate}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in ComapnyList">
+                                <td>{{item.branchName}}</td>
+                                <td>{{item.city}}</td>
+                                <td>{{item.activeSince |DateFormatMMddyyyyHHmm}}</td>
+                                <td><span style="margin-right: 65% !important;"></span>{{item.numberOfEmployees}}</td>
+                                <td><span class="btn btn-circle blue " ng-click="EditCompanyAdminDetails(item.id)">Edit</span></td>
+                            </tr>
+                            <tr ng-if="$scope.ComapnyList===null ||  $scope.ComapnyList.length===0"><td></td><td colspan="4" class="text-danger text-center"> {{"No insurance companies to show"|translate}} </td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="portlet light padding1px" ng-show="newCompany" ng-form="CompanyForm">
+    <div class="col-md-12 padding1px">
+        <div class="tools pull-right padding1px">
+            <button id="sample_editable_1_new " class="btn btnMargin sbold" ng-disabled="CompanyForm.$invalid||CompanyForm.$pristine" ng-click="saveCompany()">
+                {{"ControlText.Save"|translate}}
+            </button>
+            <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Cancel(false)">
+                {{"ControlText.Cancel"|translate}}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 padding1px margin-bottom-5 margin-top-5">
+        <div class="SubHeadingDiv ">
+            <!--<div class="portlet-title">-->
+            <div class="caption">
+                <span class="font-grey-sharp caption-subject" ng-if="companyDetails.id > 0"> {{companyDetails.companyName}} </span>
+                <span class="font-grey-sharp caption-subject" ng-if="companyDetails.id == null"> New Company  </span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6 col-sm-9 ">
+            <!--<div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12">{{"FormControlText.CompanyId_title"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" ng-model="CompanyDetails.id" readonly class="form-control" placeholder={{"FormControlText.CompanyId_title"|translate}} />
+                </div>
+            </div>-->
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.CompanyName"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" name="companyName" ng-model="companyDetails.companyName" required class="form-control" placeholder='{{"Company Name"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.companyName.$error.required && CompanyForm.companyName.$touched">{{"ErrorMessage.CompanyNameRequired"|translate}}</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.Website"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" name="companyWebsite" ng-readonly="companyDetails.id" ng-model="companyDetails.companyWebsite" required class="form-control" placeholder='{{"Company Website"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.companyWebsite.$error.required && CompanyForm.companyWebsite.$touched">{{"ErrorMessage.WebsiteRequired"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.Address"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input class="form-control" ng-model="companyDetails.companyAddress.streetAddressOne" name="Address1" required placeholder='{{"Address1"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.Address1.$error.required && CompanyForm.Address1.$touched">{{"ErrorMessage.Address1isrequired"|translate}}</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input class="form-control" ng-model="companyDetails.companyAddress.streetAddressTwo" name="Address2" placeholder='{{"Address2"|translate}}' />
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.City"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" name="city" ng-model="companyDetails.companyAddress.city" required class="form-control" placeholder='{{"City"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.city.$error.required && CompanyForm.city.$touched">{{"ErrorMessage.Cityisrequired"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.State"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+
+                    <select class="form-control select2me" name="state" ng-model="companyDetails.companyAddress.state.id" required placeholder='{{"State"|translate}}'
+                            ng-options="item.id as item.state for item in StateList "></select>
+
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.state.$error.required && CompanyForm.state.$touched">{{"ErrorMessage.SelectState"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.ZipCode"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" name="zip" ng-model="companyDetails.companyAddress.zipcode" required placeholder='{{"Zip Code"|translate}}' />
+                    <div class="col-md-12 errormessage ">
+                        <span class="text-danger" ng-show="CompanyForm.zip.$error.required && CompanyForm.zip.$touched">{{"ErrorMessage.Zipcode"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.PhoneNumber"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" ng-model="companyDetails.companyPhoneNumber" phone-input ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required name="companyPhoneNumber" class="form-control" placeholder='{{"Phone Number"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.companyPhoneNumber.$error.required && CompanyForm.companyPhoneNumber.$touched">{{"ErrorMessage.PhoneRequired"|translate}}</span>
+                        <span class="text-danger" ng-show="CompanyForm.companyPhoneNumber.$error.pattern">{{"ErrorMessage.ValidNumbers"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.Fax"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" name="Fax" ng-model="companyDetails.fax" phone-input ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" class="form-control" required placeholder='{{"Fax"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.Fax.$error.required && CompanyForm.Fax.$touched">{{"ErrorMessage.Fax"|translate}}</span>
+                        <span class="text-danger" ng-show="CompanyForm.Fax.$error.pattern">{{"ValidNumbers"|translate}}</span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="col-md-4 col-sm-4">
+                    <label class="col-md-12 Label_Text_Right">{{"Label.DefaultTimeZone"|translate}}</label>
+                </div>
+                <div class="col-md-7 col-sm-8">
+                    <input type="text" name="timeZone" ng-model="companyDetails.defaultTimeZone" class="form-control" required placeholder='{{"Default Time Zone"|translate}}' />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.timeZone.$error.required && CompanyForm.timeZone.$touched">{{"ErrorMessage.TimeZone"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--File Upload-->
+        <div class="form-group col-md-6 col-sm-3 ">
+            <div class="col-md-12 col-sm-12 text-right margin-top-40">
+                <div class="visible-md visible-lg margin-top-40"></div>
+                <input type="file" id="CompanyLogoUpload" onchange="angular.element(this).scope().getLogoDetails(this)" class="pull-left" style="display:none" accept="image/*" />
+
+                <div class="col-md-4 col-sm-6 col-md-offset-3  text-center" ng-if="!HasLogo">
+                    <center>
+                        <div class="col-md-10 col-sm-10 light bordered logoHeight" style="border:1px solid #ddd;">
+                            <img class="ImageComparable" ng-src="{{ImageLogo[0].Image}}" alt="Company Logo" />
+
+                        </div>
+                        <div class="clearfix col-md-10 col-sm-10 margin-top-5">
+                            <a class="blue btn btnMargin" ng-click="SelectLogo()">Add Logo</a>
+                        </div>
+                    </center>
+                </div>
+
+                <div class="col-md-4 col-md-offset-3 col-sm-6  text-center" ng-if="HasLogo">
+                    <center>
+                        <div class="col-md-10 col-sm-10 light bordered logoHeight" style="border:1px solid #ddd;">
+                            <img class="ImageComparable" ng-src="{{companyDetails.companyLogo.url}}" alt="Company Logo" />
+                        </div>
+                        <div class="clearfix col-md-10 col-sm-10 margin-top-5">
+                            <a class="blue btn btnMargin" ng-click="SelectLogo()">Change Logo</a>
+                        </div>
+                    </center>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 margin-bottom-10 margin-top-10">
+            <div class="caption  col-md-12 col-xs-12 col-sm-12 SubHeadingDiv ">
+                <!--<h4 class="sbold" style="color:#666;">
+                    {{"ControlText.IsuranceCompany"|translate}}
+                </h4>-->
+                <div class="caption font-gray-sharp">
+                    <span class="caption-subject ">{{"ControlText.IsuranceCompany"|translate}}</span>
+                </div>
+
+            </div>
+        </div>
+        <!--<div class="portlet">
+            <div class="portlet-title"></div>
+        </div>-->
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2  Label_Text_Right control-label">{{"Label.FirstName"|translate}}<span class="text-danger btnMargin">*</span></label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control" ng-model="companyDetails.adminDetails.firstName" required name="FirstName" type="text" placeholder="{{'First Name'|translate}}" />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.FirstName.$error.required && CompanyForm.FirstName.$touched">{{"ErrorMessage.FirstName"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2  Label_Text_Right control-label">{{"Label.LastName"|translate}}<span class="text-danger btnMargin">*</span></label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control" required ng-model="companyDetails.adminDetails.lastName" name="LastName" type="text" placeholder="{{'Last Name'|translate}}" />
+                    <div class="col-md-12 errormessage padding1px">
+                        <span class="text-danger" ng-show="CompanyForm.LastName.$error.required && CompanyForm.LastName.$touched">{{"ErrorMessage.LastName"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2  Label_Text_Right control-label">{{"Label.Email"|translate}}<span class="text-danger btnMargin">*</span></label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control" type="email" ng-model="companyDetails.adminDetails.email" pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required name="Email" placeholder="{{'Email'|translate}}" />
+                    <div class="errormessage">
+                        <span class="text-danger" ng-show="CompanyForm.Email.$error.required && CompanyForm.Email.$touched">{{"ErrorMessage.EmailIdRequired"|translate}}</span>
+                        <span class="text-danger" ng-show="CompanyForm.Email.$error.pattern">{{"ErrorMessage.EmailCorrect"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2  Label_Text_Right control-label">{{"Label.PhoneNumber"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control " name="CPhone" ng-model="companyDetails.adminDetails.eveningTimePhone" phone-input ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" type="text" placeholder="{{'Phone Number'|translate}}" />
+                    <div class="col-md-12 errormessage ">
+                        <span class="text-danger" ng-show="CompanyForm.CPhone.$error.pattern">{{"ValidNumbers"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2  Label_Text_Right control-label Label_Text_Right">{{"Label.Role"|translate}}<span class="text-danger btnMargin">*</span></label>
+                <div class="col-md-3 col-sm-4">
+                    <select class="form-control select2me" name="role" ng-model="companyDetails.adminDetails.roles.id" required placeholder='{{"State"|translate}}'
+                            ng-options="item.id as item.name for item in RoleList "></select>
+                    <div class="errormessage">
+                        <span class="text-danger" ng-show="CompanyForm.role.$error.required && CompanyForm.role.$touched">{{"ErrorMessage.RoleRequired"|translate}}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-12 topBorder">
+            <div class="col-md-12 margin-top-5 padding1px">
+                <div class="text-right col-md-112 col-sm-12 padding1px">
+                    <button id="sample_editable_1_new " class="btn btnMargin sbold margin-top-5 margin-bottom-20" ng-click="saveCompany()">
+                        <!--ng-disabled="CompanyForm.$invalid||CompanyForm.$pristine"-->
+                        {{"ControlText.Save"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new " class="btn sbold btnMargin margin-top-5 margin-bottom-20" ng-click="Cancel(false)">
+                        {{"ControlText.Cancel"|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<style>
+    .logoHeight {
+        height: 160px;
+    }
+</style>
+
+
+

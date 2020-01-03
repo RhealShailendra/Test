@@ -1,0 +1,429 @@
+﻿
+<style>
+     #lnkDownload:hover
+    {
+        color:ghostwhite;
+    }
+    </style>
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="GoToClaimDetails()">{{CommonObj.ClaimNumber}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="GoToLineItem()">{{ItemDetails.itemNumber}}</a>
+            <i class="fa fa-circle"></i>
+         </li>
+        <li>
+            <span>{{"MER"|translate}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-md-12 col-sm-12 padding1px">
+    <div class="portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-gray-sharp">
+                <span class="caption-subject">{{"MER#"|translate}}</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-12 padding1px">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="padding-top:5px;padding-bottom:5px;">
+                            <span class="text_options_Label sbold caption">{{"ReplacementAssistanceGuide"|translate}}</span>
+                            <a id="lnkDownload" class="text_options_Label pull-right"><span ng-click="CreatePDF()">{{"DownloadAsPDF"|translate}}</span></a>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;">
+                            <div class="col-md-8 pull-left">
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Date of MER"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{currentDate | date:'yyyy-MM-dd'}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Insurance Company"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{InsuranceCompanyDetails.company.companyName}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Insurance Company Brach/Office"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{InsuranceCompanyDetails.company.companyCrn}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Adjuster"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{InsuranceCompanyDetails.adjuster.firstName}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Claim#"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{CommonObj.ClaimNumber}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Item Id"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <span class="control-label">{{CommonObj.ItemNumber}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Description"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" ng-model="ItemDetails.description" ng-attr-placeholder='{{"Description"|translate}}'></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Individual Limit"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span>{{ItemDetails.individualLimitAmount}}</span>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Category Limit"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span>{{ItemDetails.categoryLimit}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Is scheduled"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span ng-show="ItemDetails.isScheduledItem">Yes</span>
+                                        <span ng-show="!ItemDetails.isScheduledItem">No</span>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Scheduled amount"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span>{{ItemDetails.scheduleAmount}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Replacement Description"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6">
+                                        <textarea class="form-control" ng-model="ItemDetails.adjusterDescription" ng-attr-placeholder='{{"Description"|translate}}'></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12  form-group">
+                                    <div class="col-md-4 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Replacement cost"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span>{{ItemDetails.rcv}}</span>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6 Label_Text_Right">
+                                        <label class="control-label ">{{"Actual cost value"|translate}}</label>
+                                    </div>
+                                    <div class="col-md-2 col-sm-6">
+                                        <span>{{ItemDetails.acv}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder">
+                            <div class="text_options_Label sbold  margin-top-5 margin-bottom-5 ">{{"Replacement Items"|translate}}</div>
+                        </div>
+                        <div class="col-md-12 " style="border:1px solid lightgray;">
+                            <div class="col-md-5  portlet light margin-top-10 bordered clearfix marginLeftComparable" ng-repeat="comp in Comparables.comparableItems" ng-if="!comp.delete">
+                                <div class="col-md-3 col-sm-3 imagePostion text-center">
+                                    <div class="col-md-12 light bordered imageHeightComparable" style="border:1px solid #ddd;">
+                                        <img ng-if="!comp.isDataImage && comp.imageURL!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageURL}}" alt="image" />
+                                        <img ng-if="!comp.isDataImage && comp.imageURL===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                        <img ng-if="comp.isDataImage && comp.imageData!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageData}}" alt="image" />
+                                        <img ng-if="comp.isDataImage && comp.imageData===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 tip">
+                                    <label class="control-label">
+                                        <span class="sbold text-primary">{{"Brand"|translate}}</span>&nbsp;:&nbsp;
+                                        <span class="Overlay" ng-if="comp.brand.length>18">{{comp.brand}}{{comp.brand.length >  18 ? '...' : ''}}</span><span>{{comp.brand | limitTo: 18}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                    <label class="control-label">
+                                        <span class="text-primary sbold">{{"Model"|translate}}</span>&nbsp;:&nbsp;
+                                        <span class="Overlay" ng-if="comp.model.length>18">{{comp.model}}</span><span>{{comp.model | limitTo: 18}}{{comp.model.length >  18 ? '...' : ''}}</span>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 col-sm-4 tip" ng-if="comp.isReplacementItem===true">
+                                    <label class="control-label"><span class="text-primary sbold">{{"UnitPrice"|translate}}</span>&nbsp;:&nbsp;{{comp.unitPrice | currency}}</label>
+                                </div>
+                                <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                    <label class="control-label">
+                                        <span class="text-primary sbold">{{"Supplier"|translate}}</span>&nbsp;:&nbsp;
+                                        <span class="Overlay" ng-if="comp.supplier.length>18">{{comp.supplier}}</span><span>{{comp.supplier | limitTo: 18}}{{comp.supplier.length >  18 ? '...' : ''}}</span>
+                                    </label>
+                                </div>
+
+                                <div class="col-md-8 col-sm-8 col-xs-12 margin-bottom-5 ">
+                                    <label class="control-label clearfix text-primary sbold">{{"Vendor Description"|translate}} &nbsp;:&nbsp;</label>
+                                    <input type="text" ng-model="comp.description" class="form-control" placeholder='{{"Vendor Description"|translate}}' />
+                                </div><div class="clearfix"></div>
+
+                                <div class="col-md-6 col-sm-6 clearfix ">
+                                    <label class="mt-checkbox mt-checkbox-outline text-success " style="font-size:13px;">
+                                        <input type="checkbox" ng-model="comp.isReplacementItem" class="checkboxes" ng-click="MarkAsReplacement(comp)" />
+                                        <span></span>
+                                        {{"Mark as Replacement item"|translate}}
+                                    </label>
+                                </div>
+                                <div class="col-md-6 col-sm-6 text-right">
+                                    <a href="#" style="color:red;" ng-click="ShopNow(comp)">{{"Buy View Here"|translate}}</a>
+                                </div>
+                                <div class="margin-bottom-10"></div>
+                            </div>
+                            <div class="col-md-12 col-sm-12  text-center" ng-if="!Comparables.comparableItems">
+                                <span class="text-danger">
+                                    {{"No Comparables Available"|translate}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12 col-sm-12 padding1px">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Printable Div Start-->
+<div class="row" id="PrintableDiv" style="display:none;">
+    <label style="display:block;font-size:20px"> MER Details</label>
+    <div style="width:100%;display:block;float:left;margin-top:5px;border-top:1px solid black;">
+        <div style="width:70%;float:left;">
+            <div style="width:100%;display:block;float:left;margin-bottom:10px;margin-top:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Date of MER "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{currentDate |date:'yyyy-MM-dd'}}</span>
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Insurance Company "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{InsuranceCompanyDetails.company.companyName}}</span>
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Insurance Company Brach/Office "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{"Insurance Company Brach/Office"|translate}}</span>
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Adjuster "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{InsuranceCompanyDetails.adjuster.firstName}}</span>
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Claim# "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{CommonObj.ClaimNumber}}</span>
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Item Id "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{CommonObj.ItemNumber}}</span>
+                </div>
+            </div>     
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Description "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span style="width:100%" >{{ItemDetails.description}}</span>
+                </div>
+            </div>   
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Individual Limit "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span style="float:left">
+                        {{ItemDetails.individualLimitAmount}}
+                    </span>
+                </div>
+            </div> 
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;font-weight:bold">{{"Category Limit "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{ItemDetails.category.aggregateLimit}}</span>
+                </div>
+            </div> 
+           
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Is scheduled "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span style="width:25%;float:left" >
+                      <span ng-if="ItemDetails.isScheduledItem">Yes</span>
+                      <span ng-if="!ItemDetails.isScheduledItem">No</span>
+                    </span>                
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;font-weight:bold">{{"Scheduled amount "|translate}}</label>
+                </div>
+                <div style="width:50%;float:right">
+                    <span>{{ItemDetails.scheduleAmount}}</span>
+                </div>
+            </div>
+            
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Replacement Description "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span style="width:100%">{{ItemDetails.adjusterDescription}}</span>
+                </div>
+            </div>  
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;margin-right:10px;font-weight:bold">{{"Replacement cost "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span style="width:25%;float:left;" >  {{ItemDetails.rcv}} </span>                    
+                </div>
+            </div>
+            <div style="width:100%;display:block;float:left;margin-bottom:10px">
+                <div style="width:50%;float:left">
+                    <label style="float:right;font-weight:bold">{{"Actual cost value "|translate}}</label>
+                </div>
+                <div style="width:50%;float:left">
+                    <span>{{ItemDetails.acv}}</span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <label style="display:block;font-size:20px"> Replacement Items</label>
+    <div style="width:100%;display:block;border-top:1px solid black;float:left;margin-top:5px;height:auto;">
+        <div style="width:100%;display:block;float:left;margin:10px 5px 5px 5px;border: 1px solid #c7ccd0 !important;"  ng-repeat="comp in Comparables.comparableItems">
+            <div style="width:100%;display:block;float:left;margin-left:5px;height:auto;">
+                <div style="max-width:100px;max-height:100px;display:block; float:right; margin-right:100px!important;padding:5px 5px 5px 5px">
+                        <img ng-if="!comp.isDataImage && comp.imageURL!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" style="max-width:90px;max-height:90px;" ng-src="{{comp.imageURL}}" />
+                        <img ng-if="!comp.isDataImage && comp.imageURL===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" style="max-width:90px;max-height:90px;" ng-src="assets/global/img/no-image.png" />
+
+                        <img ng-if="comp.isDataImage && comp.imageData!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" style="max-width:90px;max-height:90px;" ng-src="{{comp.imageData}}"  />
+                        <img ng-if="comp.isDataImage && comp.imageData===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" style="max-width:90px;max-height:90px;" ng-src="assets/global/img/no-image.png"  />
+                  
+                </div>
+                <div style="width:65%;display:block;float:left;margin-top:10px">
+                    <div style="width:100%">
+                        <div style="width:20%;display:block;float:left">
+                            <span style="float:left;padding-left:30px;font-weight:bold">{{"Brand: "|translate}}</span>
+                        </div>
+                        <div style="width:30%;display:block;float:left;padding-left:10px!important">
+                            <span style="float:left;" ng-if="comp.brand.length>18">{{comp.brand}}{{comp.brand.length >  18 ? '...' : ''}}</span><span>{{comp.brand | limitTo: 18}}</span>
+                        </div>
+                        <div style="width:20%;display:block;float:left">
+                            <span style="float:left;padding-left:30px;font-weight:bold">{{"Model: "|translate}}</span>
+                        </div>
+                        <div style="width:25%;display:block;float:left;padding-left:10px!important">
+                            <span style="float:left;" ng-if="comp.model.length>18">{{comp.model}}</span><span>{{comp.model | limitTo: 18}}{{comp.model.length >  18 ? '...' : ''}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:65%;display:block;float:left;margin-top:5px">
+                    <div style="width:100%">
+                        <div ng-if="comp.isReplacementItem===true"  style="width:20%;display:block;float:left">
+                            <span style="float:left;padding-left:30px;font-weight:bold">{{"UnitPrice: "|translate}}</span>
+                        </div>
+                        <div ng-if="comp.isReplacementItem===true"  style="width:20%;display:block;float:left;padding-left:10px!important">
+                            <span style="float:left;">{{comp.unitPrice | currency}}</span>
+                        </div>
+                        <div style="width:20%;display:block;float:left">
+                            <span style="float:left;padding-left:30px;font-weight:bold">{{"Supplier: "|translate}}</span>
+                        </div>
+                        <div style="width:35%;display:block;float:left;padding-left:10px!important">
+                            <span ng-if="comp.supplier.length>18">{{comp.supplier}}</span><span>{{comp.supplier | limitTo: 18}}{{comp.supplier.length >  18 ? '...' : ''}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="width:65%;display:block;float:left;margin-top:5px">
+                    <div style="width:100%">
+                        <div style="width:50%;display:block;float:left">
+                            <span style="float:left;padding-left:30px;font-weight:bold">{{"Vendor Description: "|translate}}</span>
+                        </div>
+                        <div style="width:100%;display:block;float:right;padding-left:15px!important">
+                            <span style="float:left;padding-left:30px;padding-top:5PX">{{comp.description}}</span>
+                        </div>                        
+                    </div>
+                </div>
+                <div style="width:65%;display:block;float:left;margin-top:5px;margin-bottom:5px;">
+                    <div style="width:100%">
+                        <div style="width:50%;display:block;float:left;padding-left:30px;">
+                            <label style="font-size:13px;font-weight:bold">
+                                <input type="checkbox" ng-checked="comp.isReplacementItem" class="checkboxes" ng-click="MarkAsReplacement(comp)" />
+                                <span></span>
+                                {{"Mark as Replacement item"|translate}}
+                            </label>
+                        </div>
+                      
+                    </div>
+                </div>
+          </div>
+        </div>
+    </div>
+   
+ </div>
+<!--Printable Div End-->
+
+<style>
+    .marginLeftComparable {
+        margin-left: 80px;
+    }
+</style>

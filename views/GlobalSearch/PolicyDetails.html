@@ -1,0 +1,113 @@
+﻿<style>
+    .boderdashed{
+       border-bottom: 2px dashed #b1acac
+    }
+</style>
+<div class="col-md-12">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Search Result"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"First Name Last Name"|translate}}</span>
+        </li>
+    </ul>
+  <div class="portlet light bordered">
+      <div class="portlet-body">
+          <div class="row">
+              <div class="col-md-12 col-lg-12 col-sm-12 boderdashed margin-bottom-10">
+                  <h4 class="font-blue">{{"Policy#"|translate}}</h4>
+                  <div class="portlet">
+                      <div class="portlet-title"></div>
+                  </div>
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Policy Number"|translate}}:</label>
+                          <span class="control-label col-md-3 col-sm-5">{{PolicyHolderDetails.policyNumber}}</span>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Policy Term"|translate}}:</label>
+                          <span class="control-label col-md-3 col-sm-5">{{PolicyHolderDetails.policyType}}</span>
+
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Payment Plan"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Insurance Agent / Office"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Location Of Property"|translate}}:</label>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-12 col-lg-12 col-sm-12 boderdashed margin-bottom-10">
+                  <h4 class="font-blue">{{"PolicyHolder Information"|translate}}</h4>
+                  <div class="portlet">
+                      <div class="portlet-title"></div>
+                  </div>
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                      <div class="col-md-2 col-lg-2 col-sm-4">
+                              <img class="thumbnail img-responsive" ng-src="assets/global/img/no-image.png" height="150px" width="150px" alt="PolicyHolder" />
+                      </div>
+                      <div class="col-md-10 col-lg-10 col-sm-8">
+                          <div class="col-md-12 col-sm-12 form-group">
+                              <label class="control-label col-md-2 col-sm-5 text-right">{{"PolicyHolder Name"|translate}}:</label>
+                              <span class="control-label col-md-2 col-sm-5">{{PolicyHolderDetails.policyHolder.lastName+", "+PolicyHolderDetails.policyHolder.firstName}}</span>
+                          </div>
+                          <div class="col-md-12 col-sm-12 form-group">
+                              <label class="control-label col-md-2 col-sm-5 text-right">{{"Permanent Address"|translate}}:</label>
+                              <span class="control-label col-md-2 col-sm-5">{{PolicyHolderDetails.policyHolder.address.completeAddress}}</span>
+                          </div>
+                          <div class="col-md-12 col-sm-12 form-group col-sm-12">
+                              <label class="control-label col-md-2 col-sm-5 text-right">{{"EmailId"|translate}}:</label>
+                              <span class="control-label col-md-2 col-sm-5">{{PolicyHolderDetails.policyHolder.email}}</span>
+                          </div>
+                          <div class="col-md-12 col-sm-12 form-group col-sm-12">
+                              <label class="control-label col-md-2 col-sm-5 text-right">{{"Primary Phone"|translate}}:</label>
+                              <span class="control-label col-md-2 col-sm-5">{{PolicyHolderDetails.policyHolder.dayTimePhone}}</span>
+                              <label class="control-label col-md-2 col-sm-5 text-right">{{"Mobile Phone"|translate}}:</label>
+                              <span class="control-label col-md-2 col-sm-5">{{PolicyHolderDetails.cellPhone}}</span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-md-12 col-lg-12 col-sm-12 boderdashed margin-bottom-10">
+                  <h4 class="font-blue">{{"Coverage Information"|translate}}</h4>
+                  <div class="portlet">
+                      <div class="portlet-title"></div>
+                  </div>
+                  <div class="col-md-12 col-lg-12 col-sm-12">
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Liability"|translate}}:</label>
+                          
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Medicle Payments"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Per Person"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Per Occurence"|translate}}:</label>
+                      </div>
+
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Dwelling (V) Homeowner"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Personal Property"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Private Unattached Structures"|translate}}:</label>
+                      </div>
+                      <div class="col-md-12 col-sm-12 form-group">
+                          <label class="control-label col-md-2 col-sm-5 text-right">{{"Additional Living Expences"|translate}}:</label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

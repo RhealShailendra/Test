@@ -1,0 +1,523 @@
+﻿<style>
+    .rtable {
+        /*!
+    // IE needs inline-block to position scrolling shadows otherwise use:
+    // display: block;
+    // max-width: min-content;
+    */
+        display: inline-block;
+        vertical-align: top;
+        max-width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .rtable,
+    .rtable--flip tbody {
+        /*// optional - enable iOS momentum scrolling*/
+        -webkit-overflow-scrolling: touch;
+        /*// scrolling shadows*/
+        background: radial-gradient(left, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 0 center, radial-gradient(right, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 100% center;
+        background-size: 10px 100%, 10px 100%;
+        background-attachment: scroll, scroll;
+        background-repeat: no-repeat;
+    }
+
+
+        .rtable td:first-child,
+        .rtable--flip tbody tr:first-child {
+            background-image: linear-gradient(to right, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+            background-repeat: no-repeat;
+            background-size: 20px 100%;
+        }
+
+        /*// gradient on the last cells to hide the right shadow*/
+        .rtable td:last-child,
+        .rtable--flip tbody tr:last-child {
+            background-image: linear-gradient(to left, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+            background-repeat: no-repeat;
+            background-position: 100% 0;
+            background-size: 20px 100%;
+        }
+
+        .rtable th {
+            text-align: left;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            border: 1px solid #d9d7ce;
+            min-height: 32px !important;
+        }
+
+        /*.rtable th,*/
+        .rtable td {
+            min-height: 32px !important;
+            min-width: 180px;
+            padding: 6px 12px;
+            border: 1px solid #d9d7ce;
+        }
+
+    .rtable--flip {
+        display: flex;
+        overflow: hidden;
+        background: none;
+    }
+
+        .rtable--flip thead {
+            display: flex;
+            flex-shrink: 0;
+            min-width: min-content;
+        }
+
+        .rtable--flip tbody {
+            display: flex;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .rtable--flip tr {
+            display: flex;
+            flex-direction: column;
+            min-width: min-content;
+            flex-shrink: 0;
+        }
+
+        .rtable--flip td,
+        .rtable--flip th {
+            display: block;
+        }
+
+        .rtable--flip td {
+            background-image: none !important;
+            /*// border-collapse is no longer active*/
+            border-left: 0;
+        }
+
+            /*// border-collapse is no longer active*/
+            .rtable--flip th:not(:last-child),
+            .rtable--flip td:not(:last-child) {
+                border-bottom: 0;
+            }
+</style>
+
+<!-- Steps screen -->
+<div class="col-md-12 " ng-if="stepScreen">
+    <div class="portlet light  ">
+        <div class="portlet-title">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject ">{{"MainHeader.BulkUploadItems"|translate}}</span>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 margin-bottom-15">
+                    <div class="tools pull-right margin-bottom-5">
+                        <button class="sbold btn btnMargin" ng-click="GoBack($event)">{{'ControlText.Cancel'|translate}}</button>
+                        <button class="sbold btn btnMargin" ng-click="StartUpload($event)" ng-disabled="FileDetails.Files.length===0">{{'ControlText.StartUpload'|translate}}</button>
+                    </div>
+                    <div class="col-md-12 margin-bottom-15 ">
+                        <span class="control-label bold">{{'ControlText.step'|translate}}</span>
+                    </div>
+                    <div class="col-md-12 margin-bottom-15">
+                        <span class="control-label">{{'ControlText.step1'|translate}} <a download href="{{TemplateURL}}">&nbsp;{{'ControlText.step1.1'|translate}} &nbsp;</a>{{'ControlText.step1.2'|translate}}</span>
+                    </div>
+                    <div class="col-md-12  margin-bottom-15">
+                        <span class="control-label">{{'ControlText.step2'|translate}}</span>
+                        <ul class="margin-top-10 margin-bottom-10">
+                            <li>
+                                <span class="control-label">{{'ControlText.step2.1'|translate}}</span>
+                            </li>
+                            <li>
+                                <span class="control-label">{{'ControlText.step2.2'|translate}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-12  margin-bottom-15">
+                        {{'ControlText.step3'|translate}}
+                    </div>
+                    <div class="col-md-12 col-sm-12  margin-bottom-15 form-group">
+                        <div class="col-md-4 col-lg-4 col-sm-6 col-xs-12 styleflex">
+                            <span class="control-label"> {{'ControlText.SelectFile'|translate}} :</span>
+                            <div class="col-md-9"><input class="form-control" ng-model="FileDetails.FileName" type="text" placeholder="{{'ControlText.NoFileselected'|translate}}" /></div>
+                        </div>
+
+                        <div class="col-md-1 col-lg-1 col-sm-2 col-xs-12 padding1px">
+                            <input type="file" name="FileUpload" id="FileUpload" class="green" ng-model="fileControl" onchange="angular.element(this).scope().getFileDetails(this)" style="display: none;">
+                            <button class="sbold btn btnMargin" ng-click="FileUploadEvent($event)">{{'ControlText.SelectFile'|translate}}</button>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12">
+                            <span class="text-danger sbold">{{ErrorMessage}}</span>
+                        </div>
+                    </div>
+                    <div class="tools pull-right margin-bottom-5">
+                        <button class="sbold btn btnMargin" ng-click="GoBack($event)">{{'ControlText.Cancel'|translate}}</button>
+                        <button class="sbold btn btnMargin" ng-click="StartUpload($event)" ng-disabled="FileDetails.Files.length===0">{{'ControlText.StartUpload'|translate}}</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end Steps screen -->
+<!-- Loading screen -->
+<div class="col-md-12" ng-if="StatusScreen">
+    <div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <span class="caption-subject green bold">{{"MainHeader.LoadingItems"|translate}}</span>
+            </div>
+            <div class="tools">
+
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.FileName'|translate}}</label>
+                    <div class="col-md-10">
+                        {{FileName}}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.Status'|translate}}</label>
+                    <div class="col-md-10">
+                        <uib-progressbar class="progress-striped active" value="uploader.progress" type="{{type}}" ng-show="showProgress">
+                            {{type}}
+                            <i> {{uploader.progress}}% </i>
+                        </uib-progressbar>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.RowsProcessed'|translate}}</label>
+                    <div class="col-md-10">
+                        {{FileName}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--end Loading screen -->
+<!-- Finsh screen -->
+<div class="col-md-12" ng-if="FinishScreen">
+    <div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <span class="caption-subject green bold">{{"MainHeader.UploadSuccessful"|translate}}</span>
+            </div>
+            <div class="tools">
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button class="sbold btn btnMargin" ng-click="Done($event)">{{'ControlText.Done'|translate}}</button>
+
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.FileName'|translate}}</label>
+                    <div class="col-md-10">
+                        {{FileDetails.FileName}}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.Status'|translate}}</label>
+                    <div class="col-md-10">
+                        <!--<div class="progress-bar progress-bar-info" style="padding-left:0px !important" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>-->
+
+                        <uib-progressbar class="progress-striped green" value="uploader.progress" type="{{type}}">
+                            {{type}}
+                            <i ng-if="showProgress"> {{uploader.progress}}% </i>
+                            <i ng-if="uploader.progress > 99"> DONE!! </i>
+                        </uib-progressbar>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.RowProcessed'|translate}}</label>
+                    <div class="col-md-10">
+                        {{RowCount}}
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.NewItemsCreated'|translate}}</label>
+                    <div class="col-md-10">
+                        {{newRecoredInsertedCount}}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.ItemsUpdated'|translate}}</label>
+                    <div class="col-md-10">
+                        {{UpdateCount}}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label class="col-md-2 col-sm-2 control-label">{{'ControlText.FailedItem'|translate}}</label>
+                    <div class="col-md-10">
+                        {{FialedItem}}
+                    </div>
+                </div>
+                <div class="col-md-12 text-right">
+                    <button class="sbold btn btnMargin" ng-click="Done($event)">{{'ControlText.Done'|translate}}</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end Finsh screen -->
+<!-- Verify screen -->
+<div class="col-md-12" ng-if="VerifyScreen">
+    <div class="portlet light ">
+        <div class="portlet-title">
+            <div class="caption font-green-sharp">
+                <span class="caption-subject green bold">{{"MainHeader.VerifyInformation"|translate}}</span>
+            </div>
+            <div class="tools">
+
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 text-right margin-bottom-10 margin-top-5" ng-show="!showProgress">
+                    <button class="sbold btn btnMargin" ng-click="CancelVerify($event)">{{'ControlText.Cancel'|translate}}</button>
+                    <button class="sbold btn btnMargin" ng-click="Verify($event)">{{'ControlText.FinishUplolad'|translate}}</button>
+                </div>
+                <div class="col-md-12" ng-if="showProgress">
+                    <uib-progressbar class="progress-striped green" value="uploader.progress" type="{{type}}">
+                        {{type}}
+                        <i> {{uploader.progress}}% </i>
+                    </uib-progressbar>
+                </div>
+                <div class="col-md-12 table-responsive">
+                    <table class="rtable rtable--flip">
+                        <tr>
+                            <th style="display:none"></th>
+                            <th ng-click="sort(auxiliaryPartNumber)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Auxiliary Part No."|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='auxiliaryPartNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(brand)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Brand"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='brand'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(contract)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Contract"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='contract'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th style="min-width:80px !important;" ng-click="sort(currency)">
+                                <span class="bold" style="padding:5px !important;">{{"Currency"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='currency'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Description"|translate}}</span>
+                            </th>
+                            <th ng-click="sort(itemName)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Item Name"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='itemName'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(id)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"ID"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(isAvailable)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Available"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='isAvailable'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(itemNumber)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Item Number"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='itemNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+
+                            <th ng-click="sort(leadTime)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Lead Time"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='leadTime'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(model)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"model"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='model'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(partNumber)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Part Number"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='partNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+
+                            </th>
+                            <th ng-click="sort(price)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Price"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='price'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(quantity)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Quantity"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='quantity'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(pricingType)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Pricing Type"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='pricingType'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(savingsPercent)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Savings Percent"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='savingsPercent'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(vendorCatalog)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Catalog"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='vendorCatalog'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(category)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Category"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(createBy)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Created By"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='createBy'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(createDate)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Created Date"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='createDate'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(lastUpdatedBy)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Updated By"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='lastUpdatedBy'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort(lastUpdateDate)" style="min-width:80px !important;">
+                                <span class="bold" style="padding:5px !important;">{{"Last Update Date"|translate}}</span>
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='lastUpdateDate'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                        </tr>
+
+                        <tr ng-repeat="item in Itemlist|orderBy:sortKey:reverse">
+                            <td style="display:none"></td>
+                            <td onclick="Edit(this)">
+                                <span id="auxiliaryPartNumber_{{$index}}">{{item.auxiliaryPartNumber}}</span>
+                                <input type="text" id="auxiliaryPartNumber{{$index}}" ng-model="item.auxiliaryPartNumber" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="brand_{{$index}}">{{item.brand}}</span>
+                                <input type="text" id="brand{{$index}}" ng-model="item.brand" style="display:none; margin: -3px;margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="contract_{{$index}}">{{item.contract}}</span>
+                                <input type="text" id="contract{{$index}}" ng-model="item.contract" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="currency_{{$index}}">{{item.currency}}</span>
+                                <input type="text" id="currency{{$index}}" ng-model="item.currency" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="description_{{$index}}">{{item.description}}</span>
+                                <input type="text" id="description{{$index}}" ng-model="item.description" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="itemName_{{$index}}">{{item.itemName}}</span>
+                                <input type="text" id="itemName{{$index}}" ng-model="item.itemName" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="id_{{$index}}">{{item.id}}</span>
+                                <input type="text" id="id{{$index}}" ng-model="item.id" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="isAvailable_{{$index}}">{{item.isAvailable}}</span>
+                                <input type="text" id="isAvailable{{$index}}" ng-model="item.isAvailable" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="itemNumber_{{$index}}">{{item.itemNumber}}</span>
+                                <input type="text" id="itemNumber{{$index}}" ng-model="item.itemNumber" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="model_{{$index}}">{{item.model}}</span>
+                                <input type="text" id="model{{$index}}" ng-model="item.model" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="partNumber_{{$index}}">{{item.partNumber}}</span>
+                                <input type="text" id="partNumber{{$index}}" ng-model="item.partNumber" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="leadTime_{{$index}}">{{item.leadTime}}</span>
+                                <input type="text" id="leadTime{{$index}}" ng-model="item.leadTime" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="price_{{$index}}">{{item.price}}</span>
+                                <input type="text" id="price{{$index}}" ng-model="item.price" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="quantity_{{$index}}">{{item.quantity}}</span>
+                                <input type="text" id="quantity{{$index}}" ng-model="item.quantity" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="pricingType_{{$index}}">{{item.pricingType}}</span>
+                                <input type="text" id="pricingType{{$index}}" ng-model="item.pricingType" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="savingsPercent_{{$index}}">{{item.savingsPercent}}</span>
+                                <input type="text" id="savingsPercent{{$index}}" ng-model="item.savingsPercent" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="vendorCatalog_{{$index}}">{{item.vendorCatalog}}</span>
+                                <input type="text" id="vendorCatalog{{$index}}" ng-model="item.vendorCatalog" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="category_{{$index}}">{{item.category.name}}</span>
+                                <input type="text" id="category{{$index}}" ng-model="item.category.name" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="createBy_{{$index}}">{{item.createBy}}</span>
+                                <input type="text" id="createBy{{$index}}" ng-model="item.createBy" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="createDate_{{$index}}">{{item.createDate}}</span>
+                                <input type="text" id="createDate{{$index}}" ng-model="item.createDate" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="lastUpdatedBy_{{$index}}">{{item.lastUpdatedBy}}</span>
+                                <input type="text" id="lastUpdatedBy{{$index}}" ng-model="item.lastUpdatedBy" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                            <td onclick="Edit(this)">
+                                <span id="lastUpdateDate_{{$index}}">{{item.lastUpdateDate}}</span>
+                                <input type="text" id="lastUpdateDate{{$index}}" ng-model="item.lastUpdateDate" style="display:none; margin: -3px;" onblur="HideTextbox(this)" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="col-md-12 text-right margin-bottom-20 margin-top-10" ng-show="!showProgress">
+                    <button class="sbold btn btnMargin" ng-click="CancelVerify($event)">{{'ControlText.Cancel'|translate}}</button>
+                    <button class="sbold btn btnMargin" ng-click="Verify($event)">{{'ControlText.FinishUplolad'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end Verify screen -->
+<script>
+    var Globaltd = null;
+    function Edit(span) {
+
+        if (Globaltd !== null)
+            HideTextbox(HideTextbox);
+        var td = span;
+        td.children[1].style.display = "block";
+        td.children[1].focus();
+        td.children[0].style.display = "none";
+        Globaltd = span;
+    }
+    function HideTextbox(span) {
+        var td = Globaltd;
+        td.children[1].style.display = "none";
+        td.children[0].style.display = "block";
+        Globaltd = null;
+    }
+</script>

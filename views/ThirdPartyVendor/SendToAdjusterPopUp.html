@@ -1,0 +1,53 @@
+﻿<div id="myModal">
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h4 class="modal-title">{{"Send Quote to Adjuster"|translate}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12  clearfix  padding1px form-group" ng-form="AdjusterForm" id="CreateEventForm">
+                <div class="col-md-12 margin-top-5   padding1px form-group clearfix">
+                    <div class="col-md-4 col-sm-4 text-right">
+                        <label class="control-label">{{"Adjuster Name"|translate}}</label>
+                    </div>                   
+                    <div class="col-md-8 col-sm-8">                      
+                        <span class="control-label">{{AdjusterDetails.Name}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 margin-top-5   padding1px form-group clearfix">
+                    <div class="col-md-4 col-sm-4 text-right">
+                        <label class="control-label">{{"Primary Cell Phone#"|translate}}</label>
+                    </div>  
+                
+                    <div class="col-md-8 col-sm-8">
+                        <span class="control-label">{{AdjusterDetails.Phone|tel}}</span>
+                    </div>
+                </div>               
+                <div class="col-md-12 col-sm-12 margin-top-5  padding1px form-group">
+                    <div class="col-md-4 col-sm-4 text-right">
+                        <label class="control-label">{{"Text Content"|translate}}</label>
+                    </div>  
+                  
+                    <div class="col-md-8 col-sm-8">
+                        <textarea class="form-control" required ng-model="AdjusterDetails.Note" placeholder='{{"Text Contents"|translate}}' rows="3" name="Note"></textarea>
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="(AdjusterForm.Note.$error.required && AdjusterForm.Note.$touched)">
+                                <span class="text-danger">{{"Enter Description"|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+               
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btnMargin sbold" ng-click="ok()" ng-disabled="AdjusterForm.$invalid || AdjusterForm.$pristine">{{"Send"|translate}}</button>
+            <button type="button" class="btn btnMargin sbold" ng-click="cancel()">{{"Cancel"|translate}}</button>
+        </div>
+    </div>
+
+</div>

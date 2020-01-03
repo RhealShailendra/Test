@@ -1,0 +1,126 @@
+﻿<style>
+    .imageHeight {
+        height: 140px;
+        width: 100%;
+    }
+
+    .ProfileImage {
+        max-height: 100%;
+        max-width: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        padding: 5px;
+        border: 1px solid #c7ccd0 !important;
+    }
+</style>
+<div class="col-md-12 col-sm-12  ">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GotoDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Vendor contact"|translate}}</span>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+    <div class="portlet light ">
+        <div class="portlet-title ">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject">{{"Vendor contact"|translate}}</span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <!--Top buttons-->
+                <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right">
+                    <button id="sample_editable_1_new" class="btn sbold btnMargin ">
+                        {{"Save"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold btnMargin">
+                        {{"Cancel"|translate}}
+                    </button>
+                </div>-->
+                <!-- End Top buttons-->
+                <div class="col-md-12 col-sm-12 clearfix"></div>
+                <div class="col-md-12 col-sm-12 col-lg-12 " ng-form="VendorContact">
+                    <label class="col-md-2 col-sm-6 Label_Text_Right">{{"Select the employee"|translate}}</label>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="col-md-8 col-sm-8">
+                            <select class="form-control select2me" name="Vendorname" ng-model="EmployeeId" ng-change="GetDetails()"
+                                    placeholder='{{"Select Employee"|translate}}' ng-options="item.userId as item.firstName+' '+item.lastName for item in ClaimAssociatesList">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 margin-bottom-25 clearfix"></div>
+                    <div class="portlet light">
+                        <div class="portlet-title">
+                            <div class="caption font-grey-sharp">
+                                <span class="caption-subject">{{"Profile details:"|translate}}</span>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 well form-group">
+                                        <div class="col-md-2 col-xs-12 col-sm-4 imagePostion text-center pull-left">
+                                            <div class="col-md-12  imageHeight">
+                                                <img onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ProfileImage"
+                                                     ng-src="{{(EmplyeeDetails.displayPicture.url!=null?EmplyeeDetails.displayPicture.url:'assets/global/img/no-image.png')}}" alt="Profile Picture" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-8 col-xs-12">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"First Name"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.firstName}} </span>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"Last Name"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.lastName}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"EmaiId"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.email}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"Phone (Work)"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.dayTimePhone|tel}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"Phone (Mobile)"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.cellPhone|tel}}</span>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 margin-bottom-10">
+                                                <label class="col-md-3 col-sm-4 col-xs-12 Label_Text_Right">{{"Fax"|translate}}</label>
+                                                <span class="col-md-9 col-sm-8 col-xs-12">{{EmplyeeDetails.fax}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <!--<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right margin-top-15 margin-bottom-15 padding1px">
+                        <button id="sample_editable_1_new" class="btn sbold btnMargin ">
+                            {{"Save"|translate}}
+                        </button>
+                        <button id="sample_editable_1_new" class="btn sbold btnMargin">
+                            {{"Cancel"|translate}}
+                        </button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

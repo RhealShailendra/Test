@@ -1,0 +1,47 @@
+﻿{
+  "data": [
+    {
+
+      "minLimit": 1,
+      "maxLimit": 499,
+      "MarkUpPercentage": 40,
+      "VariationAcceptable": 35
+    },
+    {
+
+      "minLimit": 500,
+      "maxLimit": 1500,
+      "MarkUpPercentage": 35,
+      "VariationAcceptable": 30
+    },
+    {
+
+      "minLimit": 1501,
+      "maxLimit": 3500,
+      "MarkUpPercentage": 30,
+      "VariationAcceptable": 25
+    },
+    {
+
+      "minLimit": 3501,
+      "maxLimit": 8000,
+      "MarkUpPercentage": 25,
+      "VariationAcceptable": 21
+    },
+    {
+
+      "minLimit": 8001,
+      "maxLimit": 15000,
+      "MarkUpPercentage": 20,
+      "VariationAcceptable": 18
+    },
+    {
+
+      "minLimit": 15000,
+      "maxLimit":null,
+      "MarkUpPercentage": 15,
+      "VariationAcceptable": 13
+    }
+  ]
+
+}

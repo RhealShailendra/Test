@@ -1,0 +1,100 @@
+﻿<div class="col-md-12">
+   <div class="col-md-12 clearfix">
+      
+   </div>
+<div class="margin-top-15 col-md-12 portlet light bordered">
+    <div class="portlet-title">
+        <div class="caption bold font-green">
+           {{"HeaderText.Inventory"|translate}}
+        </div>
+        <div class="tools">          
+            <a href="" class="collapse"> </a>
+        </div>
+    </div>
+
+    <div class="portlet-body">
+        <div class="row">
+            <div class="form-group col-md-12 text-right">
+                <input type="file" name="FileUpload"  id="FileUpload" class="green"  onchange="angular.element(this).scope().uploadExcelCatalog(event)" style="display: none;" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                <button class="btn sbold btnMargin " ng-click="OpenFileUpload()">
+                    <i class="fa fa-folder"></i>
+                    {{"ControlText.LoadFromFile"|translate}}
+                </button>
+                <button class="btn sbold btnMargin " ng-click="EditItem()">
+                    <i class="fa fa-plus"></i>
+                    {{"ControlText.AddItem"|translate}}
+                </button>
+            </div>
+            <div class="form-group col-md-12 clearfix">               
+                <label class="col-md-5 text-primary text-right">View</label>
+                <div class="col-md-3">
+                    <select class="form-control select2me btnMargin" ng-model="ItemFilter" ng-change="FilterInventoryItems()">                         
+                        <option  value="ALL">All</option>    
+                        <option  value="{{item.name}}" ng-repeat="item in CategoryList ">{{item.name}}</option>
+                    </select>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="input-icon left">
+                        <i class="icon-magnifier"></i>
+                        <input type="text" ng-model="search" class="form-control form-control-solid input-circle input-block-level btnMargin" placeholder={{"SearchText"|translate}}>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 clearfix table-responsive">
+                <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                    <thead>
+                        <tr>
+                            <th ng-click="sort('id')">{{"Table.ItemId"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('itemName')">{{"Table.ItemName"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='itemName'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                             </th>
+                            <th ng-click="sort('model')">{{"Table.Model"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='model'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('name')">{{"Table.ItemType"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='name'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('description')">{{"Table.Description"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('id')">{{"Table.Supplier"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('addedOn')">{{"Table.AddedOn"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='addedOn'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('lastUpdatedOn')">{{"Table.LastUpdated"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey=='lastUpdatedOn'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="item in FilteredInventoryList|orderBy:sortKey:reverse|filter:search|itemsPerPage:pagesize" paginatio-id="Inventory">
+                            <td ng-click="EditItem(item.id)">{{item.id}}</a></td>
+                            <td ng-click="EditItem(item.id)">{{item.itemName}}</a></td>
+                            <td ng-click="EditItem(item.id)">{{item.model}}</td>
+                            <td ng-click="EditItem(item.id)">{{item.itemType.name}}</td>
+                            <td ng-click="EditItem(item.id)">{{item.description}}</td>
+                            <td ng-click="EditItem(item.id)">{{item.supplierName}}</td>
+                            <td ng-click="EditItem(item.id)">{{item.addedOn |date:'dd/MM/yyyy'}}</td>
+                            <td ng-click="EditItem(item.id)"> {{item.lastUpdatedOn |date:'dd/MM/yyyy'}} </td>
+                        </tr>
+                        <tr ng-if="FilteredInventoryList.length ===0 || FilteredInventoryList===null">
+                            <td></td>
+                            <td colspan="7" class="text-center"><span class="text-center text-danger">{{"NoRecordText"}}</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <dir-pagination-controls max-size="3" ng-if="FilteredInventoryList.length !==0 || FilteredInventoryList!==null" paginatio-id="Inventory"
+                                         direction-links="true"
+                                         boundary-links="true" class="pull-right">
+                </dir-pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

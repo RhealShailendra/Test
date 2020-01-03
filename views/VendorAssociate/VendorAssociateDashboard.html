@@ -1,0 +1,555 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('.widthclass').css("width", "30%");
+    });
+</script>
+<style>
+    .custombox {
+        width: 100px;
+        height: 100px;
+        background-color: #d2d2d2;
+        margin: 5px;
+        border: 1px solid #928a8a;
+        box-shadow: 2px 2px 3px 1px #929292;
+        border: none;
+    }
+    .tableDashboard{
+    overflow-x: auto;
+    min-height: 0.01%;
+    height: 255px;
+}
+</style>
+
+<div class="row">
+    <!--Serach TextBox-->
+    <!--<div class="col-md-12 margin-bottom-20">
+        <div class="col-md-offset-1 col-md-10">
+            <div class="input-icon left">
+                <i class="icon-magnifier globlaSearchIcon" ng-click="Globalsearch()"></i>
+                <input type="text" id="GlobalSearchText" style="height:35px;" ng-model="GlobalSearchText" ng-keydown="$event.which === 13 && Globalsearch()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"MainSearchText"|translate}}>
+            </div>
+        </div>
+    </div>-->
+    <!--Main container start-->
+    <div class="col-md-12">
+        <!--Start Alert-->
+        <div class="col-md-6 ">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject">{{"HeaderTitle.Alert_title"|translate}}</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="col-md-12 table-responsive padding1px AlertBox">
+                                <table id="NavigateTable" class="table table-bordered">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th class="widthclass">{{"Table.Date"|translate}}</th>
+                                            <th>Messsage </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="commonTable" ng-repeat="alert in AlertList">
+                                            <td class="widthclass" ng-click="GoToAlertDetails(alert)">{{alert.createDate | DateFormatMMddyyyyHHmm}} </td>
+                                            <td ng-click="GoToAlertDetails(alert)">
+                                                <span ng-class="{'ALERT':'fa fa-exclamation-triangle fa-sm font-red'}[alert.type.type]"></span>&nbsp;{{alert.message}}
+                                            </td>
+                                        </tr>
+                                        <tr ng-if="AlertList.length===0 || AlertList===null">
+                                            <td colspan="2" class="text-center text-danger">{{"NoAlertText"|translate}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a herf="#" ng-click="" class="pull-right" style="padding-right:10px;text-decoration:none;" ng-if="AlertList.length">{{"View Details"|translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Alert-->
+        <!--Start Upcoming Events-->
+        <!--<div class="col-md-6">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject">{{"HeaderTitle.ToDoList"|translate}}</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="col-md-12 table-responsive">
+                                <div class="tableDashboard">
+                                    <div>
+                                        <div class="col-md-3">
+                                            <div class="border custombox text-center">
+                                                <h4 class="col-md-12 sbold margin-top-20">10</h4>
+                                                <span class="col-md-12">New Claims Assigned</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="border custombox text-center">
+                                                <h4 class="col-md-12 sbold margin-top-20">10</h4>
+                                                <span class="col-md-12">Open Claims</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                                        <div class="SubHeadingDiv">
+                                            <span class="caption-subject  ">
+                                                {{"KPIs"|translate}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-md-3">
+                                            <div class="border custombox">
+                                                <div class="border custombox text-center">
+                                                    <h4 class="col-md-12 sbold margin-top-20">18.5</h4>
+                                                    <span class="col-md-12">Avg. Claims Time</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="border custombox  text-center">
+                                                <div class="border custombox">
+                                                    <h4 class="col-md-12 sbold margin-top-20">92%</h4>
+                                                    <span class="col-md-12">Claims within time</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="border custombox  text-center">
+                                                <div class="border custombox">
+                                                    <h4 class="col-md-12 sbold margin-top-20">$445,985.89</h4>
+                                                    <span class="col-md-12">Total Invoiced</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="border custombox">
+                                                <div class="border custombox  text-center">
+                                                    <h4 class="col-md-12 sbold margin-top-20">17</h4>
+                                                    <span class="col-md-12">Replacement %</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+        <div class="col-md-6">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span class="caption-subject">{{"HeaderTitle.UpcomingEvents"|translate}}</span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <div class="col-md-12 table-responsive padding1px AlertBox">
+                                <table id="NavigateTable" class="table table-bordered">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th class="thwidth25">{{"Table.StartTime"|translate}}</th>
+                                            <th class="width50">{{"Table.Subject"|translate}}</th>
+                                            <th class="thwidth25"> {{"Table.Participant"|translate}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Event in EventList">
+                                            <td ng-click="GetEventDetails(Event.claim)">
+                                                {{Event.startTiming | DateFormatMMddyyyyHHmm }}
+                                            </td>
+                                            <td ng-click="GetEventDetails(Event.claim)">
+                                                <span>{{Event.title}}</span>
+                                            </td>
+                                            <td ng-click="GetEventDetails(Event.claim)">
+                                                <span class="Overlay" ng-if="Event.PrticipantString.length > 20">{{Event.PrticipantString}}</span>
+                                                {{Event.PrticipantString | limitTo: 20}} <span>{{Event.PrticipantString.length >  20 ? '...' : ''}}</span>
+                                        </tr>
+                                        <tr ng-if="EventList.length===0 || EventList===null">
+                                            <td colspan="4" class="text-center text-danger">{{"NoEventsText"|translate}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a herf="#" ng-click="" class="pull-right" style="padding-right:10px;text-decoration:none;" ng-if="EventList.length">{{"View Details"|translate}}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End Upcoming Events-->
+        <!--Start Service Request and Claims-->
+        <div class="col-md-12">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-lg-12 padding1px">
+                            <!-- Service request start -->
+                            <div class="col-md-12 padding1px">
+                                <div class="col-md-12 clearfix">
+                                    <div class="portlet col-md-12 clearfix">
+                                        <div class="portlet light padding1px">
+                                            <div class="portlet-title ">
+                                                <div class="caption font-gray-sharp col-md-9 ">
+                                                    <span class="caption-subject  ">{{"HeaderTitle.ServiceRequests"|translate}}</span>
+                                                </div>
+                                            </div>
+                                            <div class="portlet-body">
+                                                <div class="row">
+                                                    <div class="col-md-12 clearfix">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background">
+                                                            <div class="pull-right col-lg-5 col-md-5 margin-top-5 col-sm-12 manageSearch padding1px">
+                                                                <div class="caption font-green-sharp col-lg-7 col-md-7 col-xs-12 col-sm-7 pull-right padding1px">
+                                                                    <div class="input-icon left">
+                                                                        <i class="icon-magnifier"></i>
+                                                                        <input type="text" class="form-control form-control-solid input-circle input-block-level margin-bottom-5" ng-model="searchservice" placeholder={{"LostDamagedSearchText"|translate}}>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12  table-responsive  padding1px ServiceRequestheight">
+                                                            <table class="table table-striped table-bordered table-hover order-column" id="NavigateTable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th ng-click="sortServiceRequest('serviceNumber')">
+                                                                            {{"Table.serviceNumber"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='serviceNumber'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('claimNumber')">
+                                                                            {{"Claim Number"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='claimNumber'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('RequestDescription')">
+                                                                            {{"Table.RequestDescription"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='RequestDescription'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('AssignDate')">
+                                                                            {{"Table.AssignDate"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='AssignDate'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('TargetCompletionDate')">
+                                                                            {{"Table.TargetCompletionDate"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='TargetCompletionDate'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('policyHolder.lastName')">
+                                                                            {{"Table.InsuredName"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='policyHolder.lastName'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('Status')" class="statusHeading">
+                                                                            {{"Table.Status"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='Status'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                        <th ng-click="sortServiceRequest('Action')">
+                                                                            {{"Table.Action"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortServiceRequestKey=='Action'" ng-class="{'glyphicon-chevron-up':sortServiceRequestreverse,'glyphicon-chevron-down':!sortServiceRequestreverse}"></span>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr dir-paginate="ServiceRequest in ServiceRequestList |orderBy:sortServiceRequestKey:sortServiceRequestreverse|filter:searchservice|itemsPerPage:5 " pagination-id="ServicePage">
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">{{ServiceRequest.serviceNumber}}</td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">{{ServiceRequest.claimNumber}}</td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">{{ServiceRequest.description}}</td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">{{ServiceRequest.assignedDate | DateFormatMMddyyyy}}</td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">{{ServiceRequest.targetDate | DateFormatMMddyyyy}}  </td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)">
+                                                                            <span ng-if="ServiceRequest.policyHolder.lastName.length">{{ServiceRequest.policyHolder.lastName}}</span>
+                                                                            <span ng-if="ServiceRequest.policyHolder.firstName.length">, </span>
+                                                                            <span ng-if="ServiceRequest.policyHolder.firstName.length">{{ServiceRequest.policyHolder.firstName}}</span>
+                                                                        </td>
+                                                                        <td ng-click="GoToServiceRequestEdit(ServiceRequest)" class="text-center">{{ServiceRequest.status.statusName}}</td>
+                                                                        <td>
+                                                                            <a class="text-danger control-label sbold font-sm" ng-click="Rejectservicerequest(ServiceRequest)">
+                                                                               {{"ControlText.Reject_title"|translate}}
+                                                                            </a>
+                                                                    </tr>
+                                                                    <tr ng-if="ServiceRequestList.length==0||ServiceRequestList===null">
+                                                                        <td colspan="8" class="text-center text-danger">{{"NoRecordText"|translate}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="text-center">
+                                                            <dir-pagination-controls max-size="3" pagination-id="ServicePage"
+                                                                                     direction-links="true"
+                                                                                     boundary-links="true">
+                                                            </dir-pagination-controls>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Service Request  -->
+                        </div>
+                    </div>
+                    <!--Claims Start-->
+                    <div class="tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='OpenClaims'}" ng-click="CurrentClaimTab = 'OpenClaims'">&nbsp;{{"TabHeaderTitle.OpenAssignments"|translate}} &nbsp;{{"("+ClaimsTobeAssigned.length+")"}}</a>
+                            </li>
+                            <!--<li>
+                                    <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='ClosedClaims'}" ng-click="CurrentClaimTab = 'ClosedClaims'"> &nbsp;{{"TabHeaderTitle.ClosedAssignments"|translate}} &nbsp;</a>
+                                </li>-->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 " ng-show="CurrentClaimTab=='OpenClaims'">
+                                    <div class="portlet light padding1px">
+                                        <div class="portlet-title">
+                                            <div class="caption font-gray-sharp">
+                                                <span class="caption-subject">
+                                                    {{"HeaderText.NewClaimSubmission"|translate}}
+                                                </span>
+                                            </div>
+                                            <div class="tools">
+                                                <a href="#" class="collapse"></a>
+                                                <a href="#" class="fullscreen"></a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 clearfix">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 options_Background">
+                                                        <div class="col-md-5 pull-right col-xs-12 col-sm-12 margin-bottom-5 margin-top-5">
+                                                            <div class="input-icon left">
+                                                                <i class="icon-magnifier"></i>
+                                                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchAssignedClaims" placeholder={{"SearchText"|translate}}>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 table-responsive padding1px tableHeight">
+                                                        <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <th ng-click="sortNewClaim('assignmentDetails.assignmentNumber')" class="Width7P">
+                                                                        {{"Table.Assignment#"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='assignmentDetails.assignmentNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.claimedItems')" class="Width6P">
+                                                                        {{"Table.#Item"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.claimNumber')" class="Width7P">
+                                                                        {{"Table.Claim"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.insuranceCompany.name')" class="width13P">
+                                                                        {{"Table.InsurenceCompany"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.insuranceCompany.name'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.adjusterDetails.firstName')" class="width12P">
+                                                                        {{"Table.Adjustername"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.adjusterDetails.firstName'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.insuredDetails.lastName')" class="width11P">
+                                                                        {{"Table.InsuredName"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.insuredDetails.lastName'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('')" class="width11P">
+                                                                        {{"Table.AssignedDate"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey==''" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <!--<th ng-click="sortNewClaim('createDate')" class="width11P">
+                                                                            {{"Table.ReportDate"|translate}}
+                                                                            <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='createDate'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                        </th>-->
+
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.status.status')" class="Width10P statusHeading">
+                                                                        {{"Table.Status"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.status.status'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th ng-click="sortNewClaim('ClaimDetails.lastUpdateDate')" class="width11P">
+                                                                        {{"Table.LastUpdate"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="sortNewClaimKey=='ClaimDetails.lastUpdateDate'" ng-class="{'glyphicon-chevron-up pull-right':reverseNewClaim,'glyphicon-chevron-down pull-right':!reverseNewClaim}"></span>
+                                                                    </th>
+                                                                    <th class="width12P">
+                                                                        {{"Table.LastNote"|translate}}
+                                                                    </th>
+                                                                    <th class="width17P">
+                                                                        {{"Table.ServiceRequested"|translate}}
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr dir-paginate="Claims in CustomObject|orderBy:sortNewClaimKey:reverseNewClaim|filter:searchAssignedClaims|itemsPerPage:pagesize" pagination-id="ClaimToAssigned">
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.assignmentDetails.assignmentNumber}}</td>
+                                                                    <td class="text-center" ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.claimedItems}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.claimNumber}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.insuranceCompany.name}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.adjusterDetails.firstName}}&nbsp;{{Claims.ClaimDetails.adjusterDetails.lastName}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.insuredDetails.lastName+", "+Claims.ClaimDetails.insuredDetails.firstName}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.assignmentDetails.startDate| DateFormatMMddyyyyHHmm}}</td>
+                                                                    <!--<td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.createDate | DateFormatMMddyyyyHHmm}}</td>-->
+
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">
+                                                                        <!--<span ng-class="{'stage ClaimStageTwo':Claims.ClaimDetails.status.status==='ASSIGNED',
+                                                                             'stage ClaimStageOne':Claims.ClaimDetails.status.status==='CREATED',
+                                                                             'stage ClaimStageSix':Claims.ClaimDetails.status.status==='REJECTED',
+                                                                             'stage ClaimStageThree':Claims.ClaimDetails.status.status==='UNDER REVIEW',
+                                                                             'stage ClaimStageFour':Claims.ClaimDetails.status.status==='APPROVED',
+                                                                             'stage ClaimStageFive':Claims.ClaimDetails.status.status==='SETTLED',
+                                                                             'stage ClaimStageThree':Claims.ClaimDetails.status.status==='ACTIVE - 3rd Party Vendor' }">
+                                                                            {{Claims.ClaimDetails.status.status|limitTo: 15}}
+                                                                            <span>{{Claims.ClaimDetails.status.status.length >  15 ? '...' : ''}}</span>
+                                                                            </span>-->
+                                                                        <span>
+                                                                        {{Claims.ClaimDetails.status.status|limitTo: 15}}<span>{{Claims.ClaimDetails.status.status.length >  15 ? '...' : ''}}</span>
+                                                                        </span>
+                                                                    </td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)">{{Claims.ClaimDetails.lastUpdateDate | DateFormatMMddyyyyHHmm}}</td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)"><span>{{Claims.ClaimDetails.lastNote.message}}</span></td>
+                                                                    <td ng-click="GotToClaimDetailsScreen(Claims)"><span>{{Claims.assignmentDetails.contentService.service}}</span></td>
+                                                                </tr>
+                                                                <tr ng-if="CustomObject===null || CustomObject.length===0"><td></td><td colspan="10" class="text-danger text-center"> {{"NoRecordText"|translate}} </td></tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="text-center col-sm-12 col-lg-12 margin-top-10">
+                                                        <dir-pagination-controls max-size="3" direction-links="true" ng-if="CustomObject!==null || CustomObject.length > 0" boundary-links="true" pagination-id="ClaimToAssigned">
+
+                                                        </dir-pagination-controls>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Open Claims-->
+                                <!--Closed Claims-->
+                                <div class="col-md-12" ng-show="CurrentClaimTab=='ClosedClaims'">
+                                    <div class="portlet">
+                                        <!--<div class="portlet-title" style="border:none;">
+                            <div class="caption font-blue-sharp col-md-6 col-xs-10" style="margin:0px;">
+                                <span class="caption-subject bold">
+                                    {{"HeaderTitle.ClosedClaims"|translate}}
+                                </span>
+                            </div>
+                            <div class="tools pull-right col-md-1 text-right">
+                                <a href="#" class="collapse"></a>
+                                <a href="#" class="fullscreen"></a>
+                            </div>
+                        </div>-->
+                                        <div class="portlet-body">
+                                            <div class="row">
+                                                <div class="col-md-12 clearfix">
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 options_Background">
+                                                        <div class="col-md-5 pull-right col-xs-12 col-sm-12 margin-bottom-5 margin-top-5">
+                                                            <div class="input-icon left">
+                                                                <i class="icon-magnifier"></i>
+                                                                <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="searchClosedClaim" placeholder={{"SearchText"|translate}}>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 table-responsive tableHeight padding1px">
+                                                        <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <th ng-click="Closedsort('claimNumber')" class="Width7P">
+                                                                        {{"Table.Claim"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='claimNumber'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th ng-click="Closedsort('lastUpdateDate')" class="width12P">
+                                                                        {{"Table.LastUpdate"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='lastUpdateDate'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th ng-click="Closedsort('status.status')" class="Width10P statusHeading">
+                                                                        {{"Table.Status"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='status.status'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th class="width22P">
+                                                                        {{"Table.LastNote"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="Closedsort('Claims.insuranceCompany.name')" class="width16P">
+                                                                        {{"Table.InsurenceCompany"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='Claims.insuranceCompany.name'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th ng-click="Closedsort('adjusterDetails.firstName')" class="width15">
+                                                                        {{"Table.Adjustername"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='adjusterDetails.firstName'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th ng-click="Closedsort('claimedItems')" class="width5P">
+                                                                        {{"Table.#Item"|translate}}
+                                                                        <span class="glyphicon sort-icon" ng-show="ClosedsortKey=='claimedItems'" ng-class="{'glyphicon-chevron-up pull-right':Closedsortreverse,'glyphicon-chevron-down pull-right':!Closedsortreverse}"></span>
+                                                                    </th>
+                                                                    <th class="width13P">
+                                                                        {{"Table.ServiceRequested"|translate}}
+                                                                    </th>
+
+
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr dir-paginate="Claims in ClosedClaims|orderBy:ClosedsortKey:Closedsortreverse|itemsPerPage:pagesize" pagination-id="ForPolicyHolder">
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.claimNumber}}</td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.lastUpdateDate | DateFormatMMddyyyy}}</td>
+                                                                    <td ng-click="GotoClaimDetails(Claims)" class="text-center">
+                                                                        <!--<span ng-class="{'stage ClaimStageTwo':Claims.status.status==='ASSIGNED',
+                                                                             'stage ClaimStageOne':Claims.status.status==='CREATED',
+                                                                             'stage ClaimStageSix':Claims.status.status==='REJECTED',
+                                                                             'stage ClaimStageThree':Claims.status.status==='UNDER REVIEW',
+                                                                             'stage ClaimStageFour':Claims.status.status==='APPROVED',
+                                                                             'stage ClaimStageFive':Claims.status.status==='SETTLED',
+                                                                             'stage ClaimStageThree':Claims.status.status==='ACTIVE - 3rd PARTY VENDOR'}">
+                                                                            {{Claims.status.status|limitTo: 15}}
+                                                                            <span>{{Claims.status.status.length >  15 ? '...' : ''}}</span>
+                                                                        </span>-->
+                                                                        <span>{{Claims.status.status|limitTo: 15}}
+                                                                        <span>{{Claims.status.status.length >  15 ? '...' : ''}}</span></span>
+                                                                    </td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.lastNote.message}}</td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.insuranceCompany.name}}</td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.adjusterDetails.firstName}}&nbsp;{{Claims.adjusterDetails.lastName}}</td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)">{{Claims.claimedItems}}</td>
+                                                                    <td ng-click="GoToClaimDetails(Claims)"><span ng-repeat="service in Claims.assignments">{{service.contentService.service}}<span ng-if="!$last">,&nbsp;</span></span></td>
+                                                                    <!--<td><a ng-class="Claims.status.status=='ASSIGNED'?'btn btn-circle  btn-xs green':'btn btn-circle  btn-xs blue'">{{Claims.status.status}}</a></td>-->
+                                                                </tr>
+
+                                                                <tr ng-if="ClosedClaims===null || ClosedClaims.length===0"><td></td><td colspan="7" class="text-danger text-center"> {{"NoRecordText"|translate}} </td></tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="text-center col-sm-12 col-lg-12 margin-top-10">
+                                                        <dir-pagination-controls max-size="3" direction-links="true" ng-if="ClosedClaims!==null || ClosedClaims.length > 0" boundary-links="true" class="pull-right" pagination-id="ForPolicyHolder">  </dir-pagination-controls>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Closed Claims-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--Claims End-->
+                </div>
+            </div>
+        </div>
+        <!--End Service Request and Claims-->
+    </div>
+    <!--Main container End-->
+</div> 

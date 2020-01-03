@@ -1,0 +1,49 @@
+﻿{
+  "HeaderText": {
+    "SalvageClaims": "Salvage Claims",
+    "GemLabOrders": "GemLab Orders",
+    "ToDoList": "To Do List",
+
+    "WaitingForApproval": "Waiting For Approval",
+    "Orders": "Orders",
+    "MyClaims_title": "My Claims",
+    "Alert_title": "Alert Box",
+    "OpenAssignments": "Open Assignments",
+    "Alerts": "Alerts",
+    "Events": "Events"
+
+  },
+  "ControlText": {
+    "Show": "Show",
+    "View": "View",
+    "Dashboard": "Dashboard"
+  },
+  "Table": {
+    "Adjuster": "Adjuster",
+    "AssignedDate": "Assigned Date",
+    "AssignmentId": "Assignment#",
+    "AssignmentNumber": "Assignment #",
+    "ClaimAssociate": "Claim Associate",
+    "ClaimId": "Claim #",
+    "ClaimNumber": "Claim #",
+    "CreatedDate": "Created Date",
+    "Description": "Description",
+    "InsuredName": "Insured's Name",
+    "InsurenceCompany": "Insurance Company",
+    "LastNote": "Last Note",
+    "LastUpdate": "Last Update",
+    "OrderNumber": "Order #",
+    "OrderType": "Order Type",
+    "ServiceRequested": "Service Requested",
+    "Status": "Status",
+    "LineItemDescription": "Line Item #-Description",
+    "PolicyholderName": "Policyholder Name"
+  },
+  "SearchText": "Claim #,Assignment #,insured's name",
+  "searchClaim_SalvageText": "Claim #,Assignment #,Line item #,insured's name",
+  "GlobalSearchText": "Search ...Any Claim #, Policyholder",
+  "NoRecordText": "No Records Available",
+  "NoAlertText": "No new messages available",
+  "NoEventsText": "No events scheduled in next month"
+
+}

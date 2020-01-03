@@ -1,0 +1,113 @@
+﻿<div class="col-md-12 col-sm-12  ">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GotoDashboard()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="Cancel()">{{"Labor Codes"|translate}}</a>
+            
+        </li>
+        <li>
+            <span ng-if="!LaborCode.id"><i class="fa fa-circle" ></i>{{"New Labor Code"|translate}}</span>          
+            <span ng-if="LaborCode.id"><i class="fa fa-circle" ></i>{{LaborCode.id}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-md-12 col-lg-12 col-sm-12 padding1px">
+    <div class="portlet light padding1px">
+        <div class="portlet-title padding1px">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject" ng-if="!LaborCode.id">{{"New Labor Code"|translate}}</span>
+                <span class="caption-subject" ng-if="LaborCode.id">{{LaborCode.jobName}}&nbsp;- &nbsp;{{LaborCode.id}}</span>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 text-right margin-top-10">
+            <button id="sample_editable_1_new" class="btn sbold btnMargin" ng-click="Cancel()">
+                {{"Cancel"|translate}}
+            </button>
+            <button type="button" ng-if="!LaborCode.id" class="btn btnMargin sbold" ng-disabled="LaborCodeForm.$invalid || LaborCodeForm.$pristine" ng-click="CreateUpdateLaborCode()">
+                {{"Create Labor Code"|translate}}
+            </button>
+            <button type="button" ng-if="LaborCode.id" class="btn btnMargin sbold" ng-disabled="LaborCodeForm.$invalid || LaborCodeForm.$pristine" ng-click="CreateUpdateLaborCode()">
+                {{"Save"|translate}}
+            </button>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="portlet light padding1px">
+                    <!-- Add new -->
+                    <div class="col-md-12" id="NewCategory">
+                        <div class="col-md-12" ng-form="LaborCodeForm">
+                            <div class="form-group  clearfix">
+                                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Code"|translate}} </label>
+                                <div class="col-md-4 col-sm-8">
+                                    <input class="form-control" required name="jobCode" ng-model="LaborCode.code"  type="text" />
+                                    <div class="errormessage">
+                                        <div ng-message="required" ng-show="(LaborCodeForm.jobCode.$error.required && LaborCodeForm.jobCode.$touched)">
+                                            <span class="text-danger">{{"Please enter job code"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group clearfix ">
+                                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Job Name"|translate}}</label>
+                                <div class="col-md-4 col-sm-8">
+                                    <input type="text"  class="form-control" name="Name" ng-model="LaborCode.jobName" required />
+                                    <div class="errormessage">
+                                        <div ng-message="required" ng-show="(LaborCodeForm.Name.$error.required && LaborCodeForm.Name.$touched)">
+                                            <span class="text-danger">{{"Please enter job name"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group  clearfix">
+                                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Description"|translate}} </label>
+                                <div class="col-md-4 col-sm-8">
+                                    <input class="form-control" name="Description" ng-model="LaborCode.description"  type="text" />
+                                </div>
+                            </div>
+                            <div class="form-group  clearfix">
+                                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Price"|translate}} </label>
+                                <div class="col-md-4 col-sm-8" id="myModal"> 
+                                    <input class="form-control" name="cost" ng-model="LaborCode.price" required type="text" />                                  
+                                    <div class="errormessage">
+                                        <div ng-message="required" ng-show="(LaborCodeForm.cost.$error.required && LaborCodeForm.cost.$touched)">
+                                            <span class="text-danger">{{"Please enter cost"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group  clearfix" ng-show="LaborCode.id">
+                                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Status"|translate}} </label>
+                                <div class="col-md-4 col-sm-8" id="myModal">
+                                    <select class="form-control select2me" ng-model="LaborCode.status" name="status"
+                                            placeholder='{{"Select Status"|translate}}' ng-options="item.id as item.name for item in StatusList">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="visible-sm clearfix"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 margin-top-20">                        
+                        <div class="col-md-12 col-sm-12 topBorder">
+                            <div class="margin-top-10 col-md-12 col-sm-12 text-right padding1px">
+                                <button id="sample_editable_1_new" class="btn sbold btnMargin" ng-click="Cancel()">
+                                    {{"Cancel"|translate}}
+                                </button>
+                                <button type="button" ng-if="!LaborCode.id" class="btn btnMargin sbold" ng-disabled="LaborCodeForm.$invalid || LaborCodeForm.$pristine" ng-click="CreateUpdateLaborCode()">
+                                    {{"Create Labor Code"|translate}}
+                                </button>
+                                <button type="button" ng-if="LaborCode.id" class="btn btnMargin sbold" ng-disabled="LaborCodeForm.$invalid || LaborCodeForm.$pristine" ng-click="CreateUpdateLaborCode()">
+                                    {{"Save"|translate}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

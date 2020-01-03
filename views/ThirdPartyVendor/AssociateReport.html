@@ -1,0 +1,418 @@
+﻿
+<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Service Request"|translate}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-md-12 col-sm-12 padding1px" id="cal">
+    <div class="tabbable-custom">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='AssociatesReport'}" ng-click="CurrentClaimTab = 'AssociatesReport'">&nbsp;{{"All Associates"|translate}} &nbsp;</a>
+            </li>
+            <li>
+                <!--ng-click="CurrentClaimTab = 'Catalogs'"-->
+                <a href="#" data-toggle="tab" ng-class="{selected:CurrentClaimTab=='InsuranceCompaniesReport'}" ng-click="ShowInsurance('InsuranceCompaniesReport')"> &nbsp;{{"Insurance Companies"|translate}} &nbsp;</a>
+            </li>
+        </ul>
+        <div class="tab-content minTabHeight">
+            <div class="row">
+                <div class="col-md-12" ng-show="CurrentClaimTab=='AssociatesReport'">
+                    <div class="col-md-12 portlet light padding1px">
+                        <div class="portlet-title">
+                            <div class="caption font-gray-sharp">
+                                <span class="caption-subject">{{"AssociatesReport"|translate}} </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-1 col-sm-4">
+                                <span class="caption-subject sbold text-right">Date Range</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="startDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.StartDate"|translate}}' name="fromDate" />
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 bold text-right">{{"Label.To" | translate}}</div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left  ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="endDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.ToDate"|translate}}' name="toDate" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <button id="btnSearch" class="btn sbold btnMargin pull-left " ng-click="getAssociateReport()">
+                                    {{"Label.Search"|translate}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="portlet-body">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background">
+                                        <div class="">
+                                            <button id="btnNewService" class="btn sbold pull-left margin-top-5 margin-bottom-5 btnOptions" ng-click="NewService()">
+                                                {{"Export To"|translate}}
+                                            </button>
+                                        </div>
+                                        <!--<div class="col-md-5  col-xs-12 col-sm-12">-->
+                                        <div class="pull-right col-lg-5 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch padding1px">
+                                            <div class="caption font-green-sharp col-lg-5 col-md-5 col-xs-12 col-sm-5 pull-right padding1px">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle input-block-level " ng-model="SearchReport" placeholder={{"SearchReports"|translate}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 table-responsive padding1px" style="height:250px">
+                                        <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                                            <thead>
+                                                <tr>
+                                                    <th ng-click="sortAssociate('LastName')">
+                                                        {{"Table.LastName "|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='LastName'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('FirstName')">
+                                                        {{"Table.FirstName"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='FirstName'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('Claims')">
+                                                        {{"Table.Claims"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='Claims'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('Items')">
+                                                        {{"Table.Items"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='Items'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('QuoteValue')">
+                                                        {{"Table.QuoteValue"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='QuoteValue'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('ReplacedValue')">
+                                                        {{"Table.ReplacedValue"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='ReplacedValue'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('TotalInvoiced')">
+                                                        {{"Table.TotalInvoiced"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='TotalInvoiced'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('FirstNote')">
+                                                        {{"Table.FirstNote"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='FirstNote'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortAssociate('AvgClaimTime')">
+                                                        {{"Table.AvgClaimTime"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="AssociatesortKey=='AvgClaimTime'" ng-class="{'glyphicon-chevron-up':Associatereverse,'glyphicon-chevron-down':!Associatereverse}"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr dir-paginate="associate in AssociateReportList |orderBy:sortKey:reverse|filter:SearchReport|itemsPerPage:10" paginatio-id="AssociateReportList">
+                                                    <td>{{associate.vendorAssociate.lastName}}</td>
+                                                    <td>{{associate.vendorAssociate.firstName}}</td>
+                                                    <td>{{associate.numberOfClaimProcess}}</td>
+                                                    <td>{{associate.numberOfItemHandle}}</td>
+                                                    <td>{{associate.name}}</td>
+                                                    <td>{{associate.name}}</td>
+                                                    <td>{{associate.totalInvoiceAmount}}</td>
+                                                    <td>{{associate.name}}</td>
+                                                    <td>{{associate.name}}</td>
+
+                                                </tr>
+                                                <tr ng-if="AssociateReportList.length ===0 || AssociateReportList===null">
+                                                    <td></td>
+                                                    <td colspan="7" class="text-center"><span class="text-center text-danger">{{"NoRecordText"|translate}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <dir-pagination-controls max-size="3" ng-if="AssociateReportList.length !==0 || AssociateReportList!==null" paginatio-id="AssociateReportList"
+                                                                 direction-links="true"
+                                                                 boundary-links="true" class="pull-right">
+                                        </dir-pagination-controls>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12" ng-show="CurrentClaimTab=='InsuranceCompaniesReport'">
+                   
+                    <div class="col-md-12 portlet light padding1px"  ng-if="!ShowInsuranceReportsDiv">
+                        <div class="portlet-title">
+                            <div class="caption font-gray-sharp">
+                                <span class="caption-subject">{{"InsuranceCompanies"|translate}} </span>
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-2 col-sm-4">
+                                <span class="caption-subject sbold Label_Text_Right">Date Range</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="fromDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.StartDate"|translate}}' name="fromDate" />
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 bold Label_Text_Right">{{"Label.To" | translate}}</div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left  ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="toDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.ToDate"|translate}}' name="toDate" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <button id="btnSearch" class="btn sbold pull-left btnMargin" ng-click="getAssociateReport()">
+                                    {{"Label.Search"|translate}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-2 col-sm-4">
+                                <span class="caption-subject sbold text-right">Insurance Company</span>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <select class="input-sm select2me" style="width: 63%;" id="select2insidemodal" name="BranchId" ng-model="SelectedCompany" data-placeholder="Select Branch/Office"
+                                        ng-change="GetReportingManager()" ng-options="option.id as option.branchName for option in CompanyList"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="portlet-body">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background">
+                                        <div class="tools">
+                                            <button id="btnNewService" class="btn sbold   pull-left margin-top-5  btnOptions" ng-click="NewService()">
+                                                {{"Export To"|translate}}
+                                            </button>
+                                        </div>
+                                        <!--<div class="col-md-5  col-xs-12 col-sm-12">-->
+                                        <div class="pull-right col-lg-5 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch padding1px">
+                                            <div class="caption font-green-sharp col-lg-5 col-md-5 col-xs-12 col-sm-5 pull-right padding1px">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle input-block-level " ng-model="SearchCompanyClaim" placeholder={{"SearchInsReports"|translate}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 table-responsive padding1px" style="height:250px">
+                                        <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                                            <thead>
+                                                <tr>
+                                                    <th >
+                                                        {{"Table.InsuranceCompany "|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='InsuranceCompany'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('Claims')">
+                                                        {{"Table.Claims"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='Claims'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('Items')">
+                                                        {{"Table.Items"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='Items'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('TotalCoverageLimit')">
+                                                        {{"Table.TotalCoverageLimit"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='TotalCoverageLimit'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('TotalInvoiced')">
+                                                        {{"Table.TotalInvoiced"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='TotalInvoiced'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('IndemnitySavings')">
+                                                        {{"Table.IndemnitySavings"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey=='IndemnitySavings'" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sortInsurance('')">
+                                                        {{"Table.ReplacementPer"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="InsurancesortKey==''" ng-class="{'glyphicon-chevron-up':Insurancereverse,'glyphicon-chevron-down':!Insurancereverse}"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr dir-paginate="claim in CompanyClaimList |orderBy:sortKey:reverse|filter:SearchCompanyClaim|itemsPerPage:PageLength" paginatio-id="CompanyClaimList">
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.company.name}}</td>
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.numberOfClaim}}</td>
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.numberOfItem}}</td>
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.totalCoverageLimit}}</td>
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.totalInvoiced}}</td>
+                                                    <td ></td>
+                                                    <td ng-click="GetClaimCompanyDetails(claim)">{{claim.replacement}}</td>
+                                                  
+                                                </tr>
+                                                <tr ng-if="CompanyClaimList===null || CompanyClaimList.length===0 ">
+                                                    <td></td>
+                                                    <td colspan="6" class="text-center" ><span class="text-center text-danger">{{"NoRecordText"|translate}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <dir-pagination-controls max-size="3" ng-if="serviceList.length !==0 || serviceList!==null" paginatio-id="CompanyClaimList"
+                                                                 direction-links="true"
+                                                                 boundary-links="true" class="pull-right">
+                                        </dir-pagination-controls>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 portlet light padding1px"  ng-if="ShowInsuranceReportsDiv">
+                        <div class="portlet-title">
+                            <div class="caption font-gray-sharp">
+                                <span class="caption-subject">{{"Insurance Companies Report"|translate}} </span>
+
+                            </div>
+                            <button id="btnBack" class="btn sbold   pull-right  margin-top-5 margin-bottom-5" ng-click="Back()">
+                                {{"Back"|translate}}
+                            </button>
+
+                        </div>
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-2 col-sm-4">
+                                <span class="caption-subject sbold Label_Text_Right">Date Range</span>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="fromDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.StartDate"|translate}}' name="fromDate" />
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 bold text-right">{{"Label.To" | translate}}</div>
+                            <div class="col-md-2 col-sm-4">
+                                <div class="input-icon left  ">
+                                    <i class="icon-calendar"></i>
+                                    <input class="form-control datepicker" ng-model="toDate" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Label.ToDate"|translate}}' name="toDate" />
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <button id="btnSearch" class="btn sbold pull-left btnMargin" ng-click="getAssociateReport()">
+                                    {{"Label.Search"|translate}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-2 col-sm-4">
+                                <span class="caption-subject sbold Label_Text_Right">Insurance Company</span>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <select class="input-sm select2me" style="width: 63%;" name="BranchId" ng-model="ProfessionalDetails.branch.id" data-placeholder="Select Branch/Office"
+                                        ng-change="GetReportingManager()" ng-options="option.id as option.branchName for option in Branch"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="portlet-body">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background">
+                                        <div class="tools">
+                                            <button id="btnNewService" class="btn sbold btnMargin  pull-left margin-top-5 margin-bottom-5" ng-click="NewService()">
+                                                {{"Export To"|translate}}
+                                            </button>
+                                           
+                                        </div>
+                                        <!--<div class="col-md-5  col-xs-12 col-sm-12">-->
+                                        <div class="pull-right col-lg-5 col-md-6 margin-top-5 margin-bottom-5 col-sm-12 manageSearch padding1px">
+                                            <div class="caption font-green-sharp col-lg-5 col-md-5 col-xs-12 col-sm-5 pull-right padding1px">
+                                                <div class="input-icon left">
+                                                    <i class="icon-magnifier"></i>
+                                                    <input type="text" class="form-control form-control-solid input-circle input-block-level " ng-model="SearchService" placeholder={{"SearchInsReports"|translate}}>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 table-responsive padding1px" style="height:250px">
+                                        <table class="table table-bordered table-hover table-striped" id="NavigateTable">
+                                            <thead>
+                                                <tr>
+                                                    <th ng-click="sort('id')">
+                                                        {{"Table.InsuranceCompany "|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey=='id'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.Claims"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.Items"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.TotalCoverageLimit"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.TotalInvoiced"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.IndemnitySavings"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                    <th ng-click="sort('')">
+                                                        {{"Table.ReplacementPer"|translate}}
+                                                        <span class="glyphicon sort-icon" ng-show="sortKey==''" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr dir-paginate="category in ServiceCategoryList |orderBy:sortKey:reverse|filter:SearchService|itemsPerPage:10" paginatio-id="serviceList">
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr ng-if="ServiceCategoryList.length ===0 || ServiceCategoryList===null">
+                                                    <td></td>
+                                                    <td colspan="7" class="text-center"><span class="text-center text-danger">{{"NoRecordText"|translate}}</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <dir-pagination-controls max-size="3" ng-if="serviceList.length !==0 || serviceList!==null" paginatio-id="serviceList"
+                                                                 direction-links="true"
+                                                                 boundary-links="true" class="pull-right">
+                                        </dir-pagination-controls>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+</div>
+
+

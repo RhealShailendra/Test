@@ -1,0 +1,265 @@
+﻿
+<div class="col-md-12">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <a ng-click="back()">{{"Employees"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span><span ng-if="associateId===null">&nbsp; {{"NewAssociate"|translate}}</span><span ng-if="associateId!==null">&nbsp;  {{AssociatesDetails.firstName}} &nbsp;{{AssociatesDetails.lastName}} </span> </span>
+        </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-12 padding1px">
+            <div class="portlet light padding1px">
+                <div class="portlet-title">
+                    <div class="caption font-grey-sharp">
+                        <span class="caption-subject"><span ng-if="associateId===null">&nbsp; {{"NewAssociate"|translate}}</span><span ng-if="associateId!==null">&nbsp;  {{AssociatesDetails.firstName}} &nbsp;{{AssociatesDetails.lastName}} </span> </span>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="portlet-body" ng-form="AssociatesDetailsform">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12 ">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-right ">
+                                        <button id="sample_editable_1_new " ng-click="back()" class="btn sbold btnMargin">
+                                            {{"Cancel"|translate}}
+                                        </button>
+                                        <button id="sample_editable_1_new " ng-click="AddNewClaimAssociate()" class="btn sbold btnMargin" ng-disabled="AssociatesDetailsform.$invalid || AssociatesDetailsform.$pristine">
+                                            {{"TabHeaderText.Save"|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group  clearfix" ng-if="associateId!==null">
+                                    <label class="col-md-2 col-sm-3 control-label Label_Text_Right">{{"ControlText.Employee#"|translate}}  <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-lg-3 col-sm-9">
+                                        <!--<input type="text" readonly class="form-control" name="employeenumber"  ng-model="AssociatesDetails.employeeNumber" placeholder="{{'ControlText.Employee#'|translate}}">-->
+                                        <span>{{AssociatesDetails.id}}</span>
+                                        <!--<div ng-message="pattern" ng-show="(AssociatesDetailsform.employeenumber.$touched && AssociatesDetailsform.employeenumber.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.ErrorEmployeeNumber"|translate}}</span>
+                                        </div>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"ControlText.FirstName"|translate}} <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" class="form-control" name="firstname" required ng-model="AssociatesDetails.firstName" placeholder="{{'ControlText.FirstName'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.firstname.$touched && AssociatesDetailsform.firstname.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.FirstNameRequired_message"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"ControlText.LastName"|translate}}  <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" class="form-control" name="lastname" required ng-model="AssociatesDetails.lastName" placeholder="{{'ControlText.LastName'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.lastname.$touched && AssociatesDetailsform.lastname.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.LastNameRequired_message"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"ControlText.EmailId"|translate}} <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" class="form-control" name="email" pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required ng-model="AssociatesDetails.email" placeholder="{{'ControlText.EmailId'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.email.$touched && AssociatesDetailsform.email.$error.pattern)">
+                                            <span class="text-danger">{{"ErrorMessage.ValidEmail_message"|translate}}</span>
+                                        </div>
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.email.$touched && AssociatesDetailsform.email.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.EmailRequired_title"|translate}}</span>
+                                        </div>
+                                    </div>
+                                    <label class="col-md-3 col-sm-12  control-label">{{"TabHeaderText.UserNameNote"|translate}} </label>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"Phone(work)"|translate}} <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" name="phonenumber" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required ng-model="AssociatesDetails.workPhone" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.phonenumber.$touched && AssociatesDetailsform.phonenumber.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.DayTimePhoneErrorMessage"|translate}}</span>
+                                        </div>
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.phonenumber.$touched && AssociatesDetailsform.phonenumber.$error.pattern)">
+                                            <span class="text-danger">{{"ErrorMessage.DayTimePhoneValidErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label">{{"Phone (Mobile)"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" name="cellphone" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" ng-model="AssociatesDetails.cellPhone" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.cellphone.$touched && AssociatesDetailsform.cellphone.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.cellPhoneErrorMessage"|translate}}</span>
+                                        </div>
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.cellphone.$touched && AssociatesDetailsform.cellphone.$error.pattern)">
+                                            <span class="text-danger">{{"ErrorMessage.cellPhoneValidErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group  clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"ControlText.Designation"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <select class="form-control select2me" name="designation" ng-change="Display()" required ng-model="AssociatesDetails.designation.id" placeholder='{{"ControlText.Designation"|translate}}'
+                                                ng-options="item.id as item.name for item in DesignationList "></select>                                       
+                                        <div ng-message="pattern" ng-show="AssociatesDetailsform.designation.$error.required && AssociatesDetailsform.designation.$touched">
+                                            <span class="text-danger">{{"ErrorMessage.DesignationErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>                                 
+                                </div>
+                                <div class="col-md-12 form-group  clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"Role"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <select class="form-control select2me" name="Role" required ng-change="updateRoleValue(AssociatesDetails.role.id)" ng-model="AssociatesDetails.role.id" placeholder='{{"Role"|translate}}'
+                                                ng-options="item.id as item.name for item in RoleList "></select>
+                                        <div ng-message="pattern" ng-show="AssociatesDetailsform.Role.$error.required && AssociatesDetailsform.Role.$touched">
+                                            <span class="text-danger">{{"ErrorMessage.RoleErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12" ng-show="IsSpeedCheckAssociate">
+                                    <div class="form-group col-md-6 col-xs-12 col-sm-12">
+                                        <label class="col-md-4 col-sm-6 Label_Text_Right"><span class="text-danger"  ng-show="IsSpeedCheckAssociate">*</span>&nbsp;{{"Speedcheck Specialties"|translate}} </label>
+                                        <div class="col-md-8 col-sm-6 dropHeightMax" style="width: 320px;padding-left:10px;">
+                                            <select class="form-control input-medium select2me" ng-required="IsSpeedCheckAssociate" name="Specialties" id="Selet2For" multiple ng-options="spt.id as spt.atttibuteValue for spt in SpecialtiesList" placeholder="Select" ng-change="updateSpecialtiesValue(CommonObjSpecialties)" ng-model="CommonObjSpecialties"></select>
+                                            <div ng-message="IsSpeedCheckAssociate" ng-show="(Form.reporting.$error.required && Form.reporting.$touched)  && IsSpeedCheckAssociate">
+                                                <span class="text-danger">{{"Please select Speedcheck Specialties."|translate}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-12 form-group  clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right  control-label"><span class="text-danger">*</span>{{"ControlText.ReportingManager"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <select class="form-control select2me" required name="reportingManage" ng-model="AssociatesDetails.reportingManager.id" placeholder='{{"ControlText.ReportingManager"|translate}}'
+                                                ng-options="item.id as item.firstName + ' ' + item.lastName for item in ReportingMangerList"></select>
+                                        <div ng-message="pattern" ng-show="AssociatesDetailsform.reportingManage.$error.required && AssociatesDetailsform.reportingManage.$touched">
+                                            <span class="text-danger">{{"ErrorMessage.reportingManagerErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label"><span class="text-danger">*</span>{{"Department"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <select class="form-control select2me" name="department" required ng-model="AssociatesDetails.vendorDepartment.id" placeholder='{{"Role"|translate}}'
+                                                ng-options="item.id as item.departmentName for item in DepartmentList "></select>
+                                        <div ng-message="pattern" ng-show="AssociatesDetailsform.department.$error.required && AssociatesDetailsform.department.$touched">
+                                            <span class="text-danger">{{"ErrorMessage.DepartmentErrorMessage"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-md-12 form-group  clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label">{{"ControlText.Address"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <textarea class="form-control" name="address1" required ng-model="AssociatesDetails.address.streetAddressOne" placeholder="{{'ControlText.AddressLine1'|translate}}"></textarea>
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.address1.$touched && AssociatesDetailsform.address1.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.AddressRequired"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group  clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-md-3 col-sm-9">
+                                        <textarea class="form-control" name="address2" required ng-model="AssociatesDetails.address.streetAddressTwo" placeholder="{{'ControlText.AddressLine2'|translate}}"></textarea>
+
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.address2.$touched && AssociatesDetailsform.address2.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.AddressRequired"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 form-group clearfix">
+                                    <div class="col-md-2 col-sm-3"></div>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="text" name="city" class="form-control" required ng-model="AssociatesDetails.address.city" placeholder="{{'ControlText.Town'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.city.$touched && AssociatesDetailsform.city.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.cityRequired"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-md-2 col-sm-9 ">
+                                        <select class="form-control select2me" ng-model="AssociatesDetails.address.state.id" placeholder='{{"FormControl.State"|translate}}'
+                                                ng-options="item.id as item.state for item in ddlStateList "></select>
+                                    </div>
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <div class="visible-sm col-sm-3"></div>
+                                    <div class="col-md-1 col-sm-9">
+                                        <input maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' type="text" name="zipcode" required class="form-control" ng-model="AssociatesDetails.address.zipcode" placeholder="{{'ControlText.Zip'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.zipcode.$touched && AssociatesDetailsform.zipcode.$error.required)">
+                                            <span class="text-danger">{{"ErrorMessage.ZipCodeRequired"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6"></div>
+                                <div class="col-md-8 col-sm-9">
+                                    <label class="col-md-8"><span class="text-danger btnMargin">*</span>{{"TabHeaderText.Note"|translate}}</label>
+                                </div>-->
+                                <div class="col-md-12 form-group clearfix" ng-if="associateId!==null">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label">{{"Password"|translate}}  <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="password" class="form-control" name="password"  ng-model="AssociatesDetails.password" placeholder="{{'Password'|translate}}">
+                                        <div ng-message="pattern" ng-show="(AssociatesDetailsform.password.$touched && AssociatesDetailsform.password.$error.required)">
+                                            <span class="text-danger">{{"Please enter password"|translate}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group clearfix" ng-if="associateId!==null">
+                                    <div class="visible-sm margin-bottom-10 clearfix"></div>
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right control-label">{{"Status"|translate}}  <span class="text-danger btnMargin"></span></label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <select class="form-control select2me" ng-model="AssociatesDetails.active" placeholder='{{"status"|translate}}'
+                                                ng-options="item.id as item.name for item in StatusList "></select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group  clearfix">
+                                    <label class="col-md-2 col-sm-3 Label_Text_Right  control-label">{{"Profile Picture"|translate}} </label>
+                                    <div class="col-md-3 col-sm-9">
+                                        <input type="file" name="FileUpload" 
+                                               ng-model="Validatefile" id="FileUpload" class="green"  
+                                               onchange="angular.element(this).scope().uploadImage(event)" 
+                                               style="display: none;" accept="image/*">
+                                       <a href="#" ng-click="FireUploadEvent($event)">Upload new image</a>
+                                    </div>
+                                    <div class="col-md-12 margin-bottom-10 col-sm-12">
+                                        <div class="col-sm-offset-3 col-md-offset-2" >
+                                            <img ng-src="{{AssociatesDetails.displayPicture.url}}" alt="Pictures of the incident" 
+                                                 class="img-responsive bordered " style="width:120px; height:120px;padding:5px;border:1px groove;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-12 margin-top-10 margin-bottom-20 topBorder">
+                                    <div class="col-sm-12 col-md-12 col-lg-12 text-right margin-top-10">
+                                        <button id="sample_editable_1_new " ng-click="back()" class="btn sbold btnMargin">
+                                            {{"Cancel"|translate}}
+                                        </button>
+                                        <button id="sample_editable_1_new " ng-click="AddNewClaimAssociate()" class="btn sbold btnMargin" ng-disabled="AssociatesDetailsform.$invalid || AssociatesDetailsform.$pristine">
+
+                                            {{"TabHeaderText.Save"|translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

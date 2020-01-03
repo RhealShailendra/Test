@@ -1,0 +1,65 @@
+﻿{
+  "HeaderText": {
+    "ServiceRequests": "Service Requests",
+    "NewSubmissions": "New Submissions",
+    "NewClaims": "New Claims",
+    "InProgress": "In Progress",
+    "WaitingForApproval": "Waiting For Approval",
+    "Orders": "Orders",
+    "MyClaims_title": "My Claims",
+    "Alert_title": "Alert Box",
+    "UpcomingEvents": "Upcoming Events",
+    "NewAssignments": "New Assignments"
+  },
+  "ControlText": {
+    "Show": "Show",
+    "View": "View",
+    "Dashboard": "Dashboard"
+  },
+  "Table": {
+    "Claim": "Claim #",
+    "InsurenceCompany": "Insurance Company",
+    "Adjustername": "Adjuster Name",
+    "#Item": "Item #",
+    "ServiceRequested": "Service Requested",
+    "Status": "Status",
+    "ReportDate": "Report Date",
+    "LastUpdate": "Last Update",
+    "LastNote": "Last Note",
+    "Date": "Date",
+    "Participant": "Participant",
+    "ScheduledAction": "Scheduled Action",
+    "StartTime": "Start Time",
+    "Title": "Title",
+    "Subject": "Subject",
+    "Assignment#": "Assignment#",
+    "InsuredName": "Insured's Name",
+    "AssignedDate": "Assigned Date",
+    "RequestId": "Request Id",
+    "serviceNumber": "Service Number",
+    "RequestDescription": "Request Description",
+    "AssignDate": "Assign Date",
+    "TargetCompletionDate": "Target Completion Date",
+    "Action": "Action"
+  },
+  "AlertMessage": {
+    "AddNoteTitle": "Add Note Status",
+    "ClaimAttachmentTitle": "Claim Attachment Status",
+    "RejectService": "Service Request",
+    "Rejectservice": "Service Request",
+    "ConfirmReject": "Are you sure you want to reject the service request? <b> Please Confirm!",
+    "YesBtn": "Yes",
+    "NoBtn": "No",
+    "RejectError": "Fail to reject the service. please try again.",
+    "Update": "Service Request"
+  },
+  "SearchText": "Search Reference #, Insured's Name, Phone #",
+  "GlobalSearchText": "Search ...Any Claim #, Policyholder",
+  "NoRecordText": "No Records Available",
+  "NoAlertText": "No new messages available",
+  "NoEventsText": "No events scheduled in next month",
+  "LostDamagedSearchText": "Search..",
+  "Assign": "Assign",
+  "Reject": "Reject"
+
+}

@@ -1,0 +1,399 @@
+<div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 pull-right ">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 options_Background_WithBorder" style="height:36px;">
+            <span class="text_options_Label sbold caption" style="line-height:32px;">{{"Comparable Details"|translate}}</span>
+            <div class="col-md-3 col-sm-3 pull-right margin-top-5 margin-top-5">
+                <select class="form-control select2me pull-right" ng-model="ItemDetails.CustomItemType" placeholder="select.." ng-change="GoToCustomItem()"
+                        ng-options="option.id as option.customType for option in CustomItemType"></select>
+            </div>
+            <a id="btnAddCustomItem" class="text_options_Label pull-right" ng-click="SendMessagePopUp($event)" style="color:white; margin-right:10px;line-height:32px;">Send SMS to PH</a>
+
+        </div>
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" style="border:1px solid lightgray;height:667px;">
+            <!--Empty comparables-->
+            <div class="col-md-12 col-sm-12 padding1px" ng-if="displayEmptyPart" style="height:100%;">
+                <div class="col-md-12 text-center btnMargin">
+                    <span class="text-primary bold ">{{"HeaderText.Comparables"|translate}}</span>
+                </div>
+                <div class="portlet light">
+                    <div class="portlet-title text-center">
+                        <div class="caption font-green text-center">
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center text-primary margin-bottom-20">
+                                <span class=""><b>{{"NoReplacement"|translate}}</b></span>
+                            </div>
+
+                            <div class="col-md-12 margin-top-10 clearfix">
+                                <div>
+                                    <div class="col-md-offset-1 col-md-10 margin-bottom-5">
+                                        <div class="input-icon left">
+                                            <i class="icon-magnifier"></i>
+                                            <input type="text" ng-model="CommonObj.SearchComparables" ng-keydown="$event.which === 13 && SearchReplacement()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"ComparablesSearch"|translate}}>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-10 col-md-offset-1  text-center text-primary margin-bottom-20">
+                                        <span class="">{{"Searchreplacements"|translate}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!--End Empty comparables-->
+            <!--Comparables-->
+            <!--<div class="col-md-12 col-sm-12 padding1px" ng-if="displaycomparables" style="height:100%;">
+                <div class="col-md-12 text-center btnMargin ">
+                    <span class="text-primary bold ">{{"HeaderText.Comparables"|translate}}</span>
+                </div>
+                <div class="portlet light ">
+                    <div class="portlet-title text-center">
+                        <div class="caption font-green text-center">
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-offset-1 col-md-10 margin-top-10">
+                                <div class="input-icon left">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" ng-model="CommonObj.SearchComparables" ng-keydown="$event.which === 13 && SearchReplacement()" class="form-control form-control-solid input-circle input-block-level" placeholder={{"ComparablesSearch"|translate}}>
+                                </div>
+                            </div>
+                            <div class="col-md-12 clearfix margin-top-10" style="height:582px;overflow:auto;">
+
+                                <div class="col-md-12 portlet light bordered clearfix" ng-repeat="comp in Comparables.comparableItems" ng-if="!comp.delete">
+
+                                    <div class="col-md-3 col-sm-3 imagePostion text-center">
+                                        <div class="col-md-12 light bordered imageHeightComparable" style="border:1px solid #ddd;">
+                                            <img ng-if="!comp.isDataImage && comp.imageURL!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageURL}}" alt="image" />
+                                            <img ng-if="!comp.isDataImage && comp.imageURL===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                            <img ng-if="comp.isDataImage && comp.imageData!==null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="{{comp.imageData}}" alt="image" />
+                                            <img ng-if="comp.isDataImage && comp.imageData===null" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" ng-src="assets/global/img/no-image.png" alt="image" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 tip">
+                                        <label class="control-label">
+                                            <span class="sbold text-primary">{{"FormControlText.Brand"|translate}}</span>&nbsp;:&nbsp;
+                                            <span class="Overlay" ng-if="comp.brand.length>18">{{comp.brand}}{{comp.brand.length >  18 ? '...' : ''}}</span><span>{{comp.brand | limitTo: 18}}</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                        <label class="control-label">
+                                            <span class="text-primary sbold">{{"FormControlText.Model"|translate}}</span>&nbsp;:&nbsp;
+                                            <span class="Overlay" ng-if="comp.model.length>18">{{comp.model}}</span><span>{{comp.model | limitTo: 18}}{{comp.model.length >  18 ? '...' : ''}}</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 tip">
+                                        <label class="control-label"><span class="text-primary sbold">{{"FormControlText.UnitPrice"|translate}}</span>&nbsp;:&nbsp;{{comp.unitPrice|currency}}</label>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5 col-xs-12 tip">
+                                        <label class="control-label">
+                                            <span class="text-primary sbold">{{"FormControlText.Supplier"|translate}}</span>&nbsp;:&nbsp;
+                                            <span class="Overlay" ng-if="comp.supplier.length>18">{{comp.supplier}}</span><span>{{comp.supplier | limitTo: 18}}{{comp.supplier.length >  18 ? '...' : ''}}</span>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-8 col-sm-8 col-xs-12 margin-bottom-5 ">
+                                        <label class="control-label clearfix text-primary sbold">{{"FormControlText.VendorDescription"|translate}} &nbsp;:&nbsp;</label>
+                                        <input type="text" ng-model="comp.description" class="form-control" placeholder='{{"FormControlText.VendorDescription"|translate}}' />
+                                    </div><div class="clearfix"></div>
+
+                                    <div class="col-md-6 col-sm-6 clearfix ">
+                                        <label class="mt-checkbox mt-checkbox-outline text-success " style="font-size:13px;">
+                                            <input type="checkbox" class="checkboxes" ng-click="DeleteComparable(comp)" />
+                                            <span></span>
+                                            {{"FormControlText.DeleteFromComparables"|translate}}
+                                        </label>
+                                        <label class="mt-checkbox mt-checkbox-outline text-success " style="font-size:13px;">
+                                            <input type="checkbox" class="checkboxes" ng-model="comp.isReplacementItem" ng-click="MarkAsReplacement(comp)" />
+                                            <span></span>
+                                            {{"Mark as replacement item"|translate}}
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 text-right">
+                                        <a href="#" style="color:red;" ng-click="ShopNow(comp)">{{"FormControlText.BuyViewHere"|translate}}</a>
+                                    </div>
+                                    <div class="margin-bottom-10"></div>
+                                    <div class="col-md-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                                            <a ng-if="comp.like==true"><i class="fa fa-heart font-red"></i>&nbsp;Un-Like</a>
+                                            <a ng-if="comp.like==false"><i class="fa fa-heart text-primary"></i>&nbsp;Like</a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 text-center">
+                                            <a ng-if="comp.purchase==true"><i class="fa fa-shopping-cart font-red"></i>&nbsp;Undo-Purchase</a>
+                                            <a ng-if="comp.purchase==false"><i class="fa fa-shopping-cart text-primary"></i>&nbsp;Purchase</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            <!--End Comparables-->
+            <!--Google/Amazon Search Comparables-->
+            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 padding1px" ng-show="displayReplacement" style="height:100%;">
+                <div class="portlet light" ng-show="!SerchComparables">
+                    <div class="portlet-title">
+                        <div class="caption font-green col-xs-12" style="padding-bottom:0px;">
+                            <span class="caption-subject bold uppercase"> {{"HeaderText.SearchComparables"|translate}}</span>
+
+                            <button class="btn sbold btnMargin blue pull-right" ng-click="SaveNewlyAddedComparables()">
+                                <i class="fa fa-save"></i>
+                                {{"ControlText.Save_title"|translate}}
+                            </button>
+                            <button class="btn sbold btnMargin blue pull-right" ng-click="CancelAddedComparables()">
+                                <i class="fa fa-arrow-left"></i>
+                                {{"ControlText.Back_title"|translate}}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="portlet-body" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-bottom-10 padding1px">
+                                <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                    <div class="input-icon left">
+                                        <i class="icon-magnifier"></i>
+                                        <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-keydown="$event.which === 13 && SearchReplacement()" ng-model="CommonObj.SearchComparables" placeholder="search">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                                    <select class="form-control col-md-12" data-placeholder="Option" ng-model="sortcolumn" ng-change="SortGoogleResult(sortcolumn)">
+                                        <option ng-repeat="option in SortOptions" value="{{option.Id}}">{{option.Value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10  googlecompaarable">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <select class="form-control select2me" name="Searchoptions" multiple ng-model="Searchoptions" data-placeholder="Select search options"
+                                            ng-options="option.id as option.supplierName for option in ReplacementSuplier" ng-change="SearchReplacement()"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 table-responsive" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                                <div class="col-md-12 col-lg-12 portlet light bordered clearfix" style="width:100%;padding-bottom:4px;" ng-repeat="comparable in GoogleComparableList|filter:search|orderBy:'price':reverseOrder">
+                                    <div class="col-md-4 col-lg-2 col-sm-3 text-center imageHeightComparable">
+                                        <img ng-src="{{comparable.imageURL}}" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" />
+                                    </div>
+                                    <div class="col-md-8 col-lg-7 col-sm-9 padding1px">
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                            <div class="col-md-4 col-sm-3 col-lg-3 padding1px">
+                                                <label class="text-success">{{"ControlText.Description"|translate}}: </label>
+                                            </div>
+                                            <div class="col-md-8 col-lg-9 col-sm-9 col-xs-12 tip ">
+                                                <span class="Overlay" ng-if="comparable.description.length>55">{{comparable.description}}</span><span>{{comparable.description | limitTo: 55}}{{comparable.description.length >  55 ? '...' : ''}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                            <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                <label class="text-success">{{"ControlText.Brand"|translate}}: </label>
+                                            </div>
+                                            <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                <span class="Overlay" ng-if="comparable.brand.length>25">{{comparable.brand}}</span>
+                                                <span>
+                                                    {{comparable.brand | limitTo: 25}}{{comparable.brand.length >  25 ? '...' : ''}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 styleflex padding1px">
+                                            <div class="col-md-4 col-lg-3 col-sm-3  padding1px">
+                                                <label class="text-success">{{"ControlText.Model"|translate}}: </label>
+                                            </div>
+                                            <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                <span class="Overlay" ng-if="comparable.model.length>25">{{comparable.model}}</span>
+                                                <span>
+                                                    {{comparable.model | limitTo: 25}}{{comparable.model.length >  25 ? '...' : ''}}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-lg-12 col-sm-12 styleflex padding1px">
+                                            <div class="col-md-4 col-lg-3 col-sm-3 padding1px">
+                                                <label class="text-success">{{"ControlText.Price"|translate}}: </label>
+                                            </div>
+                                            <div class="col-md-8 col-lg-9 col-sm-9 ">
+                                                <label>{{comparable.price|currency}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 col-lg-3 col-sm-12 text-center" style="text-wrap:normal;">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-10 font-green visible-lg">
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                <span class="clearfix"></span>
+
+                                            </label><br />{{"ControlText.AddComparables"|translate}}
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px  font-green visible-md visible-sm visible-xs">
+                                            <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                                <input type="checkbox" class="checkboxes" ng-click="AddtoComparableList(comparable)" />
+                                                <span class="clearfix"></span>
+                                                {{"ControlText.AddComparables"|translate}}
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 padding1px">
+                                            <a herf="#" style="color:red;" ng-click="ShopNow(comparable)">{{"ControlText.BuyHere"|translate}}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="GoogleComparableList.length===0" class="col-md-12 col-lg-12 text-center text-danger">{{"ControlText.LoderGoogle"|translate}}</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--End Search Comparables-->
+                <!--Search Comparables-->
+                
+                <!--End Search Comparables-->
+            </div>
+            <!--Google/Amazon Search Comparables End -->
+            <!--SpeedCheck Search start-->
+            <div div class="portlet light" ng-show="SerchComparables">
+                <div class="portlet-title">
+                    <div class="caption font-green col-xs-12" style="padding-bottom:0px;">
+                        <span class="caption-subject bold uppercase"> {{"HeaderText.SearchComparables"|translate}}</span>
+                    </div>
+                </div>
+                <div class="portlet-body" style="max-height:600px;overflow-y:auto;overflow-x:hidden;">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12 margin-bottom-10 padding1px">
+                            <div class="col-md-8 col-lg-8 col-sm-8 col-xs-12">
+                                <div class="input-icon left">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" class="form-control form-control-solid input-circle input-block-level" ng-keydown="$event.which === 13 && SearchReplacement()" ng-model="CommonObj.SearchComparables" placeholder="search">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-4 col-sm-4 col-xs-12">
+                                <select class="form-control col-md-12" data-placeholder="Option" data-ng-model="sortcolumn" ng-change="SortGoogleResult()">
+                                    <option ng-repeat="option in SortOptions" value="{{option.Id}}">{{option.Value}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10  googlecompaarable">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control select2me" name="Searchoptions" multiple ng-model="Searchoptions" data-placeholder="Select search options"
+                                        ng-options="option.id as option.supplierName for option in ReplacementSuplier" ng-change="SearchReplacement()"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10 portlet-body">
+                            <ul class="nav nav-tabs">
+                                <li ng-repeat="component in componentsList" ng-class="{'active':tabComponent==component.componentName}">
+                                    <a href="#" ng-click="setComponentTab(component)">&nbsp; {{component.componentName}} &nbsp;</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10" ng-show="tabComponent=='Mounting'" id="Mounting">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <a id="mounting" href="#" class="text_options_Labe" ng-click="GoToCustomItem()">
+                                        Mounting #{{$index+1}}
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10" ng-show="tabComponent=='Diamond'" id="Diamond">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="diamond in DiamondDetailsList">
+                                    <a id="mounting" href="#" class="text_options_Labe" ng-click="GoToCustomItem()">
+                                        Diamond #{{$index+1}}
+                                    </a>
+                                    {{diamond.name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10" ng-show="tabComponent=='Semi-Mounting'" id="Diamond">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <a id="mounting" href="#" class="text_options_Labe" ng-click="GoToCustomItem()">
+                                        Semi-Mounting #{{$index+1}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10" ng-show="tabComponent=='Gemstone'" id="Diamond">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12" ng-repeat="gemstone in gemstoneDetailsList">
+                                    <a id="mounting" href="#" class="text_options_Labe" ng-click="GoToCustomItem()">
+                                        Gemstone #{{$index+1}}
+                                    </a>
+                                    {{gemstone.name}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 padding1px margin-bottom-10" ng-show="tabComponent=='Chain'" id="Diamond">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <a id="mounting" href="#" class="text_options_Labe" ng-click="GoToCustomItem()">
+                                        Chain #{{$index+1}}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!--SpeedCheck Search start-->
+        </div>
+    </div>
+</div>
+<!--End Comparables Div-->
+<!--Added Comparables for Jewelry Category-->
+<div class="col-md-12  col-lg-12 col-sm-12 col-xs-12 portlet bordered light margin-top-10" ng-if="dispalyAddedComparables">
+    <div class="portlet-title text-center">
+        <div class="caption font-green text-center" style="padding-bottom:0px;">
+            <span class="caption-subject bold uppercase"> {{"HeaderText.AddedComparables"|translate}}</span>
+            <!--<a ng-click="SendComparablesToReview()" style="color:white;">Send to Policyholder</a>-->
+        </div>
+    </div>
+    <div class="portlet-body responsive">
+        <div class="row">
+            <div class="row padding1px">
+                <div class="table-responsive  padding1px" style="height:271px;padding-top:0px;display:flex;">
+                    <div class="col-md-12 col-lg-12 col-sm-12 table-responsive addedComp form-group padding1px">
+                        <div ng-repeat="item in AddedComparables" class="col-md-6  col-sm-6 " style="padding-bottom:15px;">
+                            <div class="col-md-12 col-lg-12 col-sm-12 portlet light bordered" style="min-height: 235px;">
+                                <div class="col-md-5 col-sm-6 col-lg-5 text-center imageHeightComparable">
+                                    <img ng-src="{{item.imageURL}}" onerror="this.onerror=null; this.src='assets/global/img/no-image.png';" class="ImageComparable" />
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-6 tip">
+                                    {{item.description| limitTo : 50}}{{item.description.length>50 ? '...' :''}}
+                                    <span class="Overlay" ng-if="item.description">{{item.description }}</span>
+
+
+                                </div>
+                                <div class="margin-top-5 col-ms-12 col-md-12 col-lg-12  text-right">
+                                    <label>{{item.price |currency}}</label>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12  text-center margin-top-10 " ng-click="RemoveFromComparableList(item)">
+
+                                    <button class="btn-default solid form-control" style="background:#d3d3d3 !important;">
+                                        {{"Remove Comparable"|translate}}
+                                    </button>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center col-xs-12 margin-top-5 margin-bottom-5" ng-click="ShopNow(item)">
+                                    <a herf="#" style="color:red;">{{"ControlText.BuyHere"|translate}}</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

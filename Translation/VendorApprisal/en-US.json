@@ -1,0 +1,16 @@
+﻿{
+  "Save": "Save",
+  "Cancel": "Cancel",
+  "PurchaseOrderType": "Purchase Order Type",
+  "PurchaseOrderMapping": "Purchase Order Mapping",
+  "Department": "Department",
+  "Box In Box from Policyholder": "Box In Box from Policyholder",
+  "PickUp from Vendor/Email Label": "PickUp from Vendor/Email Label",
+  "Labor charges": "Labor charges",
+  "Shipment": "Shipment",
+  "Date": "Date",
+  "ItemDescription": "Item Description",
+  "TypeOfAppraisal": "Type Of Appraisal",
+  "AppraisalValue": "Appraisal Value",
+  "Action": "Action"
+}

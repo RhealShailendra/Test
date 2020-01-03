@@ -1,0 +1,60 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption font-green-sharp">
+                    <h4 class="text-primary">{{"MainHeading"|translate}}</h4>
+                </div>
+                <button class="btn sbold pull-right btnMargin" ng-disabled="AccessibleScreenForm.$invalid || AccessibleScreenForm.$pristine" ng-click="AssignScreens(Screen)">
+                    <i class="fa fa-save"></i>
+                    {{"ControlText.Save"|translate}}
+                </button> 
+            </div>
+            <div class="portlet-body">
+                <div class="row" ng-form="AccessibleScreenForm">
+                 <div class="col-md-offset-2 col-md-10">
+                    <div class="form-group col-md-12">
+                        <div class="col-md-2">
+                            <label class="control-label">{{"Label.RoleGroup"|translate}}</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="input-sm select2me" data-placeholder="Select Role" ng-model="Role" name="Role" required ng-options="option.id as option.name for option in RoleList" ng-change="GetAssignedScreens()"></select>
+
+                            <div class="col-md-12 errormessage">
+                                <div class="col-md-offset-2" ng-message="required" ng-show="(AccessibleScreenForm.Role.$error.required)&&(AccessibleScreenForm.Role.$touched)">
+                                    <span class="text-danger">&nbsp;{{"ErrorMessage.RoleRequired"|translate}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 margin-top-10">
+                            <div class="col-md-12">
+                                <h4 class="text-primary">{{"ControlText.AccessibleScreens"|translate}}</h4>
+                            </div>
+                        </div>
+
+                     <div class="col-md-12 errormessage text-left">
+                         <div class="col-md-12" ng-show="DisplayError">
+                             <span class="text-danger">&nbsp;{{"ErrorMessage.ScreenRequired"|translate}}</span>
+                         </div>
+                     </div>
+
+                    <!--Screen List-->
+                    <div class="col-md-12 padding1px" style="height:500px;overflow-y:auto;">
+                        <div class="form-group col-md-4 margin-top-10" ng-repeat="Screen in ScreenList">
+                            <div class="col-md-12">
+                                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                                    <input type="checkbox" class="checkbox" ng-click="SelectScreen(Screen)" ng-model="Screen.IsSelected">
+                                    <span></span>{{Screen.name}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End Screen List-->
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

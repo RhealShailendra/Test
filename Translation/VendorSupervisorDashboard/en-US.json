@@ -1,0 +1,19 @@
+﻿{
+  "HeaderText": {
+    "TeamPerformance": "Team Performance",
+    "ToDoLis": "To Do Lis",
+    "AssignmentsToReview": "Assignments To Review"
+  },
+  "Table": {
+    "Associate": "Associate",
+    "openAssignment": "Open Assignments",
+    "overDueAssignment": "Overdue Assignments"
+  },
+  "Tab": {
+    "Alerts": "Alerts",
+    "Up-ComingEvents": "Up-Coming Events",
+    "ThisYear(2018)": "This Year(2018)",
+    "ThisQuater(Jul-Sep)": "This Quater(Jul-Sep)",
+    "ThisMonth":"This Month"
+  }
+}

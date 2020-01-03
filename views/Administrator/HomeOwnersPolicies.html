@@ -1,0 +1,213 @@
+﻿<div class="col-md-12 col-sm-12 padding1px">
+    <div class="portlet light">
+        <ul class="page-breadcrumb breadcrumb sbold">
+            <li>
+                <a ng-click="GotoDashboard()">{{"Home"|translate}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <a ng-if="AddHOPolicyShow" ng-click="BtnBackClick()">{{"HO policy type"|translate}}</a>
+                <span ng-if="HOPolicy">{{"HO policy type"|translate}}</span>
+            </li>
+            <li ng-if="AddHOPolicyShow">
+                <span ng-if="AddCategory">
+                    <span ng-if="PolicyTypeDetails.id>0"><i class="fa fa-circle"></i>{{PolicyTypeDetails.typeName}}</span>
+                    <span ng-if="PolicyTypeDetails.id==null"><i class="fa fa-circle"></i>{{"New HO policy type" |translate}}</span>
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-md-12 col-sm-12 padding1px " ng-if="HOPolicy">
+    <div class="portlet light ">
+
+        <div class="portlet-title padding1px">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject">{{"HeaderText.HOPolicyType"|translate}}</span>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet light padding1px">
+        <div class="col-md-12" id="CategoryList">
+            <!--Top buttons-->
+            <div class="col-md-12 form-group">
+                <label class="col-md-1 col-sm-2">{{"State"|translate}}</label>
+                <div class="col-md-2 col-sm-3">
+                    <select class="form-control select2me small" ng-model="selected.StateId" placeholder='{{"State"|translate}}'
+                            ng-change="GetByState()">
+                        <option value="0">ALL</option>
+                        <option ng-repeat="item in stateList" value="{{item.id}}">{{item.state}}</option>
+                    </select> <!--ng-options="item.id as item.state for item in stateList" required name="State"-->
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background">
+                <div class="col-md-12 padding1px margin-bottom-5 margin-top-5">
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin btnOptions" ng-click="AddHOPolicy()">
+
+                        {{"Labeled.New"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin">
+
+                        {{"Labeled.Upload"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin">
+
+                        {{"Labeled.Export"|translate}}
+                    </button>
+                    <div class="col-md-5 col-sm-5 pull-right">
+                        <div class="input-icon left">
+                            <i class="icon-magnifier"></i>
+                            <input type="text" ng-model="search" class="form-control form-control-solid input-circle input-block-level  " placeholder="{{'Labeled.lblSearch'| translate}}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- End Top buttons-->
+            <!--Start Table Body-->
+            <div class="col-md-12 table-responsive padding1px" id="sample_5_wrapper">
+                <table class="table table-striped table-bordered table-hover table-checkable order-column" id="dash">
+                    <thead>
+                        <tr>
+                            <th ng-click="sort('typeName')">
+                                {{"Table.HOPolicyType"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey==='typeName'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('description')">
+                                {{"Table.Description"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey==='description'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th ng-click="sort('specialLimit')" class="">
+                                {{"Table.SpecialLimit"|translate}}
+                                <span class="glyphicon sort-icon" ng-show="sortKey==='specialLimit'" ng-class="{'glyphicon-chevron-up pull-right':reverse,'glyphicon-chevron-down pull-right':!reverse}"></span>
+                            </th>
+                            <th>
+                                {{"Table.Action"|translate}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir-paginate="item in HOPolicyList|orderBy:sortKey:reverse|filter:search|itemsPerPage:pagesize" pagination-id="HOPolicyType">
+                            <td class="width35">{{item.typeName}}</td>
+                            <td class="width45">{{item.description}}</td>
+                            <td style="width:10%">{{item.totalCoverage}}</td>
+                            <td style="width:10%">
+                                <div class="btn-group btn-group-circle btn-outline" style="display:flex;">
+                                    <span class="btn green btn-sm btn-outline" ng-click="EditHOPolicy(item)">{{"ControlText.Edit" | translate}}</span>
+
+                                    <span class="btn btn-sm red btn-outline">{{"ControlText.Delete" | translate}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-if="HOPolicyList===null||HOPolicyList.length ==0">
+                            <td colspan="5" class="text-center text-danger">No records available</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+                <dir-pagination-controls max-size="3" pagination-id="HOPolicyType"
+                                         direction-links="true"
+                                         boundary-links="true" class="pull-right">
+                </dir-pagination-controls>
+            </div>
+
+            <!--end Table Body-->
+        </div>
+
+    </div>
+
+
+
+</div>
+<div class="col-md-12 padding1px" ng-if="AddHOPolicyShow">
+    <div class="portlet light  ">
+        <div class="portlet-title">
+            <div class="caption font-grey-sharp">
+                <span class="caption-subject " ng-if="PolicyTypeDetails.id==null">{{"New HO policy type"|translate}}</span>
+                <span class="caption-subject " ng-if="PolicyTypeDetails.id>0">{{PolicyTypeDetails.typeName}}</span>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="portlet light padding1px">
+        <!-- Add new -->
+        <div class="col-md-12" id="NewCategory" ng-form="HoTypeDetails">
+            <!--Top buttons-->
+            <div class="col-md-12 form-group">
+                <div class="form-group col-sm-12 clearfix">
+                    <label class="col-md-3 col-sm-4 Label_Text_Right">{{"State"|translate}}</label>
+                    <div class="col-md-2 col-sm-3">
+                        <select class="form-control select2me " ng-model="selected.stateId" placeholder='{{"State"|translate}}'
+                                ng-options="item.id as item.state for item in stateList" required name="State"></select>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <div class="form-group col-sm-12 clearfix">
+                    <label class="col-md-3 col-sm-4 control-label Label_Text_Right">{{"Labeled.LabelFOrPolicyType"|translate}} </label>
+                    <div class="col-md-4 col-sm-8">
+                        <input class="form-control " ng-model="PolicyTypeDetails.typeName" required name="typeName" type="text" />
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="(HoTypeDetails.typeName.$error.required && HoTypeDetails.typeName.$touched)">
+                                <span class="text-danger">{{"Please enter policy type name.."|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix col-sm-12 ">
+                    <label class="col-md-3 control-label  col-sm-4 Label_Text_Right">{{"Labeled.DescriptionOfPolicyType"|translate}}</label>
+                    <div class="col-md-4 col-sm-8 clearfix">
+                        <textarea rows="4" class="form-control" ng-model="PolicyTypeDetails.description" placeholder="{{'Table.Description'|translate}}"></textarea>
+
+                    </div>
+                </div>
+                <hr class="clearfix" />
+                <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+                    <div class="col-md-1 col-sm-1 col-xs-1"><span class="fa fa-plus-circle fa-2x green " style="color:#13f1b4" ng-click="AddCategory($index)"></span></div>
+                    <div class="col-md-3 col-sm-5 text-center col-xs-6">{{"Labeled.Category"|translate}}</div>
+                    <div class="col-md-3 col-sm-5 text-center col-xs-5 ">{{"Labeled.DollerLimit"|translate}}</div>
+                    <div class="col-md-4 col-sm-1 hidden-xs"></div>
+
+                </div>
+                <div class="col-sm-12 col-xs-12 margin-bottom-10 clearfix"></div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group clearfix" ng-repeat="item in categoryList track by $index">
+                    <div class="col-md-1 col-sm-1 col-xs-1"><span class="fa fa-times-circle-o fa-2x" style="color:red" ng-click="Remove($index)"></span></div>
+                    <div class="col-md-3 col-sm-5 col-xs-6">
+                        <select class="form-control select2me small" ng-model="item.categoryId" placeholder='{{"ControlText.SelectType"|translate}}'
+                                ng-options="item.categoryId as item.categoryName for item in Category" required name="Category_{{$index}}"></select>
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="((HoTypeDetails['Category_'+$index].$error.required )&& HoTypeDetails['Category_'+$index].$touched)">
+                                <span class="text-danger">{{"ErrorMsg.CategoryRequired"|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-5 col-xs-5">
+                        <div class="col-lg-8 col-md-9 col-sm-12 col-xs-12">
+                            <input type="text" class="form-control" required name="Limit_{{$index}}" ng-model="item.coverageLimit" placeholder='{{"ControlText.SpecialLimites"|translate}}' />
+                        </div>
+                        <div class="errormessage col-md-12 col-sm-12 col-xs-12">
+                            <div ng-message="required" ng-show="((HoTypeDetails['Limit_'+$index].$error.required)&& HoTypeDetails['Limit_'+$index].$touched)">
+                                <span class="text-danger">{{"ErrorMsg.CoverageLimitRequired"|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-sm-1 col-xs-12"></div>
+                </div>
+            </div>
+            <div class="tools pull-right">
+                <button type="button" class="btn sbold btnMargin" ng-click="Save()" ng-disabled="HoTypeDetails.$invalid || HoTypeDetails.$pristine">  {{"Labeled.btnSave"|translate}}</button>
+                <button type="button" class="btn sbold btnMargin" ng-click="BtnBackClick()">{{"Labeled.btnCancel"|translate}}</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

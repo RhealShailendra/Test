@@ -1,0 +1,13 @@
+﻿{
+  "ControlText": {
+    "AllInvoices": "All Invoices",
+    "ThisMonth": "This Month",
+    "Last3Months": "Last 3Months",
+    "To": "To",
+    "Date": "Invoice Date",
+    "Search_Placeholder": "Invoices# Claim#",
+    "Show": "Show",
+    "insuranceCompany": "Insurance Company",
+    "associate": "Claim Associate"
+  }
+}

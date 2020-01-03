@@ -1,0 +1,226 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GoToHome()">{{"Home"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{"Company Details"|translate}}</span>
+        </li>
+    </ul>
+</div>
+<!--Company details-->
+<div class="col-md-12 portlet light padding1px" ng-form="CompanyDetails">
+    <div class="portlet-title">
+        <div class="caption font-grey-sharp">
+            <span class="caption-subject">{{"CompanyDetails"|translate}}</span>
+        </div>
+    </div>
+    <div class="col-md-12 margin-top-5">
+        <div class="tools pull-right">
+            <button ng-click="GoToHome()" class="btn sbold btnMargin">
+                {{"Cancel"|translate}}
+            </button>
+            <button id="sample_editable_1_new" ng-click="SaveVendorDetails()" class="btn sbold btnMargin" ng-disabled="CompanyDetails.$invalid||CompanyDetails.$pristine">
+                {{"Label.Save"|translate}}
+            </button>
+        </div>
+    </div>
+    <div class="col-md-12 margin-top-10 ">
+        <div class="portlet">
+            <div class="SubHeadingDiv">
+                <span class="caption font-grey-sharp sbold">
+                    {{"HeaderText.VendorSettings"|translate}}
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2 Label_Text_Right control-label sbold">{{"Label.VendorName"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control" required name="Name" ng-model="VendorDetails.vendorName" type="text" placeholder="{{'Label.VendorName'|translate}}" />
+                    <div class="errormessage">
+                        <span class="text-danger" ng-show="CompanyDetails.Name.$error.required && CompanyDetails.Name.$touched">{{"VendorNameRequired"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12 form-group">
+                <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.CompanyWeb"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control" required name="Website" ng-model="VendorDetails.website" type="text" placeholder="{{'Label.CompanyWeb'|translate}}" />
+                    <div class="errormessage">
+                        <span class="text-danger" ng-show="CompanyDetails.Website.$error.required && CompanyDetails.Website.$touched">{{"CompanyWebsiteRequired"|translate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12">
+                <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.OfficeAddress"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control margin-bottom-5" ng-model="VendorDetails.billingAddress.streetAddressOne" type="text" placeholder="{{'Label.AddressLine1'|translate}}" />
+                    <input class="form-control margin-bottom-5" ng-model="VendorDetails.billingAddress.streetAddressTwo" type="text" placeholder="{{'Label.AddressLine2'|translate}}" />
+                    <input class="form-control margin-bottom-5" ng-model="VendorDetails.billingAddress.city" type="text" placeholder="{{'Label.City'|translate}}" />
+                    <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                        <select class="form-control select2me" ng-model="VendorDetails.billingAddress.state.id" placeholder='{{"FormControl.State"|translate}}'
+                                ng-options="item.id as item.state for item in ddlStateList"></select>
+                    </div>
+                    <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                        <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorDetails.billingAddress.address.zipcode" placeholder='{{"Label.ZipCode"|translate}}' />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12">
+                <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.BillingAddress"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input class="form-control margin-bottom-5" type="text" ng-model="VendorDetails.billingAddress.streetAddressOne" placeholder="{{'Label.AddressLine1'|translate}}" />
+                    <input class="form-control margin-bottom-5" type="text" ng-model="VendorDetails.billingAddress.streetAddressTwo" placeholder="{{'Label.AddressLine2'|translate}}" />
+                    <input class="form-control margin-bottom-5" type="text" ng-model="VendorDetails.billingAddress.city" placeholder="{{'Label.City'|translate}}" />
+                    <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding:0px !important">
+                        <select class="form-control select2me" ng-model="VendorDetails.billingAddress.state.id" placeholder='{{"Label.State"|translate}}'
+                                ng-options="item.id as item.state for item in ddlStateList"></select>
+                    </div>
+                    <div class="col-md-6 col-sm-6 form-group clearfix clear" style="padding-right:0px !important">
+                        <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorDetails.billingAddress.zipcode" placeholder='{{"Label.ZipCode"|translate}}' />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-12 col-sm-12">
+                <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.Phone"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input type="text" name="phonenumber" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required ng-model="VendorDetails.dayTimePhone" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+
+                    <div ng-message="pattern" ng-show="(CompanyDetails.phonenumber.$touched && CompanyDetails.phonenumber.$error.required)">
+                        <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                    </div>
+                    <div ng-message="pattern" ng-show="(CompanyDetails.phonenumber.$touched && CompanyDetails.phonenumber.$error.pattern)">
+                        <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                    </div>
+                </div>
+
+                <!--<label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.Fax"|translate}}</label>
+                <div class="col-md-3 col-sm-4">
+                    <input type="text" name="FaxNumber"  ng-model="VendorDetails.Number" placeholder="XXX-XXX-XXXX" class="form-control" />
+
+                    <div ng-message="pattern" ng-show="(CompanyDetails.FaxNumber.$touched && CompanyDetails.FaxNumber.$error.required)">
+                        <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                    </div>
+
+                </div>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 margin-bottom-10">
+        <div class="portlet">
+            <div class="SubHeadingDiv">
+                <span class="caption font-grey-sharp sbold">
+                    {{"HeaderText.VendorContactSettings"|translate}}
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-12 padding1px">
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.FirstName"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="VendorDetails.contactPersons[0].firstName" required name="FirstName" type="text" placeholder="{{'Label.FirstName'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="CompanyDetails.FirstName.$error.required && CompanyDetails.FirstName.$touched">{{"FirstNameRequired"|translate}}</span>
+
+                </div>
+            </div>
+            <div class="clearfix margin-bottom-5"></div>
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.LastName"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="VendorDetails.contactPersons[0].lastName" required name="LastName" type="text" placeholder="{{'Label.LastName'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="CompanyDetails.LastName.$error.required && CompanyDetails.LastName.$touched">{{"LastNameRequired"|translate}}</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 padding1px">
+        <div class="col-md-12 col-sm-12 form-group">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.Email"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input class="form-control" ng-model="VendorDetails.contactPersons[0].email" type="email" pattern="[a-z0-9A-Z._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required name="Email" placeholder="{{'Label.Email'|translate}}" />
+                <div class="errormessage">
+                    <span class="text-danger" ng-show="CompanyDetails.Email.$error.required && CompanyDetails.Email.$touched">{{"EmailRequiredRequired"|translate}}</span>
+                    <span class="text-danger" ng-show="CompanyDetails.Email.$error.pattern">{{"ValidEmail"|translate}}</span>
+                </div>
+            </div><div class="clearfix margin-bottom-5"></div>
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.Fax"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input type="text" name="FAXNO" ng-pattern="/^([0-9-,()\s+]{15})$/"
+                       ng-trim="false" maxlength="15"
+                       ng-model="VendorDetails.contactPersons[0].faxNumber" placeholder="XXX-XXX-XXXX"
+                       phone-input class="input-phone form-control" />
+                <div ng-message="pattern" ng-show="(CompanyDetails.FAXNO.$touched && CompanyDetails.FAXNO.$error.pattern)">
+                    <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 padding1px">
+        <div class="col-md-12 col-sm-12">
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.PhoneWork"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input type="text" name="phnumber" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required ng-model="VendorDetails.contactPersons[0].workPhoneNumber" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+                <div ng-message="pattern" ng-show="(CompanyDetails.phnumber.$touched && CompanyDetails.phnumber.$error.required)">
+                    <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                </div>
+                <div ng-message="pattern" ng-show="(CompanyDetails.phnumber.$touched && CompanyDetails.phnumber.$error.pattern)">
+                    <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                </div>
+            </div>
+            <div class="clearfix margin-bottom-5"></div>
+            <label class="col-md-2 col-sm-2 Label_Text_Right control-label">{{"Label.PhoneMobile"|translate}}</label>
+            <div class="col-md-3 col-sm-4">
+                <input type="text" name="Mobnumber" ng-pattern="/^([0-9-,()\s+]{15})$/" ng-trim="false" maxlength="15" required ng-model="VendorDetails.contactPersons[0].mobilePhoneNumber" placeholder="XXX-XXX-XXXX" phone-input class="input-phone form-control" />
+
+                <div ng-message="pattern" ng-show="(CompanyDetails.Mobnumber.$touched && CompanyDetails.Mobnumber.$error.required)">
+                    <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                </div>
+                <div ng-message="pattern" ng-show="(CompanyDetails.Mobnumber.$touched && CompanyDetails.Mobnumber.$error.pattern)">
+                    <span class="text-danger">{{"Please enter valid phone number"|translate}}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-12">
+        <div class="tools pull-right">
+            <button ng-click="GoToHome()" class="btn sbold btnMargin">
+                {{"Cancel"|translate}}
+            </button>
+            <button id="sample_editable_1_new" ng-click="SaveVendorDetails()" class="btn sbold btnMargin" ng-disabled="CompanyDetails.$invalid||CompanyDetails.$pristine">
+                {{"Label.Save"|translate}}
+            </button>
+        </div>
+    </div>
+
+    <!--Dummy have to delete temporary link for demo-->
+    <!--<div class="col-md-12">
+        <a href="#" ng-click="GoToClaimDetailsDummy()">GoTo Claim Details</a>
+    </div>-->
+    <!--Dummy have to delete temporary link for demo-->
+    <!--<div class="col-md-12">
+        <a href="#" ng-click="GoToLineItemDetailsDummy()">GoTo Line Item Details</a>
+    </div>-->
+
+
+</div>

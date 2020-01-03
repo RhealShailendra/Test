@@ -1,0 +1,591 @@
+﻿<div class="col-md-12 padding1px">
+    <div class="col-md-12 padding1px" ng-form="GemlabRequestForm">
+        <ul class="page-breadcrumb breadcrumb sbold">
+            <li>
+                <a ng-click="back()">{{"Home"|translate}}</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span>{{CommonObj.ClaimNumber}}</span>
+            </li>
+        </ul>
+        <div class="col-md-2 pull-right form-group">
+            <select class="select2me form-control" ng-disabled="true" ng-model="PurchaseOrderDetails.purchaseOrderStatus.id" ng-options="item.id as item.name for item in POStatusList"
+                    required  name="POStatus" data-placeholder="Purchase OrderStatus"></select>
+            <div ng-message="required" ng-show="(GemlabRequestForm.POStatus.$error.required && GemlabRequestForm.POStatus.$touched)">
+                <span class="text-danger">{{"please select purchase orderStatus."|translate}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="portlet light">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-gray-sharp">
+                    {{"Purchase Order #"|translate}} : {{PurchaseOrderDetails.id}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 text-right">
+                    <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="GemlabRequestForm.$invalid || GemlabRequestForm.$pristine" ng-click="Save_PO_GemblabRequest()">
+                        {{"Update"|translate}}
+                    </button>
+                    <button id="Save" class="btn sbold btnMargin" ng-disabled="PurchaseOrderDetails.purchaseOrderStatus.name=='COMPLETED'" ng-click="changeOrderStatus()"> <!--ng-disabled="GemlabRequestForm.$invalid || GemlabRequestForm.$pristine"-->
+                        {{"Complete Order"|translate}}
+                    </button>
+                    <button id="completeOrder" class="btn sbold  btnMargin" ng-click="canclePurchaseOrder()">
+                        {{"Cancel"|translate}}
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-12 clearfix" id="cal">
+                <div class="col-md-8 col-sm-8 margin-top-5">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Assignment#"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.assignmentNumber}}</label>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 margin-top-5">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Claim #"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.claimNumber}}</label>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 margin-top-5">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Item #"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.lineItem.id}}</label>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8 margin-top-5 ">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Claim Associate"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.associate.firstName}}</label>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8  margin-top-5 ">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Policyholder Name"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.phName}}</label>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-8  margin-top-5 ">
+                    <label class="col-md-3 col-sm-6 text-right">{{"Order Date"|translate}}</label>
+                    <div class="col-md-5 col-sm-6">
+                        <label class="control-label">{{PurchaseOrderDetails.createDate|DateFormatMMddyyyy}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                <div class="col-md-12 col-sm-12 margin-top-10">
+                    <div class="SubHeadingDiv">
+                        <span class="caption-subject  ">
+                            {{"Order Details"|translate}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12  margin-top-20">
+                <div class="col-md-12">
+                    <div class="col-md-8 col-sm-8">
+                        <label class="col-md-3 col-sm-6 text-right">{{"Order Type"|translate}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="col-md-5 col-sm-6">
+                                <label class="control-label">{{PurchaseOrderDetails.orderType.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <label class="col-md-3 col-sm-6 text-right">{{"Order Id"|translate}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="col-md-5 col-sm-6">
+                                <label class="control-label">{{PurchaseOrderDetails.id}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 ">
+                        <label class="col-md-3 col-sm-6 text-right">{{"Status"|translate}}</label>
+                        <div class="col-md-5 col-sm-6">
+                            <div class="col-md-5 col-sm-6">
+                                <label class="control-label">{{PurchaseOrderDetails.purchaseOrderStatus.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Gemlab Request-->
+    <div class="col-md-10 col-md-offset-2 clearfix" id="cal" ng-form='GemlabRequestForm'>
+        <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+            <div class="col-md-8 col-sm-8 margin-top-10">
+                <div class="SubHeadingDiv">
+                    <span class="caption-subject">
+                        {{"Item Details"|translate}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 margin-top-10">
+            <div class="portlet col-sm-12 col-md-8 margin-top-10">
+                <div class="portlet-body" style="margin-top:-10px;">
+                    <div class="tabbable-custom">
+                        <ul class="nav nav-tabs">
+                            <li ng-class="{'active':GemlabTab==$index+1}" ng-repeat="Item in PurchaseOrderDetails.itemDetails">
+                                <a data-toggle="tab" ng-click="ShowGemLabTab($index)">&nbsp;{{"Item#"|translate}} {{Item.number}} &nbsp; <span class="glyphicon glyphicon-remove text-danger" ng-show="GemLabItemList.length>1" ng-click="RemoveGemLabTab($index)"></span></a>
+                            </li>
+                            <li>
+                                <a href="#" ng-click="AddNewGemLabTab()">&nbsp;{{"Add Item"|translate}}&nbsp;</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12" ng-repeat="Item in PurchaseOrderDetails.itemDetails" ng-if="GemlabTab==Item.number">
+                                    <div class="col-md-12 col-sm-12 padding1px">
+                                        <div class="col-md-12 col-sm-12 padding1px margin-top-10">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Item#"|translate}}</label>
+                                            <div class="col-md-5 col-sm-6">
+                                                <span class="control-label">{{Item.id}}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Item Description"|translate}}</label>
+                                            <div class="col-md-9 col-sm-6">
+                                                <textarea class="form-control" rows="3" ng-model="Item.itemDescription" placeholder='{{"Item Description"|translate}}'></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Claim Reason"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <select class="select2me form-control" ng-model="Item.claimReason.id"  
+                                                        ng-options="item.id as item.name for item in ClaimReasonList" name="Reason" data-placeholder="Claim Reason"></select>
+                                                <div ng-message="required" ng-show="GemlabRequestForm.Reason.$error.required && GemlabRequestForm.Reason.$touched">
+                                                    <span class="text-danger">{{"please select Claim Reason."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Item Type"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="select2me form-control" ng-model="Item.gemLabItemType.id" 
+                                                            ng-options="item.id as item.name for item in ItemTypeList" name="ItemTypeGemlab" data-placeholder="Item Type">
+                                                        <!--<option value="">Select Item type</option>-->
+                                                    </select>
+                                                    <div ng-message="required" ng-show="GemlabRequestForm.ItemTypeGemlab.$error.required && GemlabRequestForm.ItemTypeGemlab.$touched">
+                                                        <span class="text-danger">{{"please select item type."|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" class="form-control" ng-model="Item.quantity" placeholder='{{"Quantity"|translate}}' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Metal Type"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="select2me form-control" ng-model="Item.metalType.id" ng-options="item.id as item.name for item in MetalTypeList"
+                                                              name="MetalType" data-placeholder="Metal Type">
+                                                        <!--<option value="">Select Metal Type</option>-->
+                                                    </select>
+                                                    <div ng-message="required" ng-show="(GemlabRequestForm.MetalType.$error.required && GemlabRequestForm.MetalType.$touched)">
+                                                        <span class="text-danger">{{"please select metal type."|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Metal Color"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <select class="select2me form-control" ng-model="Item.metalColor.id" ng-options="item.id as item.name for item in MetalColorList"
+                                                              name="MetalColor" data-placeholder="Metal Color">
+                                                        <!--<option value="">Select Metal Color</option>-->
+                                                    </select>
+                                                    <div ng-message="required" ng-show="(GemlabRequestForm.MetalColor.$error.required && GemlabRequestForm.MetalColor.$touched)">
+                                                        <span class="text-danger">{{"please select metal color."|translate}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Total Gram Weight"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" class="form-control" ng-model="Item.weight" placeholder='{{"Total Gram Weight"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Damaged/missing"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <textarea rows="3" class="form-control" ng-model="Item.damaged" placeholder='{{"Description"|translate}}'></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Lab Certificate #"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" class="form-control" ng-model="Item.labCertificate" placeholder='{{"Lab Certificate #"|translate}}' />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"CSR verified current weight"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" class="form-control" ng-model="Item.csrVerifiedCurrentWeight" placeholder='{{"CSR verified current weight"|translate}}' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <div class="col-md-6 padding1px">
+                                                <label class="col-md-6 col-sm-6 text-right">{{"Lab Fee"|translate}}</label>
+                                                <div class="col-md-6 col-sm-6">
+                                                    <input type="text" class="form-control" ng-model="Item.labFee" placeholder='{{"$Amount"|translate}}' />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Attachment#"|translate}}</label>
+                                            <div class="col-md-9 col-sm-6">
+                                                <input id="FileUpload" multiple type="file" onchange="angular.element(this).scope().getattachemntFileDetails(this)" style="display: none;" accept="image/*">
+                                                <a class="glyphicon glyphicon-paperclip" style="text-decoration:none" ng-click="AddAttachment(Item)"></a>&nbsp;&nbsp;
+                                                <span ng-repeat="file in Item.AttachmentList" class="text-info">{{file.FileName}} <i style="color:red" class="fa fa-times-circle fa-1x" ng-click="RemoveAttachment($index,Item)"></i> <span ng-show="!$last">,</span>&nbsp;&nbsp;</span>
+                                                <a class="text-danger" href={{Attachment.url}} download ng-repeat="Attachment in Item.AttachmentEditList">{{Attachment.name}} <span ng-if="!$last">, </span></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12  col-sm-12 margin-top-20">
+                                            <div class="col-md-12  table-responsive padding1px">
+                                                <div class="portlet-body">
+                                                    <div class="col-md-12 table-responsive padding1px">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background padding1px">
+                                                            <div class="col-md-12 margin-top-5 margin-bottom-5">
+                                                                <button class="btn sbold btnMargin btnOptions" ng-click="AddNewStone()">
+                                                                    {{"Add Stone"|translate}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <table class="table table-striped table-bordered table-hover order-column" id="NavigateTable">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th ng-click="">
+                                                                        {{"SI #"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Stone Type"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Quantity"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Price"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Shape"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Color"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Clarity"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"MM/CTW"|translate}}
+                                                                    </th>
+                                                                    <th ng-click="">
+                                                                        {{"Action"|translate}}
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                <tr ng-if="NewStoneItem===true">
+                                                                    <td>
+                                                                        <input type="text" class="form-control " ng-model="stoneDetails.SINo" placeholder="{{'Id'|translate}}">
+                                                                    </td>
+                                                                    <td>
+                                                                        <select class="select2me form-control" ng-model="stoneDetails.stoneType.id" ng-options="item.id as item.name for item in StoneTypeList"></select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control " ng-model="stoneDetails.quantity" placeholder="{{'Quantity'|translate}}">
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control " ng-model="stoneDetails.price" placeholder="{{'Price'|translate}}">
+                                                                    </td>
+                                                                    <td style="width:10%">
+                                                                        <select class="select2me form-control" ng-model="stoneDetails.stoneShape.id" ng-options="item.id as item.name for item in StoneShapeList"></select>
+                                                                    </td>
+                                                                    <td style="width:10%">
+                                                                        <select class="select2me form-control" ng-model="stoneDetails.stoneColor.id" ng-options="item.id as item.name for item in StoneColorList"></select>
+                                                                    </td>
+                                                                    <td style="width:10%">
+                                                                        <select class="select2me form-control" ng-model="stoneDetails.stoneClarity.id" ng-options="item.id as item.name for item in StoneClarityList"></select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="text" class="form-control " ng-model="stoneDetails.mmCtw" placeholder="{{'MM/CTW'|translate}}">
+                                                                    </td>
+                                                                    <td>
+                                                                        <a ng-click="AddOrCancelStone(Item,$index,'Add')">Save</a>
+                                                                        <a ng-click="AddOrCancelStone(Item,$index,'Cancel')">Cancel</a>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr ng-repeat="item in Item.stoneDetails|orderBy:sortKeyPay:reversepay" ng-include="getTemplateStone(item)"></tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <script type="text/ng-template" id="displayStone">
+
+                                                            <td ng-click="EditStone(item)">{{item.SINo}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.stoneType.name}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.quantity}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.price}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.stoneShape.name}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.stoneColor.name}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.stoneClarity.name}}</td>
+                                                            <td ng-click="EditStone(item)">{{item.mmCtw}}</td>
+                                                            <td ng-click="EditStone(item)">
+                                                                <a ng-click="RemoveStone(Item,$index)">Remove</a>
+                                                            </td>
+                                                        </script>
+                                                        <script type="text/ng-template" id="editStone">
+                                                            <td>
+                                                                <label>{{stoneDetails.SINo}}</label>
+                                                                <!--<input type="text" class="form-control " ng-model="stoneDetails.SINo" placeholder="">-->
+                                                            </td>
+                                                            <td>
+                                                                <select class="select2me form-control" ng-model="stoneDetails.stoneType.id" ng-options="item.id as item.name for item in StoneTypeList"></select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control " ng-model="stoneDetails.quantity" placehlder='{{"Quantity"|translate}}' />
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control " ng-model="stoneDetails.price" placehlder='{{"Quantity"|translate}}' />
+                                                            </td>
+                                                            <td style="width:10%">
+                                                                <select class="select2me form-control" ng-model="stoneDetails.stoneShape.id" ng-options="item.id as item.name for item in StoneShapeList"></select>
+                                                            </td>
+                                                            <td style="width:10%;">
+                                                                <select class="select2me form-control" ng-model="stoneDetails.stoneColor.id" ng-options="item.id as item.name for item in StoneColorList"></select>
+                                                            </td>
+                                                            <td style="width:10%;">
+                                                                <select class="select2me form-control" ng-model="stoneDetails.stoneClarity.id" ng-options="item.id as item.name for item in StoneClarityList"></select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control " ng-model="stoneDetails.mmCtw" placehlder='{{"Quantity"|translate}}' />
+                                                            </td>
+                                                            <td>
+                                                                <a ng-click="AddOrCancelStone(Item,$index,'Edit')">Save</a>
+                                                                <a ng-click="AddOrCancelStone(Item,$index,'Cancel')">Cancel</a>
+                                                            </td>
+                                                        </script>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                                            <div class="col-md-12 col-sm-12 margin-top-10">
+                                                <div class="SubHeadingDiv">
+                                                    <span class="caption-subject">
+                                                        {{"Service Requests"|translate}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px margin-top-10 form-group">
+                                            <label class="col-md-3 col-sm-6 text-right"><span class="text-danger">*</span>{{"Item Inspection"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <!--<select class="form-control select2me" ng-model="Item.purchaseOrderServiceRequest.isItemInspection" ng-options="item.id as item.name for item in statusList"
+                                                         required name="ItemInspection" data-placeholder="Item Inspection">
+                                                </select>-->
+                                                <label class="mt-radio mt-radio-outline mt-radio-single">
+                                                    <input type="radio" name="ItemInspection" ng-required="OrderDetails.orderType.name=='Gemlab Request'" ng-model="Item.purchaseOrderServiceRequest.isItemInspection" value="{{true}}" ng-checked="Item.purchaseOrderServiceRequest.isItemInspection==true" />
+                                                    <span></span>Yes
+                                                </label>
+                                                <label class="mt-radio mt-radio-outline mt-radio-single " style="margin-left: 12%;">
+                                                    <input type="radio" name="ItemInspection" ng-required="OrderDetails.orderType.name=='Gemlab Request'" ng-model="Item.purchaseOrderServiceRequest.isItemInspection" value="{{false}}" ng-checked="Item.purchaseOrderServiceRequest.isItemInspection==false" />
+                                                    <span></span>No
+                                                </label>
+                                                <div ng-message="required" ng-show="(GemlabRequestForm.ItemInspection.$error.required && GemlabRequestForm.ItemInspection.$touched)">
+                                                    <span class="text-danger">{{"please select item inspection."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right"><span class="text-danger">*</span>{{"SARIN Request"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <!--<select class="form-control select2me" ng-model="Item.purchaseOrderServiceRequest.isSarinRequest" ng-options="item.id as item.name for item in statusList"
+                                                         required name="SarinRequest" data-placeholder="SARIN Request">
+                                                    <option value="">Select SARIN Request</option>
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
+                                                </select>-->
+                                                <label class="mt-radio mt-radio-outline mt-radio-single">
+                                                    <input type="radio" name="SarinRequest1" ng-model="Item.purchaseOrderServiceRequest.isSarinRequest" value="{{true}}" ng-checked="Item.purchaseOrderServiceRequest.isSarinRequest==true" ng-change="isSarinRequestChanged(Item)" />
+                                                    <span></span>Yes
+                                                </label>
+                                                <label class="mt-radio mt-radio-outline mt-radio-single " style="margin-left: 12%;">
+                                                    <input type="radio" name="SarinRequest2" ng-model="Item.purchaseOrderServiceRequest.isSarinRequest" value="{{false}}" ng-checked="Item.purchaseOrderServiceRequest.isSarinRequest==false" ng-change="isSarinRequestChanged(Item)" />
+                                                    <span></span>No
+                                                </label>
+                                                <div ng-message="required" ng-show="(GemlabRequestForm.SarinRequest.$error.required && GemlabRequestForm.SarinRequest.$touched)">
+                                                    <span class="text-danger">{{"please select SARIN request."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px margin-top-10" ng-if="Item.purchaseOrderServiceRequest.isSarinRequest==true">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Approval to remove clean item"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <label class="mt-radio mt-radio-outline mt-radio-single">
+                                                    <input type="radio" name="ContactInsured" ng-model="Item.purchaseOrderServiceRequest.isApprovalToRemove" value="{{true}}" ng-checked="Item.purchaseOrderServiceRequest.isApprovalToRemove==true" />
+                                                    <span></span>Yes
+                                                </label>
+                                                <label class="mt-radio mt-radio-outline mt-radio-single " style="margin-left: 12%;">
+                                                    <input type="radio" ng-model="Item.purchaseOrderServiceRequest.isApprovalToRemove" value="{{false}}" ng-checked="Item.purchaseOrderServiceRequest.isApprovalToRemove==false" name="ContactInsured" />
+                                                    <span></span>No
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Pre-Salvage Estimate Only"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <select class="form-control select2me" ng-model="Item.purchaseOrderServiceRequest.isPreSalvageEstimationOnly" ng-options="item.id as item.name for item in statusList"
+                                                          name="PreSalvageEstimationOnly" data-placeholder="Pre-Salvage Estimate Only">
+                                                </select>
+                                                <div ng-message="required" ng-show="(GemlabRequestForm.PreSalvageEstimationOnly.$error.required && GemlabRequestForm.PreSalvageEstimationOnly.$touched)">
+                                                    <span class="text-danger">{{"please select pre-salvage estimate only."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group" ng-if="Item.purchaseOrderServiceRequest.isPreSalvageEstimationOnly==true">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Salvage Value"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <input type="text" class="form-control" ng-model="Item.purchaseOrderServiceRequest.salvageValue" placeholder='{{"Salvage Value"|translate}}' />
+                                            </div>
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Customer Buy Back Value"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <input type="text" class="form-control" ng-model="Item.purchaseOrderServiceRequest.customerBuyBackValue" placeholder='{{"Customer Buy Back Value"|translate}}' />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Appraisal Information Required"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <select class="form-control select2me" ng-model="Item.purchaseOrderServiceRequest.isAppraisalInformation" ng-options="item.id as item.name for item in statusList"
+                                                          name="AppraisalInformation" data-placeholder="Appraisal Information Required">
+                                                </select>
+                                                <div ng-message="required" ng-show="(GemlabRequestForm.AppraisalInformation.$error.required && GemlabRequestForm.AppraisalInformation.$touched)">
+                                                    <span class="text-danger">{{"please select appraisal information required."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12 col-sm-12 padding1px form-group" ng-if="Item.purchaseOrderServiceRequest.isAppraisalInformation==true">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Item"|translate}}</label>
+                                            <div class="col-md-9 col-sm-6">
+                                                <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                    <input type="checkbox" ng-model="Item.purchaseOrderServiceRequest.isCenterStone" />
+                                                    <span></span>{{"Center Stone"|translate}}
+                                                </label>
+                                                <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                    <input type="checkbox" ng-model="Item.purchaseOrderServiceRequest.isSideStone" />
+                                                    <span></span>{{"Side Stone"|translate}}
+                                                </label>
+                                                <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single ">
+                                                    <input type="checkbox" ng-model="Item.purchaseOrderServiceRequest.isEntirePiece" />
+                                                    <span></span>{{"Entire Stone"|translate}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group" ng-if="Item.purchaseOrderServiceRequest.isAppraisalInformation==true">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Gemlab Comments"|translate}}</label>
+                                            <div class="col-md-9 col-sm-12 padding1px">
+                                                <div class="col-md-12 col-sm-12 padding1px ">
+                                                    <span class="col-md-2 col-sm-6 text-right">{{"Color"|translate}}</span>
+                                                    <div class="col-md-5 col-sm-6">
+                                                        <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.colorDescription" placeholder='{{"Color"|translate}}'></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 padding1px form-group">
+                                                    <span class="col-md-2 col-sm-6 text-right">{{"clarity"|translate}}</span>
+                                                    <div class="col-md-5 col-sm-6">
+                                                        <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.clarityDescription" placeholder='{{"clarity"|translate}}'></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-sm-12 padding1px form-group">
+                                                    <span class="col-md-2 col-sm-6 text-right">{{"Carat Weight"|translate}}</span>
+                                                    <div class="col-md-5 col-sm-6">
+                                                        <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.caratWeightDescription" placeholder='{{"Carat Weight"|translate}}'></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Photo Request"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <select class="form-control select2me" ng-model="Item.purchaseOrderServiceRequest.isPhotoRequest" ng-options="item.id as item.name for item in statusList"
+                                                        required  name="PhotoRequest" data-placeholder="Photo Request">
+                                                </select>
+                                                <div ng-message="required" ng-show="(GemlabRequestForm.PhotoRequest.$error.required && GemlabRequestForm.PhotoRequest.$touched)">
+                                                    <span class="text-danger">{{"please select photo request."|translate}}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group" ng-if="Item.purchaseOrderServiceRequest.isPhotoRequest==true">
+                                            <span class="col-md-3 col-sm-6 text-right">{{"What size, color, clarity are needed"|translate}}</span>
+                                            <div class="col-md-3 col-sm-6">
+                                                <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.photoDetails" placeholder='{{"What size, color, clarity are needed"|translate}}'></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group" ng-if="Item.purchaseOrderServiceRequest.isPhotoRequest=='true'">
+                                            <span class="col-md-3 col-sm-6 text-right">{{"Photo Special Instruction"|translate}}</span>
+                                            <div class="col-md-3 col-sm-6">
+                                                <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.photoSpecialInstruction" placeholder='{{"Photo Special Instruction"|translate}}'></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12 padding1px form-group">
+                                            <label class="col-md-3 col-sm-6 text-right">{{"Notes Instruction"|translate}}</label>
+                                            <div class="col-md-3 col-sm-6">
+                                                <textarea rows="3" class="form-control" ng-model="Item.purchaseOrderServiceRequest.note" placeholder='{{"Notes / Instruction"|translate}}'></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-right margin-bottom-20 " style="border-top:1px solid lightgray;">
+                    <div class="col-md-12 text-right">
+                        <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="GemlabRequestForm.$invalid || GemlabRequestForm.$pristine" ng-click="Save_PO_GemblabRequest()">
+                            {{"Update"|translate}}
+                        </button>
+                        <button id="Save" class="btn sbold btnMargin" ng-disabled="PurchaseOrderDetails.purchaseOrderStatus.name=='COMPLETED'" ng-click="changeOrderStatus()">
+                            <!--ng-disabled="GemlabRequestForm.$invalid || GemlabRequestForm.$pristine"-->
+                            {{"Complete Order"|translate}}
+                        </button>
+                        <button id="completeOrder" class="btn sbold  btnMargin" ng-click="canclePurchaseOrder()">
+                            {{"Cancel"|translate}}
+                        </button>
+                    </div>
+                    <!--<div class="col-md-12 text-right">
+                        <button id="sample_editable_1_new" class="btn sbold  btnMargin" ng-disabled="GemlabRequest.$invalid || GemlabRequest.$pristine" ng-click="Save_PO_GemblabRequest()">
+                            {{"Update"|translate}}
+                        </button>
+                        <button id="Save" class="btn sbold btnMargin" ng-disabled="GemlabRequestForm.$invalid || GemlabRequestForm.$pristine" ng-click="changeOrderStatus()">
+                            {{"Complete Order"|translate}}
+                        </button>
+                        <button id="completeOrder" class="btn sbold  btnMargin" ng-click="canclePurchaseOrder()">
+                            {{"Cancel"|translate}}
+                        </button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--End Gemlab Request-->
+</div>

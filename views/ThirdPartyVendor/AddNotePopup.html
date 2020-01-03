@@ -1,0 +1,72 @@
+﻿<script>
+    $(document).ready(function () {
+        $("#select2insidemodal").select2({
+            dropdownParent: $("#myModal")
+        });
+    });
+</script>
+<div id="myModal">
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h5 class="modal-title sbold">{{"HeaderTitle.AddNote"|translate}}</h5>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12 padding1px " ng-form="CreateNoteForm">
+                <div class="col-md-12 col-sm-12 form-group">
+                    <label class="control-label col-md-2 col-sm-4">{{"Subject"|translate}}</label>
+                    <div class="col-md-10 col-sm-8">
+                        <input class="form-control" ng-model="CommonObj.subject" placeholder='{{"Subject"|translate}}' rows="3" name="subject" required />
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="(CreateNoteForm.subject.$error.required && CreateNoteForm.subject.$touched)">
+                                <span class="text-danger">{{"Please enter subject for a note."|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 form-group">
+                    <label class="control-label col-md-2 col-sm-4">{{"To"|translate}}</label>
+                    <div class="col-md-10 col-sm-8" style="max-height:80px;overflow-y:auto">
+                        <select class="form-control select2me " style="width:100%;" multiple ng-model="PraticipantIdList" data-placeholder="Select Participant" id="select2insidemodal"
+                                name="person" ng-options="item.participantId as item.firstName +' '+item.lastName for item in ClaimParticipantsList"></select>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 form-group">
+                    <label class="control-label col-md-2 col-sm-4">{{"Description"|translate}}</label>
+                    <div class="col-md-10 col-sm-8 padding1px ">
+                        <input id="NoteFileUpload" type="file" ng-model="CommonObj.Attachment" multiple onchange="angular.element(this).scope().getNoteFileDetails(event)" style="display: none;" accept="image/*">
+                        <div class="col-md-12 col-sm-12" style="display:flex">
+                            <textarea class="form-control" ng-model="CommonObj.claimNote" placeholder='{{"Description"|translate}}' rows="3" name="claimNote" required></textarea>
+                            <span style="line-height:75px;margin-left:15px;" ng-click="SelectNoteFile(); ">
+                                <i class="fa fa-paperclip fa-2x"></i>
+                            </span>
+                        </div>
+                        <div class="errormessage">
+                            <div ng-message="required" ng-show="(CreateNoteForm.claimNote.$error.required && CreateNoteForm.claimNote.$touched)">
+                                <span class="text-danger">{{"ErrorMessage.ClaimNoteRequired"|translate}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 margin-top-5 margin-bottom-5 padding1px clearfix form-group">
+                    <div class="col-md-2">
+                        <label class="control-label">{{"Attachment"|translate}}</label>
+                    </div>
+                    <div class="col-md-10 text-left">
+                        <div class="col-md-6" ng-repeat="item in files" style="margin-top:5px;">
+                            <span class="control-label">{{item.FileName}}</span>
+                            <span class="fa fa-times-circle fa-lg text-danger " ng-click="RemoveImage(item)" style="margin-left:3px;">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline dark" ng-click="cancel()">{{"ControlText.Cancel"|translate}}</button>            
+            <button type="button" data-dismiss="modal" class="btn sbold btnMargin" ng-click="ok()" ng-disabled="CreateNoteForm.$invalid || CreateNoteForm.$pristine">{{"ControlText.AddNote"|translate}}</button>
+        </div>
+    </div>
+</div>
+

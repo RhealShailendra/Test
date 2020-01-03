@@ -1,0 +1,74 @@
+﻿{
+
+  "ControlText": {
+    "Contracts": "Contracts",
+    "ContactSearch": "Serach by Name ..Id",
+    "View": "View",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Category": "Category",
+    "SelectType": "Select Type",
+    "SpecialLimites": "Special Limits($)"
+  },
+  "Table": {
+
+    "StartDate": "Start Date",
+    "ExpirationDate": "Expiration Date",
+    "Status": "Status",
+    "Action": "Action",
+    "ContractID": "Contract ID",
+    "InsuranceCompanyName": "Insurance Company Name",
+    "ContractName": "Contract Name",
+    "MaxClaimTime": " Max. Claim Time"
+  },
+  "Label": {
+
+    "StartDate": "Start Date",
+    "ExpirationDate": "Expiration Date",
+    "Status": "Status",
+    "Action": "Action",
+    "ContractID": "Contract ID",
+    "InsuranceCompanyName": "Insurance Company Name",
+    "ContractName": "Contract Name",
+    "MaxClaimTime": " Max. Claim Time",
+    "MaxCliamTimeAgreed": "Max. Cliam TimeAgreed(days)"
+  },
+  
+    "Labeled": {
+      "btnNewCategory": "Add New Category",
+      "btnMoreSubCategory": "Add More Subcategory",
+      "New": "New",
+      "Upload": "Upload",
+      "Export": "Export",
+      "btnBack": "Back",
+      "btnSave": "Save",
+      "btnCancel": "Cancel",
+      "lblSearch": "Search..",
+      "View": "View",
+      "PageSize": "Show"
+    },
+    "TableCat": {
+      "CatagoryId": "Category Id",
+      "CatagoryName": "Name",
+      "CoverageLimit": "Coverage Limit",
+      "Description": "Description",
+      "SubCategory": "Sub Category",
+      "SubCategoryName": "Name",
+      "AnnualDepreciation": "Annual Depreciation",
+      "UsefulYears": "Useful Years",
+      "SrNo": "Id"
+    },
+    "HeaderText": {
+      "NewCat": "Category",
+      "CatDesc": "Category Details",
+      "SubCat": "Subcategory"
+    },
+   
+    "ErrorMsg": {
+      "CoverageLimitRequired": "CoverageLimit is Required",
+      "CategoryRequired": " Category name is Required",
+      "CoverageLimitNumber": "CoverageLimit should be Number"
+    }
+  
+
+}

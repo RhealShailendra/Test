@@ -1,0 +1,682 @@
+﻿<div class="col-md-12 padding1px">
+    <ul class="page-breadcrumb breadcrumb sbold">
+        <li>
+            <a ng-click="GotoDashboard()">{{"Open Orders"|translate}}</a>
+            <i class="fa fa-circle"></i>
+        </li>
+        <li>
+            <span>{{OrderDetails.orderNumber}}</span>
+        </li>
+    </ul>
+</div>
+<div class="col-md-12 col-sm-12 padding1px">
+    <div class="portlet light padding1px margin-top-10">
+        <div class="portlet-title">
+            <div class="caption">
+                <span class="caption-subject font-gray-sharp">
+                    {{"Purchase Order#"|translate}}
+                </span>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12 text-right" ng-if="OrderDetails.status=='Created'">
+                    <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Reset()">
+                        {{"Reset"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="savePurchaseOrder()">
+                        {{"Save"|translate}}
+                    </button>
+                    <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="CompleteOrder()">
+                        {{"Complete Order"|translate}}
+                    </button>
+                </div>
+                <div class="col-md-12 clearfix" id="cal">
+                    <div class="col-md-8 col-sm-8 margin-top-5">
+                        <label class="col-md-6 col-sm-6 text-right">{{"Claim #"|translate}}</label>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="control-label">{{OrderDetails.claimNumber}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 margin-top-5">
+                        <label class="col-md-6 col-sm-6 text-right">{{"Line #"|translate}}</label>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="control-label">{{OrderDetails.orderNumber}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 margin-top-5 ">
+                        <label class="col-md-6 col-sm-6 text-right">{{"Claim Associate"|translate}}</label>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="control-label">{{OrderDetails.Associate}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8  margin-top-5 ">
+                        <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Name"|translate}}</label>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="control-label">{{OrderDetails.PolicyHolder}}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8  margin-top-5 ">
+                        <label class="col-md-6 col-sm-6 text-right">{{"order Date"|translate}}</label>
+                        <div class="col-md-4 col-sm-6">
+                            <label class="control-label">{{OrderDetails.Date}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 col-sm-12 margin-top-10 padding1px">
+                    <div class="col-md-12 col-sm-12 margin-top-10">
+                        <div class="SubHeadingDiv">
+                            <span class="caption-subject  ">
+                                {{"Order Details"|translate}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="col-md-8 col-sm-8  margin-top-20">
+                            <label class="col-md-6 col-sm-6 text-right">{{"Order Type"|translate}}</label>
+                            <div class="col-md-4 col-sm-6">
+                                <span class="control-label">{{OrderDetails.orderType}}</span>
+                                <!--<select class="form-control select2me" name="vendorName" data-placeholder="Select Order Type"
+                                        ng-model="CommonObj.OrderTypeId" ng-change="ChangeOrderType()"
+                                        ng-options="order.id as order.orderType for order in OrderTypeList"></select>-->
+                            </div>
+                        </div>
+
+                        <div class="col-md-8 col-sm-8  margin-top-20">
+                            <label class="col-md-6 col-sm-6 text-right">{{"Order ID"|translate}}</label>
+                            <div class="col-md-4 col-sm-6">
+                                <span class="control-label">{{OrderDetails.id}}</span>
+                            </div>
+                        </div>
+                        <!-- Box in box from ph -->
+                        <div class="col-md-12 clearfix" id="cal" ng-show="OrderDetails.orderTypeId==1">
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Address"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Address1"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Address2"|translate}}' type="text" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"City"|translate}}' type="text" />
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-2 col-sm-6">
+                                    <input maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control " placeholder='{{"Zipcode"|translate}}' type="text" />
+
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <select class="form-control select2me" name="vendorName" data-placeholder="Select State"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Phone#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Phone"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Email ID"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Phone"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Description"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Description'|translate}}" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.quentity" placeholder='{{"Quantity"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Shipping Cost"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.unitPrice" placeholder='{{"Shipping Cost"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Tracking #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Tracking #"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Return Tracking"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"ETA"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Special Instrution"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Special Instrution'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Method"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="paymentTerm" data-placeholder="Shipping Method"></select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup Time#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup Date"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Recieved Date"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- end box in box ph -->
+                        <!-- Form Vendor -->
+                        <div class="col-md-12 clearfix" id="cal" ng-show="OrderDetails.orderTypeId==3">
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Supplier"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="vendorName" data-placeholder="Select vendor"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <div class="col-md-offset-6 col-md-6 col-sm-6 margin-top-20 form-group" style="border:1px groove" ng-repeat="item in OrderFromvendor_ItemList">
+
+                                    <label class="col-md-4 margin-top-20 col-sm-6 text-right">{{"Item Description"|translate}}</label>
+                                    <div class="col-md-8 col-sm-6 margin-top-20">
+                                        <textarea class="form-control " ng-model="item.itemDescription" type="text" rows="3" placehlder="{{'Description'|translate}}" />
+                                    </div>
+                                    <label class="col-md-4 margin-top-20 col-sm-6 text-right">{{"SKU"|translate}}</label>
+                                    <div class="col-md-5 col-sm-6 margin-top-20">
+                                        <input class="form-control " ng-model="item.SKU" placeholder='{{"SKU"|translate}}' type="text" />
+                                    </div>
+                                    <label class="col-md-4 margin-top-20 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                    <div class="col-md-5 col-sm-6 margin-top-20">
+                                        <input class="form-control " ng-model="item.quantity" placeholder='{{"Quantity"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                    </div>
+                                    <label class="col-md-4 margin-top-20 col-sm-6 text-right">{{"Unit Price"|translate}}</label>
+                                    <div class="col-md-5 col-sm-6 margin-top-20">
+                                        <input class="form-control " ng-model="item.unitPrice" placeholder='{{"Unit Price"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                    </div>
+                                    <label class="col-md-4 margin-top-20 col-sm-6 margin-bottom-20 text-right">{{"Sales Tax(%)"|translate}}</label>
+                                    <div class="col-md-5 col-sm-6 margin-top-20 margin-bottom-20">
+                                        <input class="form-control" ng-model="item.salesTax" placeholder='{{"Tax"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                    </div>
+
+                                    <div class="col-md-12 col-sm-12  form-group text-right">
+                                        <a ng-click="addItem_OrderFromvendor($index,'Remove')" ng-show="$index>0">Remove</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-offset-6 col-md-6 col-sm-6  form-group text-right">
+                                    <a ng-click="addItem_OrderFromvendor(1,'Add')">Add More</a>
+                                </div>
+
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Total Cost"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    {{PurchaseDetails.PurchaseValue}}
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Confirmation #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Confirmation #"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Method"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Method"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Special Instrution"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Special Instrution'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"ETA"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Payment Term"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="paymentTerm" data-placeholder="Select payment Term"></select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Labour charges -->
+                        <div class="col-md-12 clearfix" id="cal" ng-show="OrderDetails.orderTypeId==4">
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Supplier"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="vendorName" data-placeholder="Select vendor"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Item Description"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " ng-model="itemDescription" type="text" rows="3" placeholder="{{'Description'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Items Required"|translate}}</label>
+                                <div class="col-md-6">
+                                    <div class="col-md-12 col-sm-12 margin-top-20 form-group" style="border:1px groove" ng-repeat="item in OrderLbourCharges_ItemList">
+                                        <label class="col-md-2 margin-top-20 col-sm-6 text-right">{{"SKU"|translate}}</label>
+                                        <div class="col-md-5 col-sm-6 margin-top-20">
+                                            <input class="form-control " ng-model="item.SKU" placeholder='{{"SKU"|translate}}' type="text" />
+                                        </div>
+                                        <div class="clearfix col-md-12"></div>
+                                        <label class="col-md-2 margin-top-20 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                        <div class="col-md-5 col-sm-6 margin-top-20">
+                                            <input class="form-control " ng-model="item.quantity" placeholder='{{"Quantity"|translate}}' type="text" />
+                                        </div>
+                                        <div class="clearfix col-md-12"></div>
+                                        <label class="col-md-2 margin-top-20 col-sm-6 text-right">{{"Amount"|translate}}</label>
+                                        <div class="col-md-5 col-sm-6 margin-top-20">
+                                            <input class="form-control " ng-model="item.amount" placeholder='{{"Amount"|translate}}' type="text" />
+                                        </div>
+
+
+                                        <div class="col-md-12 col-sm-12  form-group text-right">
+                                            <a ng-click="addItem_OrderLbourCharges($index,'Remove')" ng-show="$index>0">Remove</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-6 col-md-6 col-sm-6  form-group text-right">
+                                        <a ng-click="addItem_OrderLbourCharges(1,'Add')">Add More</a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-8 col-sm-8">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Labor Cost"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <a ng-click="LaborCostWorkCode()">Look Up Work Code</a>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="col-md-6 col-md-offset-6 table-responsive padding1px" ng-show="LaborCostWorkDetails.length>0">
+                                    <table class="table table-striped table-hover table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">
+                                                    {{"JobID"|translate}}
+                                                </th>
+                                                <th>
+                                                    {{"Description"|translate}}
+                                                </th>
+                                                <th>
+                                                    {{"Price"|translate}}
+                                                </th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="item in LaborCostWorkDetails ">
+                                                <td class="text-center " style="width:50px;">
+                                                    {{item.jobId}}
+                                                </td>
+                                                <td>
+                                                    {{item.description}}
+                                                </td>
+                                                <td>
+                                                    {{item.price}}
+                                                </td>
+                                                <td>
+                                                    <a ng-click="RemoveLaborCostWork($index)">Remove</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Total Cost of PO"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    {{PurchaseDetails.PurchaseValue}}
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"status"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    {{PurchaseDetails.status}}
+                                </div>
+                            </div>
+                            <!--<div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Confirmation #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Confirmation #"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Method"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Method"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Special Instrution"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Special Instrution'|translate}}"  />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"ETA"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA"  />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Payment Term"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="paymentTerm" data-placeholder="Select payment Term"></select>
+
+                                </div>
+                            </div>-->
+
+                        </div>
+                        <!-- End Labor charges -->
+                        <!-- PickUp from Vendor/Email Label -->
+                        <div class="col-md-12 clearfix" id="cal" ng-show="OrderDetails.orderTypeId==2">
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Supplier"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="vendorName" data-placeholder="Selected Supplier"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Description"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Description'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"SKU#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"SKU#"|translate}}' type="text" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.quentity" placeholder='{{"Quantity"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Shipping Cost"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.unitPrice" placeholder='{{"Shipping Cost"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Return Tracking"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"ETA"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Special Instrution"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Special Instrution'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Method"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="paymentTerm" data-placeholder="Shipping Method"></select>
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup Time#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Pickup Date"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Recieved Date"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- End PickUp from Vendor/Email Label -->
+                        <!-- Shipment -->
+                        <div class="col-md-12 clearfix" id="cal" ng-show="OrderDetails.orderTypeId==5">
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Address"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Address1"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Address2"|translate}}' type="text" />
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"City"|translate}}' type="text" />
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right"></label>
+                                <div class="col-md-2 col-sm-6">
+                                    <input maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control " placeholder='{{"Zipcode"|translate}}' type="text" />
+
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <select class="form-control select2me" name="vendorName" data-placeholder="Select State"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Phone#"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Phone"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Policyholder Email ID"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " placeholder='{{"Phone"|translate}}' type="text" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Description"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Description'|translate}}" />
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Quantity"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.quentity" placeholder='{{"Quantity"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Shipping Cost"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control " ng-model="PurchaseDetails.unitPrice" placeholder='{{"Shipping Cost"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Tracking #"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Tracking #"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Return Tracking"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <input class="form-control" ng-model="PurchaseDetails.Tax" placeholder='{{"Return Tracking"|translate}}' type="text" ng-change="PurachseTotal()" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"ETA"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Special Instrution"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <textarea class="form-control " type="text" rows="3" placeholder="{{'Special Instrution'|translate}}" />
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Method"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control select2me" name="paymentTerm" data-placeholder="Shipping Method"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-8 col-sm-8  margin-top-20 ">
+                                <label class="col-md-6 col-sm-6 text-right">{{"Arrived at Destination"|translate}}</label>
+                                <div class="col-md-4 col-sm-6">
+                                    <div class="input-icon left ">
+                                        <i class="icon-calendar"></i>
+                                        <input class="form-control datepicker" data-date-container='#cal' close-on-date-selection="true" data-provide="datepicker" size="16" type="text" placeholder='{{"Date"|translate}}' name="ETA" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Vendor -->
+                </div>
+                <div class="col-md-12 margin-top-10 " ng-if="OrderDetails.status=='Created'">
+                    <div class="col-md-12 topBorder"></div>
+                    <div class="col-md-12 margin-top-10 padding1px text-right">
+                        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="Reset()">
+                            {{"Reset"|translate}}
+                        </button>
+                        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="savePurchaseOrder()">
+                            {{"Save"|translate}}
+                        </button>
+                        <button id="sample_editable_1_new " class="btn sbold btnMargin" ng-click="CompleteOrder()">
+                            {{"Complete Order"|translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

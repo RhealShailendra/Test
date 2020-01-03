@@ -1,0 +1,29 @@
+﻿{
+  "FormControlText": {
+    "FirstName": "First Name",
+    "LastName": "Last Name",
+    "UserName": "User Name",
+    "Password": "Password",
+    "Email": "Email Id",
+    "PhoneNO": "Phone No.",
+    "Designation": "Designation",
+    "ReportingManager": "Reporting Manager",
+    "Role": "Role",
+    "Branch": "Branch/Office",
+    "AccountStatust": "Account Status",
+    "ResetPassword": "Reset Password"
+  },
+  "btn": {
+    "btnCancel": "Cancel",
+    "btnUpdate": "Update",
+    "lnkResetPass": "Reset Password"
+  },
+  "PopUpRole": {
+    "Role": "Role",
+    "btnadd": "Add"
+  },
+  "PopPasswordResetLink": {
+    "Message": "Password reset instructions has been sent to your mail.",
+    "title": "Reset Password"
+  }
+}

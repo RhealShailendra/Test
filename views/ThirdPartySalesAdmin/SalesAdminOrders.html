@@ -1,0 +1,187 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('.widthclass').css("width", "30%");
+
+    });
+</script>
+<div class="">
+    <!--Alert Start-->
+    <div class="col-md-6 ">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject">{{"HeaderText.Alert_title"|translate}}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-12 table-responsive padding1px AlertBox">
+                            <table id="NavigateTable" class="table table-bordered">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="widthclass">{{"Table.Date"|translate}}</th>
+                                        <th>Messsage </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="commonTable" ng-repeat="alert in AlertList">
+                                        <td class="widthclass" ng-click="GoToAlertDetails(alert)">{{alert.createDate | DateFormatMMddyyyyHHmm}} </td>
+                                        <td ng-click="GoToAlertDetails(alert)">
+                                            <span ng-class="{'ALERT':'fa fa-exclamation-triangle fa-sm font-red'}[alert.type.type]"></span>&nbsp;{{alert.message}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="AlertList.length===0 || AlertList===null">
+                                        <td colspan="2" class="text-center text-danger">{{"NoAlertText"|translate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a herf="#" ng-click="" class="pull-right" style="padding-right:10px;text-decoration:none;" ng-if="AlertList.length">{{"View Details"|translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Alert-->
+    <!--Start Upcoming Events-->
+    <div class="col-md-6">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    <span class="caption-subject">{{"HeaderText.UpcomingEvents"|translate}}</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="col-md-12 table-responsive padding1px AlertBox">
+                            <table id="NavigateTable" class="table table-bordered">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="thwidth25">{{"Table.StartTime"|translate}}</th>
+                                        <th class="width50">{{"Table.Subject"|translate}}</th>
+                                        <th class="thwidth25"> {{"Table.Participant"|translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="Event in EventList">
+                                        <td ng-click="GetEventDetails(Event.claim)" class="thwidth25">
+                                            {{Event.startTiming | DateFormatMMddyyyyHHmm}}
+                                        </td>
+                                        <td class="thwidth30">
+                                            <span>{{Event.title}}</span>
+                                        </td>
+                                        <td ng-click="GetEventDetails(Event.claim)" class="width45">
+                                            <span class="Overlay" ng-if="Event.PrticipantString.length > 20">{{Event.PrticipantString}}</span>
+                                            {{Event.PrticipantString | limitTo: 20}} <span>{{Event.PrticipantString.length >  20 ? '...' : ''}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr ng-if="!EventList.length">
+                                        <td colspan="4" class="text-center text-danger">{{"NoEventsText"|translate}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a herf="#" ng-click="" class="pull-right" style="padding-right:10px;text-decoration:none;" ng-if="EventList.length">{{"View Details"|translate}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!--End Upcoming Events-->  
+
+    <!--New Claims-->
+    <div class="col-md-12">
+        <div class="portlet light padding1px">
+            <div class="portlet-title">
+                <div class="caption font-grey-sharp">
+                    <span class="caption-subject font-grey-sharp">
+                        {{"HeaderText.NewOrders"|translate}}
+                    </span>
+                </div>
+                <!-- <div class="tools">
+                    <a href="#" class="collapse"></a>
+
+                </div> -->
+
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 clearfix">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 options_Background_WithBorder">
+                            <div class="col-md-4 col-sm-12 col-xs-12 pull-right">
+                                <div class="input-icon left margin-bottom-5 margin-top-5">
+                                    <i class="icon-magnifier"></i>
+                                    <input type="text" class="form-control form-control-solid input-circle btnMargin input-block-level" ng-model="search" placeholder={{"SearchText"|translate}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 table-responsive padding1px tableHeight">
+                            <table class="table table-hover table-bordered table-striped" id="NavigateTable">
+                                <thead>
+
+                                    <tr>
+                                        <th ng-click="sortNewClaim('id')" class="Width7P">
+                                            {{"Table.OrderNo"|translate}}                                           
+                                        </th>
+                                        <th ng-click="sortNewClaim('orderType.name')" class="width11P">
+                                            {{"Table.OrderType"|translate}}                                          
+                                        </th>
+                                        <th ng-click="sortNewClaim('createDate')" class="width11P">
+                                            {{"Table.CreatedDate"|translate}}
+                                            
+                                        </th>
+                                        <th class="width11P" ng-click="sortNewClaim('vendorAssignment.vendor.vendorName')">
+                                            {{"Table.Vendor"|translate}}   
+                                        </th>
+                                        <th class="width11P" ng-click="sortNewClaim('phName')">
+                                            {{"Recipient"|translate}}                                            
+                                        </th>
+                                        <th ng-click="sortNewClaim('claim.claimNumber')" class="width11P">
+                                            {{"Table.Claim"|translate}}                                            
+                                        </th>
+                                        <th class="width11P" ng-click="sortNewClaim('vendorAssignment.vendorAssociate.firstName')">
+                                            {{"Table.ClaimAssociate"|translate}}                                            
+                                        </th>
+                                        <th class="width11P">
+                                            {{"Table.Description"|translate}}                                           
+                                        </th>
+                                        <th ng-click="sortNewClaim('status.status')" class="Width10P">
+                                            {{"Table.Status"|translate}}                                          
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="Order in Orders|orderBy:sortNewClaimKey:reverseNewClaim|filter:search|itemsPerPage:30" pagination-id="NewOrders">
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.id}}</td>
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.orderType.name}}</td>
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.createDate | DateFormatMMddyyyyHHmm}}</td>
+                                        <td ng-click="GotoOrderDetails(Order)"><span>{{Order.vendorAssignment.vendor==null?'Artigem':Order.vendorAssignment.vendor.vendorName}}</span></td>
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.phName}}</td>
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.claim.claimNumber}}</td>
+                                        <td ng-click="GotoOrderDetails(Order)">
+                                            <span ng-if="Order.vendorAssociate!=null">{{Order.vendorAssociate.lastName+", "+Order.vendorAssociate.firstName}}</span>
+                                            <span ng-if="Order.vendorContact!=null">{{Order.vendorContact.lastName+", "+Order.vendorContact.firstName}}</span>
+                                       </td>
+                                        <td ng-click="GotoOrderDetails(Order)">
+                                            <span ng-if="Order.orderType.name=='Shipment' ||Order.orderType.name=='Labor Charges'">{{Order.description}}</span>
+                                            <span ng-if="Order.orderType.name=='BIB from PH'||Order.orderType.name=='Order from Vendor'||Order.orderType.name=='Pick up from Vendor/Email Label'">{{Order.lineItem.description}}</span>
+                                        </td>
+                                        <td ng-click="GotoOrderDetails(Order)">{{Order.status.status}}</td>
+                                    </tr>
+                                    <tr ng-if="Orders===null || Orders.length===0"><td></td><td colspan="8" class="text-danger text-center"> {{"NoRecordText"|translate}} </td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center col-sm-12 col-lg-12 margin-top-10">
+                            <dir-pagination-controls max-size="3" direction-links="true" ng-if="Orders!==null || Orders.length > 0" boundary-links="true" pagination-id="NewOrders">
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End New Claims-->
+</div>

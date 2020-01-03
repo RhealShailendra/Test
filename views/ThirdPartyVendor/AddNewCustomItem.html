@@ -1,0 +1,74 @@
+﻿
+
+<div id="myModal">
+    <div id="responsive">
+        <div class="modal-header">
+            <a class="close" ng-click="cancel()" aria-hidden="true"></a>
+            <h4 class="modal-title">{{"HeaderText.NewWorksheetItem"|translate}}</h4>
+        </div>
+        <div class="modal-body">
+            <div class="col-md-12  clearfix  padding1px form-group" ng-form="CreateItemForm" id="CreateEventForm">
+
+                <label class="control-label col-md-2 col-sm-4 Label_Text_Right">{{"Label.Description"|translate}}</label>
+
+                <div class="col-md-10 col-sm-8">
+                    <textarea class="form-control" required ng-model="SubCustomItem.description" placeholder='{{"Label.Description"|translate}}' name="Description" />
+
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Label.UnitPrice"|translate}}</label>
+                <div class="col-md-4 col-sm-8">
+                    <input type="text" class="form-control " ng-model="SubCustomItem.unitPrice" placeholder={{"Label.UnitPrice"|translate}}>
+                </div>
+
+                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Label.Quantity"|translate}}</label>
+                <div class="col-md-4 col-sm-8">
+                    <input type="text" class="form-control " ng-model="SubCustomItem.quantity" placeholder={{"Label.Quantity"|translate}}>
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+
+                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Label.TaxRate"|translate}}</label>
+                <div class="col-md-4 col-sm-8">
+                    <input type="text" class="form-control " ng-model="SubCustomItem.taxRate" placeholder={{"Label.TaxRate"|translate}} ng-blur="GetTotalcost()">
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+
+
+                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Label.TotalCost"|translate}}</label>
+                <div class="col-md-4 col-sm-8">
+                    <input type="text" class="form-control " ng-model="SubCustomItem.totalCost" placeholder={{"Label.TotalCost"|translate}}>
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+
+
+                <label class="col-md-2 col-sm-4 control-label Label_Text_Right">{{"Label.Attachments"|translate}}</label>
+                <div class="col-md-4 col-sm-8">
+                    <div class="col-md-12 col-sm-12 form-group">
+                        <input type="file" name="FileUpload" ng-required="IncidentImages.length === 0" ng-model="Validatefile" id="FileUpload" class="green" multiple onchange="angular.element(this).scope().uploadImage(event)" style="display: none;" accept="*">
+                        <span class="fa fa-upload fa-2x" ng-click="FireUploadEvent($event)"></span>
+                        <!--<span class="text-success">No. of selected file {{IncidentImages.length}}</span>-->
+                        <!--<div ng-message="required" ng-show="(FormClaim.FileUpload.$error.required && FormClaim.FileUpload.$touched && IncidentImages.length === 0)">
+                            <span class="text-danger">{{"ErrorMessage.FileUpload"|translate}}</span>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+                <div class="col-md-12 margin-bottom-10 col-sm-12">
+                    <span class="text-success" ng-repeat="item in IncidentImages">{{item.name}}<span ng-if="!$last">, </span></span>
+                </div>
+                <div class="clearfix margin-bottom-10"></div>
+                <div class="col-md-10 col-sm-9 col-xs-12 ">
+                    <a class="col-md-12 col-sm-12 col-xs-12 padding1px margin-bottom-5" ng-repeat="attachment in item.attachments" download href="{{attachment.url}}">{{attachment.name}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btnMargin sbold" ng-click="Ok()" ng-disabled="(CreateEventForm.$invalid || CreateEventForm.$pristine) && IncidentImages.length==0">{{"Add"|translate}}</button>
+            <button type="button" class="btn btnMargin sbold" ng-click="cancel()">{{"Cancel"|translate}}</button>
+        </div>
+    </div>
+
+</div>
+
+

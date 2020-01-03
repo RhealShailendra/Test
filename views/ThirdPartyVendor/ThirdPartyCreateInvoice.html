@@ -1,0 +1,625 @@
+﻿<style>
+    checkbox.mt-checkbox-outline > span {
+        border: 1px solid #989292 !important;
+    }
+</style>
+<div class="col-md-12 clearfix padding1px">
+    <div class="col-md-12 portlet light padding1px">
+        <div class="portlet-title">
+            <div class="caption font-gray col-md-12 col-sm-12">
+                <span class="caption-subject" ng-if="IsEditInvoice==false">  {{"HeadingText.CreateInvoice"|translate}}</span>
+                <span class="caption-subject" ng-if="IsEditInvoice==true">  {{"Invoice# :"|translate}} {{VendorInvoiceDetails.invoiceDetails.invoiceNumber}}</span>
+            </div>
+        </div>
+        <div class="portlet-body" ng-form="CreateInvoiceForm">
+            <div class="clearfix"></div>
+            <div class="col-md-12 col-sm-12 margin-bottom-10 padding1px text-right">
+                <button class="btn sbold btnMargin " ng-click="GoBack()">
+                    {{"Cancel"|translate}}
+                </button>
+                <button class="btn sbold btnMargin" ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="!VendorInvoiceDetails.invoiceDetails.id" ng-click="createInvoice(true,$event)">
+                    {{"Save as Draft"|translate}}
+                </button>
+                <button class="btn sbold btnMargin " ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="!VendorInvoiceDetails.invoiceDetails.id" ng-click="createInvoice(false,$event)">
+                    {{"ControlText.Save"|translate}}
+                </button>
+                <button class="btn sbold btnMargin " ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="VendorInvoiceDetails.invoiceDetails.id && VendorInvoiceDetails.invoiceDetails.status.status=='DRAFT'" ng-click="createInvoice(true)">
+                    {{"ControlText.Update"|translate}}
+                </button>
+            </div>
+            <div class="clearfix"></div>
+            <!-- Left side fields -->
+            <div class="col-md-5 col-sm-12 pull-left" id="cal">
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right ">
+                        <label class="control-label">{{"ControlText.InvoiceId"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span class="control-label">{{VendorInvoiceDetails.invoiceDetails.id}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.Claim"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span class="control-label">{{VendorInvoiceDetails.claimNumber}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.AdjusterName"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span>{{AdjusterName}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.InsuredsName"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span>{{InsuredName}}</span>
+
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.InvoiceDate"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control datepicker" data-date-container='#cal' required ng-model="VendorInvoiceDetails.invoiceDetails.createDate" size="16" data-provide="datepicker" placeholder='{{"ControlText.InvoiceDate"|translate}}' name="Invoicedate" />
+                        <div class="col-md-12 col-sm-12 padding1px" ng-message="required" ng-show="CreateInvoiceForm.Invoicedate.$error.required && CreateInvoiceForm.Invoicedate.$touched">
+                            <span class="text-danger">&nbsp;{{"Please enter invoice date"|translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"Payment Term"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <select class="form-control select2me" name="PaymentTerm" required ng-model="VendorInvoiceDetails.invoiceDetails.paymentTerm.id" ng-change="GetInvoiceDueDate()" ng-options="option.id as option.name for option in PaymentTerms">
+                            <option value="">Select</option>
+                        </select>                       
+                        <div class="col-md-12 col-sm-12 padding1px" ng-message="required" ng-show="CreateInvoiceForm.PaymentTerm.$error.required && CreateInvoiceForm.PaymentTerm.$touched">
+                            <span class="text-danger">&nbsp;{{"Please select payment term"|translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.DueDate"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <input type="text" class="form-control  datepicker" data-date-container='#cal' required ng-model="VendorInvoiceDetails.invoiceDetails.dueDate" size="16" data-provide="datepicker" placeholder='{{"ControlText.DueDate"|translate}}' name="duedate" />
+                        <div class="col-md-12 col-sm-12 padding1px" ng-message="required" ng-show="CreateInvoiceForm.duedate.$error.required && CreateInvoiceForm.duedate.$touched">
+                            <span class="text-danger">&nbsp;{{"ErrorMessage.DueDateRequired"|translate}}</span>
+                        </div>
+                    </div>
+                    </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.Currency"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span>{{VendorInvoiceDetails.invoiceDetails.currencyDetails}}</span>
+                    </div>
+                    </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.TaxRate"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+                        <span>{{VendorInvoiceDetails.invoiceDetails.taxRate}}</span>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.VendorNote"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8">
+
+                        <textarea class="form-control" ng-model="VendorInvoiceDetails.invoiceDetails.vendorNote"></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right">
+                        <label class="control-label">{{"ControlText.AddAttachments"|translate}}</label>
+                    </div>
+
+                    <div class="col-md-8 col-sm-8">
+                        <input id="FileUpload" multiple type="file" onchange="angular.element(this).scope().getInvoiceFileDetails(this)" style="display: none;" accept="image/*">
+                        <button class="btn sbold btnMargin pull-left " ng-click="AddAttachment($event)">
+                            <i class="fa fa-plus-circle fa-lg"></i>
+                            {{"ControlText.AddAttachments"|translate}}
+                        </button>
+                        <div class="col-md-12 padding1px" style="height:36px;overflow-y:auto">
+                            <span ng-repeat="file in InvoiceList" class="text-info">{{file.FileName}}<span ng-show="!$last">,</span>&nbsp;</span>
+                        </div>
+                    </div>
+                    </div>
+                <div class="col-md-12 col-sm-12 padding1px form-group">
+                    <div class="col-md-4 col-sm-4 Label_Text_Right" ng-if="IsEditInvoice==true">
+                        <label class="control-label">{{"Attachments"|translate}}</label>
+                    </div>
+                    <div class="col-md-8 col-sm-8" ng-if="IsEditInvoice==true">
+
+                        <div class="col-md-12 padding1px" style="height:36px;overflow-y:auto">
+                            <span ng-repeat="file in UpdateList" class="text-info"><a href="{{file.url}}" download>{{file.name}}</a><span ng-show="!$last">, </span>&nbsp;</span>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+            <!-- End Left side fields -->
+            <!-- Right side fields -->
+            <div class="col-md-5 col-sm-12 pull-right">
+                <label class="control-label col-sm-12  col-md-12">{{"From"|translate}}</label>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+                    <label class="control-label">{{"ControlText.VendorName"|translate}}</label>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <span>{{VendorInvoiceDetails.vendor.name}}</span>
+                </div>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4  Label_Text_Right">
+                    <label class="control-label">{{"ControlText.RemitTo"|translate}}</label>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorRemitAddress.streetAddressOne" placeholder='{{"ControlText.StreetAddress1"|translate}}' />
+                </div>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorRemitAddress.streetAddressTwo" placeholder='{{"ControlText.StreetAddress2"|translate}}' />
+                </div>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+                    <!--<label class="control-label">{{"ControlText.TownCity"|translate}}</label>-->
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorRemitAddress.city" placeholder='{{"ControlText.TownCity"|translate}}' />
+                </div>
+
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+                    <select class="form-control select2me" ng-model="VendorInvoiceDetails.vendorRemitAddress.state.id" ng-options="option.id as option.state for option in StateList"></select>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorInvoiceDetails.vendorRemitAddress.zipcode" placeholder='{{"ControlText.ZipCode"|translate}}' />
+                </div>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <label class="control-label clearfix col-sm-12 col-md-12">{{"To"|translate}}</label>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4  Label_Text_Right">
+                    <label class="control-label">{{"Insurance Company"|translate}}</label>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <span>{{InsuranceCompanyName}}</span>
+                </div>
+
+                <div class="col-md-4 col-sm-4">
+                    <span>{{BranchId}}</span>
+                </div>
+
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+                    <label class="control-label">{{"ControlText.BillTO"|translate}}</label>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorBillAddress.streetAddressOne" placeholder='{{"ControlText.StreetAddress1"|translate}}' />
+                </div>
+                <div class="col-md-12 col-sm-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+
+                </div>
+                <div class="col-md-8 col-sm-8 ">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorBillAddress.streetAddressTwo" placeholder='{{"ControlText.StreetAddress2"|translate}}' />
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+                    <!--<label class="control-label">{{"ControlText.TownCity"|translate}}</label>-->
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.vendorBillAddress.city" placeholder='{{"ControlText.TownCity"|translate}}' />
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+                    <select class="form-control select2me" ng-model="VendorInvoiceDetails.vendorBillAddress.state.id"
+                            ng-options="option.id as option.state for option in StateList"></select>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorInvoiceDetails.vendorBillAddress.zipcode" placeholder='{{"ControlText.ZipCode"|translate}}' />
+                </div>
+                <div class="col-md-12  clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4  Label_Text_Right margin-top-10">
+                    <label class="control-label">{{"ControlText.ShipTo"|translate}}</label>
+                </div>
+                <div class="col-md-8 col-sm-8 margin-top-10">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.shippingAddress.streetAddressOne" placeholder='{{"ControlText.StreetAddress1"|translate}}' />
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4">
+
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.shippingAddress.streetAddressTwo" placeholder='{{"ControlText.StreetAddress2"|translate}}' />
+
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-sm-4 Label_Text_Right">
+                    <!--<label class="control-label">{{"ControlText.TownCity"|translate}}</label>-->
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <input type="text" class="form-control" ng-model="VendorInvoiceDetails.shippingAddress.city" placeholder='{{"ControlText.TownCity"|translate}}' />
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+                <div class="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4">
+                    <select class="form-control select2me" ng-model="VendorInvoiceDetails.shippingAddress.state.id" ng-options="option.id as option.state for option in StateList"></select>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <input type="text" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="form-control" ng-model="VendorInvoiceDetails.shippingAddress.zipcode" placeholder='{{"ControlText.ZipCode"|translate}}' />
+                </div>
+                <div class="col-md-12 clearfix form-group">   </div>
+
+            </div>
+            <!-- End Right side fields -->
+            <div class="clearfix"></div>
+            <div class="SubHeadingDiv">
+                <div class="caption font-grey-sharp">
+                    <span class="caption-subject font-grey-sharp">
+                        {{"HeadingText.ItemsList"|translate}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <div class="col-md-12  options_Background">
+                            <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single">
+                                <input type="checkbox" ng-click="SelectAll()" ng-model="CheckAll" />
+                                <span style="border: 1px solid #a58c8c !important;"></span>
+                            </label>
+                            <button class="btn sbold btnmargin margin-top-5 margin-bottom-5 btnOptions" ng-disabled="!CheckAll" ng-click="AddQuoteFeeForAll()">
+                                {{"Add Quote Fee"|translate}}
+                            </button>
+                        </div>
+                        <table class="table table-striped table-hover table-bordered">
+                            <!--<thead>
+                                <tr>
+                                    <th class="text-center">
+                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single">
+                                            <input type="checkbox" ng-click="SelectAll()" ng-model="CheckAll" />
+                                            <span style="border: 1px solid #a58c8c !important;"></span>
+                                        </label>
+                                    </th>
+                                    <th>{{"Table.ItemId"|translate}}</th>
+                                    <th>{{"Table.ItemName"|translate}}</th>
+                                    <th>{{"Table.Description"|translate}}</th>
+                                    <th>{{"Table.Quantity"|translate}}</th>
+                                    <th>{{"Rate"|translate}}</th>
+                                    <th>{{"SubTotal"|translate}}</th>
+                                    <th>{{"Mark-Up"|translate}}</th>
+                                    <th>{{"Table.Total"|translate}}</th>
+                                    <th>{{"Table.Tax"|translate}}</th>
+                                    <th>{{"Table.Amount"|translate}}</th>
+                                    <th>{{"Table.Action"|translate}}</th>
+                                </tr>
+                            </thead>-->
+                            <tbody >
+                                <tr ng-repeat-start="item in VendorInvoiceDetails.InvoiceItems" style="background-color:#DCDCDC;" ng-init="ParentIndex=$index">
+                                    <td style="vertical-align: middle;" class="text-center" ng-click="ExpandServiceRow($index,item)">
+                                        <label class="mt-checkbox mt-checkbox-outline mt-checkbox-single">
+                                            <input disabled ng-checked="item.claimItem.servicesCost.length>0" type="checkbox" />
+                                            <span></span>
+                                        </label>
+                                    </td>
+                                    <td style="vertical-align: middle;">{{item.claimItem.itemNumber}}</td>
+                                    <td style="vertical-align: middle;">{{item.claimItem.description}}</td>                                   
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"><label>{{item.claimItem.SumOfSubTotal|currency}}</label></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"></td>
+                                    <td style="vertical-align: middle;"><label>{{item.claimItem.SumOfBillableAmount|currency}}</label></td>
+                                    <td style="vertical-align: middle;"><a ng-click="RemoveLineItem($index)">Remove</a></td>
+                                </tr>
+                                <tr>
+                                <tr class="sbold" ng-if="item.claimItem.PurchaseOrderItems.length>0 || item.claimItem.servicesCost.length>0">
+                                    <td class="text-center"></td>
+                                    <td>{{"Line Id"|translate}}</td>                                   
+                                    <td>{{"Table.Description"|translate}}</td>
+                                    <td>{{"Table.Quantity"|translate}}</td>
+                                    <td>{{"Rate"|translate}}</td>
+                                    <td>{{"SubTotal"|translate}}</td>
+                                    <td>{{"Mark-Up"|translate}}</td>
+                                    <td>{{"Pre-Tax Total"|translate}}</td>
+                                    <td>{{"Table.Tax"|translate}}</td>
+                                    <td>{{"Billable Amount"|translate}}</td>
+                                    <td>{{"Table.Action"|translate}}</td>
+                                </tr>
+
+                                <tr ng-repeat-start="POItem in item.claimItem.PurchaseOrderItems" style="background-color:lightcyan;">
+                                    <!--For BIB from PH-->
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'"></td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'" ng-click="GoToPODetails(POItem)"><a>SHP-FEE</a></td>                                  
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'"><span class="control-label">{{POItem.OrderType.name}}</span></td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">
+                                        <span class="control-label">{{POItem.item.availabeQuantity}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">
+                                        <input type="text" class="form-control" style="width:70px;height:25px;padding-right:3px" ng-model="POItem.shippingCost" ng-change="CalculateTotalForMainItem()" placeholder='{{"Price"|translate}}' />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">
+                                        <span class="control-label">{{POItem.item.subTotal}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'"></td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">                                       
+                                        <input type="text" class="form-control" ng-model="POItem.item.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px"/>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">
+                                    <input type="text" class="text-right" style="width:70px;height: 25px;padding-right: 3px"
+                                               ng-change="CalculateTotalForMainItem()" placeholder="Tax"
+                                               ng-model="POItem.item.saleTax" /></td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'">
+                                        <span class="control-label">{{POItem.item.billableAmount|currency}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='BIB from PH'" style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="RemovePOItem(item,$index)"></i></td>
+
+                                    <!---For shipment-->
+                                    <td ng-if="POItem.OrderType.name=='Shipment'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'" ng-click="GoToPODetails(POItem)"><a>SHP-FEE</a></td>                                  
+                                    <td ng-if="POItem.OrderType.name=='Shipment'"><span class="control-label">{{POItem.OrderType.name}}</span></td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">
+                                        <span class="control-label">{{POItem.item.availabeQuantity}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">
+                                        <input type="text" class="form-control" style="width:70px;height:25px;padding-right:3px" ng-model="POItem.shippingCost" ng-change="CalculateTotalForMainItem()" placeholder='{{"Price"|translate}}' />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">
+                                        <span class="control-label">{{POItem.item.subTotal}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">                                        
+                                        <input type="text" class="form-control" ng-model="POItem.item.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">
+
+                                        <input type="text" class="text-right" style="width:70px;height: 25px;padding-right: 3px"
+                                               ng-change="CalculateTotalForMainItem()" placeholder="Tax"
+                                               ng-model="POItem.item.saleTax" />
+                                    </td>                                   
+                                    <td ng-if="POItem.OrderType.name=='Shipment'">
+                                        <span class="control-label">{{POItem.item.billableAmount|currency}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Shipment'" style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="RemovePOItem(item,$index)"></i></td>
+
+                                    <!--For labor charges-->
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'"  ng-click="GoToPODetails(POItem)"><a>LBR-FEE</a></td>                                    
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'"><span class="control-label">{{POItem.description}}</span></td> 
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">
+                                        <span class="control-label">{{POItem.item.availabeQuantity}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">
+                                        <input type="text" class="form-control" style="width:70px;height:25px;padding-right:3px" ng-model="POItem.laborCost" ng-change="CalculateTotalForMainItem()" placeholder='{{"Price"|translate}}' />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">
+                                        <span class="control-label">{{POItem.item.subTotal}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">                                      
+                                        <input type="text" class="form-control" ng-model="POItem.item.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">
+
+                                        <input type="text" class="text-right" style="width:70px;height: 25px;padding-right: 3px"
+                                               ng-change="CalculateTotalForMainItem()" placeholder="Tax"
+                                               ng-model="POItem.item.saleTax" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'">
+                                        <span class="control-label">{{POItem.item.billableAmount|currency}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Labor Charges'" style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="RemovePOItem(item,$index)"></i></td>
+
+
+                                    <!--Order From Vendor-->
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'" ng-click="GoToPODetails(POItem)"><a>{{POItem.item.sku}}</a></td>                                   
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'"><span class="control-label">{{POItem.item.description}}</span></td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <span class="control-label">{{POItem.item.availabeQuantity}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <input type="text" class="form-control" style="width:70px;height:25px;padding-right:3px" ng-model="POItem.item.unitPrice" ng-change="CalculateTotalForMainItem()" placeholder='{{"Price"|translate}}' />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <span class="control-label">{{POItem.item.subTotal}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <input type="text" class="text-right" style="width:70px;height:25px;padding-right:3px"
+                                               ng-change="CheckmarkUpLimitsForPOItems(POItem)" placeholder="Mark-Up %" ng-model="POItem.item.markUp" />
+                                        <span class="text-success sbold" ng-show="POItem.MarkUpLimitIndicator==true">{{"In Range" |translate}}</span>
+                                        <span class="text-danger sbold" ng-show="POItem.MarkUpLimitIndicator==false">{{"Out of Range" |translate}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <input type="text" class="form-control" ng-model="POItem.item.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <input type="text" class="text-right" style="width:70px;height:25px;padding-right:3px"
+                                               ng-model="POItem.item.saleTax" ng-change="CalculateTotalForMainItem()" placeholder="Tax %" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'">
+                                        <span class="control-label">{{POItem.item.billableAmount|currency}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Order from Vendor'" style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="RemovePOItem(item,$index)"></i></td>
+
+                                    <!--Pick up from vendor-->
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'"></td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'" ng-click="GoToPODetails(POItem)"><a>{{POItem.item.sku}}</a></td>
+                               
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'"><span class="control-label">{{POItem.item.description}}</span></td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <span class="control-label">{{POItem.item.availabeQuantity}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <input type="text" class="form-control" style="width:70px;height:25px;padding-right:3px" ng-model="POItem.item.unitPrice" ng-change="CalculateTotalForMainItem()" placeholder='{{"Price"|translate}}' />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <span class="control-label">{{POItem.item.subTotal}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <input type="text" class="text-right" style="width:70px;height:25px;padding-right:3px"
+                                               ng-change="CheckmarkUpLimitsForPOItems(POItem)" placeholder="Mark-Up %" ng-model="POItem.item.markUp" />
+                                        <span class="text-success sbold" ng-show="POItem.MarkUpLimitIndicator==true">{{"In Range" |translate}}</span>
+                                        <span class="text-danger sbold" ng-show="POItem.MarkUpLimitIndicator==false">{{"Out of Range" |translate}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <input type="text" class="form-control" ng-model="POItem.item.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <input type="text" class="text-right" style="width:70px;height:25px;padding-right:3px"
+                                               ng-model="POItem.item.saleTax" ng-change="CalculateTotalForMainItem()" placeholder="Tax %" />
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'">
+                                        <span class="control-label">{{POItem.item.billableAmount|currency}}</span>
+                                    </td>
+                                    <td ng-if="POItem.OrderType.name=='Pick up from Vendor/Email Label'" style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="RemovePOItem(item,$index)"></i></td>
+                                </tr>
+                                <tr ng-repeat-end="Item in POItem.items" ng-if="POItem.items.length"></tr>
+                                <tr ng-repeat="servicecosatDetails in item.claimItem.servicesCost" ng-show="item.claimItem.servicesCost.length > 0">  <!--ng-show="item.claimItem.servicesCost.length > 0 && ((ParentIndex==RowIndexToShow)||CheckAll)-->
+                                    <td style="vertical-align: middle;" colspan="1" class="text-center">
+                                        <a ng-click="AddServcies(item,ParentIndex)" class="sbold" ng-show="$last">
+                                            <i class="font-green fa fa-plus-circle fa-2x"></i>&nbsp;{{"Add line"|translate}}
+                                        </a>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <select class="input-medium select2me" style="height: 25px;" name="serviceType_{{$index}}" required ng-change="ChangeServicetype(ParentIndex,$index)"
+                                                ng-model="servicecosatDetails.id" ng-options="option.id as option.service for option in ddlServiceList">
+                                            <option value="">Select Service</option>
+                                        </select>
+
+                                        <div class="errormessage">
+                                            <span class="text-danger" ng-show="(CreateInvoiceForm['serviceType_'+$index].$error.required) && (CreateInvoiceForm['serviceType_'+$index].$touched)">{{"Please select service"|translate}}</span>
+                                        </div>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="" style="height: 25px;padding-right: 3px" placeholder="Description"
+                                               ng-model="servicecosatDetails.description" />
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="text-right"
+                                               style="width:70px;height: 25px;padding-right: 3px; margin-top:auto;margin-bottom:auto;" placeholder="Quantity"
+                                               ng-model="servicecosatDetails.quantity"  ng-change="CalculateTotalForMainItem()"/>
+                                    </td>
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="text-right"
+                                               style="width:70px;height: 25px;padding-right: 3px" placeholder="Unit Price"
+                                               ng-change="CalculateTotalForMainItem()" ng-model="servicecosatDetails.rate" />
+                                    </td>
+                                    <td style="vertical-align: middle;">{{servicecosatDetails.subTotal}}</td>
+                                    <td style="vertical-align: middle;">
+                                        <!--<input type="text" class="text-right" style="width:70px;height: 25px;padding-right: 3px"
+                                               ng-change="CheckmarkUpLimits(servicecosatDetails)" placeholder="Mark-Up %" ng-model="servicecosatDetails.markUp" />
+                                        <br />
+                                        <span class="text-success sbold  text-center" ng-show="servicecosatDetails.MarkUpLimitIndicator==true">{{"In Range" |translate}}</span>
+                                        <span class="text-danger sbold text-center" ng-show="servicecosatDetails.MarkUpLimitIndicator==false">{{"Out of Range" |translate}}</span>-->
+                                    </td>
+                                    <td class="text-right" style="vertical-align: middle;">
+                                        <input type="text" class="form-control" ng-model="servicecosatDetails.total" ng-change="calculatePreTaxTotal()" style="width:70px;height:25px;padding-right:3px" />
+                                    </td>
+
+                                    <td style="vertical-align: middle;">
+                                        <input type="text" class="text-right" style="width:70px;height: 25px;padding-right: 3px"
+                                               ng-change="CalculateTotalForMainItem()" placeholder="Tax"
+                                               ng-model="servicecosatDetails.salesTax" />
+                                    </td>
+                                    <!--<td><input type="text" class="text-right" readonly style="width:70px; padding-right: 3px" ng-model="item.claimItem.servicesCost.amount"/></td>-->
+                                    <td  style="vertical-align: middle;"> <span>{{servicecosatDetails.amount|currency}}</span></td>
+                                    <td style="vertical-align: middle;"> <i class="fa fa-times-circle fa-2x text-danger" aria-hidden="true" ng-click="DeleteServiceItem(item.claimItem.servicesCost,$index)"></i></td>
+
+                                </tr>
+                                <tr ng-repeat-end></tr>
+                                <tr ng-show="VendorInvoiceDetails.InvoiceItems.length>0 ">
+                                    <td class="text-center"></td>                                  
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>{{TotalSubForAllItems|currency}}</label></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><label>{{TotalSubForAllBillable|currency}}</label></td>
+                                    <td></td>
+                                </tr>
+                                <tr ng-show="VendorInvoiceDetails.InvoiceItems.length==0">
+                                    <td></td>
+                                    <td colspan="11" class="text-center">
+                                        <span class="text-danger sbold">{{"0 items avaliable"|translate}}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+
+
+                           
+                        </table>
+                        <div class="col-md-12 clearfix margin-bottom-10 margin-top-10">
+                            <!--<label class="control-label col-md-2 col-md-offset-8 col-sm-5 col-sm-offset-3  text-right"><b>{{"ControlText.Shipping Charges"|translate}}</b></label>
+                            <div class="col-md-2 col-sm-4">
+                                <input type="text" ng-model="PaymentDetails.ShippCharge" class="form-control text-right" ng-change="CalculateTotal()" />
+                            </div>-->
+                            <div class="col-md-12 margin-bottom-5 clearfix"></div>
+                            <label class="control-label col-md-2 col-md-offset-8 col-sm-5 col-sm-offset-3 text-right"><b>{{"ControlText.Grand Total"|translate}}</b></label>
+                            <div class="col-md-2">
+                                <label class="pull-right">{{GrandTotal|currency}}</label>
+                                <!--<input type="text" ng-model="GrandTotal" class="form-control text-right" readonly />-->
+                            </div>
+                            <div class="margintop5 col-md-12"></div>
+                            <label class="control-label col-md-2 col-md-offset-8 col-sm-5 col-sm-offset-3  text-right"><b>{{"ControlText.(-) Deductible"|translate}}</b></label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control text-right" ng-change="CalculateTotal()" ng-model="PaymentDetails.Deductible" />
+                            </div>
+                            <div class="margintop5 col-md-12"></div>
+                            <label class="control-label col-md-2 col-md-offset-8 col-sm-5 col-sm-offset-3  text-right"><b>{{"ControlText.(-) Advance payment"|translate}}</b></label>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control text-right" ng-change="CalculateTotal()" ng-model="PaymentDetails.AdvancePayment" />
+                            </div>
+                            <hr class="col-md-3 pull-right" />
+                            <label class="control-label col-md-2 col-md-offset-8 col-sm-5 col-sm-offset-3  text-right" ng-model="TotalPayable"><b>{{"ControlText.Total Payable"|translate}}</b></label>
+                            <div class="col-md-2">
+                                <label class="pull-right">{{TotalPayable|currency}}</label>
+                                <!--<input type="text" class="form-control text-right" ng-model="TotalPayable" readonly />-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 topBorder padding1px">
+                <div class="col-md-12 col-sm-12 margin-top-10 margin-bottom-20 padding1px text-right">
+                    <button class="btn sbold btnMargin " ng-click="GoBack()">
+                        {{"Cancel"|translate}}
+                    </button>
+                    <button class="btn sbold btnMargin " ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="!VendorInvoiceDetails.invoiceDetails.id" ng-click="createInvoice(true,$event)">
+                        {{"Save as Draft"|translate}}
+                    </button>
+                    <button class="btn sbold btnMargin " ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="!VendorInvoiceDetails.invoiceDetails.id" ng-click="createInvoice(false,$event)">
+                        {{"ControlText.Save"|translate}}
+                    </button>
+                    <button class="btn sbold btnMargin " ng-disabled="CreateInvoiceForm.$invalid || CreateInvoiceForm.$pristine" ng-if="VendorInvoiceDetails.invoiceDetails.id && VendorInvoiceDetails.invoiceDetails.status.status=='DRAFT'" ng-click="createInvoice(true)">
+                        {{"ControlText.Update"|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
